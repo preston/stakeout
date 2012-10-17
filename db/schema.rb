@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120330174022) do
+ActiveRecord::Schema.define(:version => 20121014174022) do
 
   create_table "dashboards", :force => true do |t|
     t.string   "name"
@@ -24,11 +24,11 @@ ActiveRecord::Schema.define(:version => 20120330174022) do
   create_table "services", :force => true do |t|
     t.integer  "dashboard_id"
     t.string   "name",                                :null => false
-    t.string   "host"
+    t.string   "host",                                :null => false
     t.boolean  "ping",             :default => true
     t.integer  "ping_threshold",   :default => 500
     t.integer  "ping_last"
-    t.boolean  "http",             :default => false
+    t.boolean  "http",             :default => true
     t.boolean  "https",            :default => false
     t.string   "http_path",        :default => "",    :null => false
     t.boolean  "http_path_last",   :default => false
