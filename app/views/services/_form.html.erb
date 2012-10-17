@@ -1,0 +1,84 @@
+<%= form_for @service, :url => dashboard_services_path(@service.dashboard), :html => {} do |f| %>
+  <% if @service.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@service.errors.count, "error") %> prohibited this service from being saved:</h2>
+
+      <ul>
+      <% @service.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.number_field :dashboard_id, :hidden => true, :value => params[:dashboard_id] %>
+  </div>
+  <div class="field">
+    <%= f.label :name %><br />
+    <%= f.text_field :name, :required => true, :placeholder => 'Google', :required => true %>
+  </div>
+  <div class="field">
+    <%= f.label :host %><br />
+    <%= f.text_field :host, :required => true, :placeholder => 'www.google.com', :required => true %>
+  </div>
+  <div class="field">
+    <%= f.label :ping, "Ping (ICMP)?" %>
+    <%= f.check_box :ping %>
+  </div>
+  <div class="field">
+    <%= f.label :ping_threshold %><br />
+    <%= f.number_field :ping_threshold %>
+  </div>
+  <div class="field">
+    <%= f.label :http, "HTTP GET?" %>
+    <%= f.check_box :http %>
+  </div>
+  <div class="field">
+    <%= f.label :https, "HTTPS GET?" %>
+    <%= f.check_box :https %>
+  </div>
+  <div class="field">
+    <%= f.label :http_preview, "Take screenshot?" %>
+    <%= f.check_box :http_preview %>
+  </div>
+  <div class="field">
+    <%= f.label :http_path, "HTTP path" %><br />
+    <%= f.text_field :http_path, :placeholder => '/index.html' %>
+  </div>
+  <div class="field">
+    <%= f.label :http_xquery, 'XQuery Validation' %><br />
+    <%= f.text_field :http_xquery %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
+
+<script>
+	$('#new_service').submit(function() {
+		var form = $('#new_service');
+		var action = form.attr('action');
+		// console.log(action);
+		// alert('hi');
+		$.ajax({
+			url: form.attr('action'),
+			type: 'post',
+			data: form.serialize(),
+			success: function(html, textStatus, jqXHR) {
+				// alert('success');
+				console.log("Server successfully created service!");
+				// load_services();
+				$('#services').prepend(html);
+				$('#new_service_dialog').dialog('close');
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+				// alert('fail');
+				console.log("Could not create service. :-(");
+			}
+		});
+		// alert('done');
+		console.log("Completed service creation.");
+		return false;
+	});
+</script>

@@ -1,0 +1,30 @@
+<div id="service_<%= service.id %>" class="service">
+	<div class="status">
+		<% if service.known_good(@since) %>
+			<%= image_tag('green_large.png') %>
+		<% elsif service.known_bad(@since) %>
+			<%= image_tag('red_large.png') %>
+		<% else %>
+			<%= image_tag('grey_large.png') %>
+		<% end %>
+	</div>
+	<h1><%= service.name %></h1>
+	<p class="detail"><%= service.host %></p>
+	<%
+	enabled = []
+	enabled << 'ping' if service.ping
+	enabled << 'http' if service.http
+	enabled << 'https' if service.https
+	enabled << 'screenshot' if service.http_preview
+	%>
+	<% if !enabled.empty? %>
+		<p class="detail"><%= enabled.join(', ')%></p>
+	<% end %>
+
+	<% if service.checked_at %>
+		Checked <%= distance_of_time_in_words_to_now service.checked_at %> ago.
+	<% end %>
+	<p>Added <%= distance_of_time_in_words_to_now service.created_at %> ago.</p>
+	<p>Modified <%= distance_of_time_in_words_to_now service.updated_at %> ago.</p>
+	<button class='service_remove button bad' data-id='<%= service.id %>'>Remove</button>
+</div>

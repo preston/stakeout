@@ -1,0 +1,48 @@
+<div id="dashboard">
+
+	<aside id="control_panel">
+		<div id="control_panel_visibility_button">[hide control panel]</div>
+		<div class="widget">
+			<h1>Dashboard</h1>
+			<%= link_to "New", new_dashboard_path, :id => 'new_dashboard_button', :class => 'button good' %>
+			<div>
+				<a id="delete_dashboard_button" class="button bad">Delete</a>
+			</div>
+			<form id="dashboard_selection_form">
+				<%= render partial: 'dashboards/selector' %>
+			</form>
+			<%= link_to "Add a service to check.", new_dashboard_path, :id => 'new_service_button', :class => 'button good' %>
+		</div>
+
+		<div class="widget">
+			<h1>Refresh (<span id="currentValue">0</span>m)</h1>
+			<input id="refresh_period" type="range" min="1" max="60"></input>
+			<div id="refresh_period_knob"></div>
+		</div>
+		<!--
+		<h2>Help</h2>
+		<p>Create individual "dashboards" for sets of services you want to monitor. All service checks are run from the server when needed, and display via this screen automatically. (Use the big metal knob to tune the update period.)</p>
+		-->
+		
+		<br class="clear"/>
+	</aside>
+
+
+	<div id="new_dashboard_dialog">
+		<% @dashboard = Dashboard.new %>
+		<%= render partial: 'dashboards/form' %>
+	</div>
+
+	<div id="new_service_dialog">
+	</div>
+
+	
+	<div id="services">
+	<% if @active_dashboard %>
+			<%= render partial: 'services/all', :locals => {:dashboard => @active_dashboard} %>
+	<% else %>
+		Whoa whoa whoa... you don't have any dashboards set up!
+	<% end %>
+	</div>
+
+</div>
