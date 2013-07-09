@@ -3,17 +3,19 @@
 #dashboard
 
 	#control_panel
-		button#control_panel_visibility_button.btn Hide
+		#bottom_group.btn-group
+			= link_to 'Hide', '#', id: 'control_panel_visibility_button', class: 'btn'
+			= link_to "Add Service", new_dashboard_path, :id => 'new_service_button', :class => 'btn btn-success'
+
 		.widget
 			h1 Dashboard
+
+			form#dashboard_selection_form
+				= select :active_dashboard, :id, @dashboards.collect {|n| [ n.name, n.id ] }.sort
 			.btn-group
 				= link_to text_with_icon('', 'plus'), new_dashboard_path, :id => 'new_dashboard_button', :class => 'btn btn-small'
-				= link_to text_with_icon('', 'edit'), dashboard_path(@active_dashboard), id: :delete_dashboard_button, class: "btn btn-small"
+				= link_to text_with_icon('', 'edit'), dashboard_path(@active_dashboard), id: :edit_dashboard_button, class: "btn btn-small"
 				= link_to text_with_icon('', 'trash'), dashboard_path(@active_dashboard), id: :delete_dashboard_button, class: "btn btn-small"
-			
-			form#dashboard_selection_form
-				= render partial: 'dashboards/selector'
-
 
 
 		.widget
@@ -49,7 +51,6 @@
 	
 	#services
 		- if @active_dashboard
-			= link_to "Add Service", new_dashboard_path, :id => 'new_service_button', :class => 'btn btn-large btn-success'
 			= render partial: 'services/all', :locals => {:dashboard => @active_dashboard}
 		- else
 			p Whoa whoa whoa... you don't have any dashboards set up!

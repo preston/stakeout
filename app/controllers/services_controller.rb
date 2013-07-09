@@ -38,7 +38,7 @@ class ServicesController < ApplicationController
 				format.html { render partial: 'services/service', layout: false, locals: {service: @service} }
         format.json { render json: @service, status: :created, location: @service }
       else
-        format.html { render partial: "services/new", layout: false }
+        format.html { render partial: "services/new", layout: false, status: :unprocessable_entity }
         format.json { render json: @service.errors, status: :unprocessable_entity }
       end
     end
@@ -74,7 +74,8 @@ class ServicesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def service_params
-      params.require(:service).permit(:name, :description)
+      params.require(:service).permit(:name, :dashboard_id, :host, :ping, :ping_threshold, :http, :https, :http_preview, :http_path, :http_xquery)
+
     end
 
 end

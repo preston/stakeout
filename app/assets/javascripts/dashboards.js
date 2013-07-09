@@ -108,6 +108,7 @@ $(function() {
 
 	$('html').on('click', '#control_panel_visibility_button', function() {
 		toggle_form_visible();
+		return false;
 	});
 
 
@@ -194,10 +195,9 @@ function submit_new_service_form(form) {
 		error: function(jqXHR, textStatus, errorThrown) {
 			// alert('fail');
 			console.log("Could not create service. :-(");
-			$('#new_service_dialog .modal-body').html(jqXHR);
+			$('#new_service_dialog .modal-body').html(jqXHR.responseText);
 		}
 	});
-	console.log("Completed service creation.");
 	return false;
 }
 
