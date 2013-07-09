@@ -1,45 +1,30 @@
 class ServicesController < ApplicationController
 
-  # GET
+  before_action :set_service, only: [:show, :edit, :update, :destroy]
+
+  # GET /services
+  # GET /services.json
   def index
-		d = Dashboard.find(params[:dashboard_id])
-		set_as_active_dashboard(d)
-    @services = Service.where(dashboard_id: params[:dashboard_id])
-
-    respond_to do |format|
-      format.html { render layout: false }
-      format.json { render json: @services }
-    end
+    @services = Service.all
   end
 
-  # GET /1
+  # GET /services/1
+  # GET /services/1.json
   def show
-    @service = Service.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @service }
-    end
   end
 
-  # GET /new
+  # GET /services/new
   def new
     @service = Service.new
-
-    respond_to do |format|
-      format.html { render layout: false } # new.html.erb
-      format.json { render json: @service }
-    end
   end
 
-  # GET /1/edit
+  # GET /services/1/edit
   def edit
-    @service = Service.find(params[:id])
   end
 
   # POST
   def create
-    @service = Service.new(params[:service])
+    @service = Service.new(service_params)
 
     respond_to do |format|
       if @service.save
@@ -55,10 +40,8 @@ class ServicesController < ApplicationController
 
   # PUT
   def update
-    @service = Service.find(params[:id])
-
     respond_to do |format|
-      if @service.update_attributes(params[:service])
+      if @service.update(service_params)
         format.html { redirect_to @service, notice: 'Service was successfully updated.' }
         format.json { head :no_content }
       else
@@ -70,12 +53,22 @@ class ServicesController < ApplicationController
 
   # DELETE
   def destroy
-    @service = Service.find(params[:id])
     @service.destroy
-
     respond_to do |format|
       # format.html { redirect_to dashboards_path }
       format.json { head :no_content }
     end
   end
+
+  private
+    # Use callbacks to share common setup or constraints between actions.
+    def set_service
+      @service = Service.find(params[:id])
+    end
+
+    # Never trust parameters from the scary internet, only allow the white list through.
+    def service_params
+      params.require(:service).permit(:name, :description)
+    end
+
 end

@@ -4,8 +4,6 @@ class Service < ActiveRecord::Base
 
 	validates_presence_of :name
 	validates_presence_of :host
-
-	attr_accessible	:dashboard, :dashboard_id, :name, :host, :ping, :ping_threshold, :ping_last, :http, :https, :http_path, :http_path_last, :http_xquery, :http_xquery_last, :http_preview
 	
 
 	def check
