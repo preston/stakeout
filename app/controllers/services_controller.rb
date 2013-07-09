@@ -2,10 +2,13 @@ class ServicesController < ApplicationController
 
   before_action :set_service, only: [:show, :edit, :update, :destroy]
 
+
   # GET /services
   # GET /services.json
   def index
+    @dashboard = Dashboard.find(params[:dashboard_id])
     @services = Service.all
+    render layout: false
   end
 
   # GET /services/1
@@ -15,7 +18,10 @@ class ServicesController < ApplicationController
 
   # GET /services/new
   def new
+    @dashboard = Dashboard.find(params[:dashboard_id])
     @service = Service.new
+    @service.dashboard = @dashboard
+    render partial: 'services/new'
   end
 
   # GET /services/1/edit
@@ -32,7 +38,7 @@ class ServicesController < ApplicationController
 				format.html { render partial: 'services/service', layout: false, locals: {service: @service} }
         format.json { render json: @service, status: :created, location: @service }
       else
-        format.html { render action: "new" }
+        format.html { render partial: "services/new", layout: false }
         format.json { render json: @service.errors, status: :unprocessable_entity }
       end
     end

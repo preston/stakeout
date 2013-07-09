@@ -1,22 +1,13 @@
 class DashboardsController < ApplicationController
+
+  before_action :set_dashboard, only: [:show, :edit, :update, :destroy]
+
+  before_action :ensure_active_dashboard_is_set, only: [:index]
+
   # GET /dashboards
   # GET /dashboards.json
   def index
-    @dashboards = Dashboard.all
-		
-		id = session[:active_dashboard_id]
-		if id
-			begin
-				@active_dashboard = Dashboard.find(id)
-			rescue
-			end
-			if !@active_dashboard
-				set_an_active_dashboard
-			end
-		else
-			set_an_active_dashboard
-		end
-	
+    @dashboards = Dashboard.all	
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @dashboards }
@@ -44,37 +35,25 @@ class DashboardsController < ApplicationController
 	    end
 	end
 
-  # GET /dashboards/1
-  # GET /dashboards/1.json
+
+  # GET /services/1
+  # GET /services/1.json
   def show
-    @dashboard = Dashboard.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @dashboard }
-    end
   end
 
-  # GET /dashboards/new
-  # GET /dashboards/new.json
+  # GET /services/new
   def new
-    @dashboard = Dashboard.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @dashboard }
-    end
+    @service = Service.new
   end
 
-  # GET /dashboards/1/edit
+  # GET /services/1/edit
   def edit
-    @dashboard = Dashboard.find(params[:id])
   end
 
   # POST /dashboards
   # POST /dashboards.json
   def create
-    @dashboard = Dashboard.new(params[:dashboard])
+    @dashboard = Dashboard.new(dashboard_params)
 
     respond_to do |format|
       if @dashboard.save
@@ -91,10 +70,8 @@ class DashboardsController < ApplicationController
   # PUT /dashboards/1
   # PUT /dashboards/1.json
   def update
-    @dashboard = Dashboard.find(params[:id])
-
     respond_to do |format|
-      if @dashboard.update_attributes(params[:dashboard])
+      if @dashboard.update(dashboard_params)
         format.html { redirect_to @dashboard, notice: 'Dashboard was successfully updated.' }
         format.json { head :no_content }
       else
@@ -107,7 +84,6 @@ class DashboardsController < ApplicationController
   # DELETE /dashboards/1
   # DELETE /dashboards/1.json
   def destroy
-    @dashboard = Dashboard.find(params[:id])
     @dashboard.destroy
 		set_an_active_dashboard
     respond_to do |format|
@@ -115,4 +91,16 @@ class DashboardsController < ApplicationController
       format.json { render	json: @active_dashboard }
     end
   end
+
+  private
+    # Use callbacks to share common setup or constraints between actions.
+    def set_dashboard
+      @dashboard = Dashboard.find(params[:id])
+    end
+
+    # Never trust parameters from the scary internet, only allow the white list through.
+    def dashboard_params
+      params.require(:dashboard).permit(:name, :dashboard_id, :host, :ping, :ping_threshold, :http, :https, :http_preview, :http_path, :http_xquery)
+    end
+
 end

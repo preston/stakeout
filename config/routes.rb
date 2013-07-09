@@ -7,8 +7,8 @@ Stakeout::Application.routes.draw do
 	post 'dashboards/active',	as: 'active'
 	
 	# get "welcome/index",	as: 'home'
-	get "welcome/legal",	as: 'legal'
-	get "welcome/about",	as: 'about'
+	get 'legal' => 'welcome#legal',	as: 'legal'
+	get 'about' => 'welcome#about',	as: 'about'
 
 	root to: 'dashboards#index'
 
