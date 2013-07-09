@@ -1,0 +1,56 @@
+- content_for :body_class do 'dashboard index' end
+
+#dashboard
+
+	#control_panel
+		button#control_panel_visibility_button.btn Hide
+		.widget
+			h1 Dashboard
+			.btn-group
+				= link_to text_with_icon('', 'plus'), new_dashboard_path, :id => 'new_dashboard_button', :class => 'btn btn-small'
+				= link_to text_with_icon('', 'edit'), dashboard_path(@active_dashboard), id: :delete_dashboard_button, class: "btn btn-small"
+				= link_to text_with_icon('', 'trash'), dashboard_path(@active_dashboard), id: :delete_dashboard_button, class: "btn btn-small"
+			
+			form#dashboard_selection_form
+				= render partial: 'dashboards/selector'
+
+
+
+		.widget
+			h1
+				| Refresh (
+				span#currentValue 0
+				| m)
+			input#refresh_period type="range" min="1" max="60"
+			#refresh_period_knob
+
+		.clearfix
+
+
+	
+	#new_dashboard_dialog.modal.hide.fade
+		.modal-header
+			button type="button" class="close" data-dismiss="modal" aria-hidden="true" &times;
+			h3 Create a new dashboard!
+		.modal-body
+			- @dashboard = Dashboard.new
+			= render partial: 'dashboards/form'
+		.modal-footer
+			button class="submit btn btn-primary" Save
+
+	#new_service_dialog.modal.hide.fade
+		.modal-header
+			button type="button" class="close" data-dismiss="modal" aria-hidden="true" &times;
+			h3 Monitor a new service.
+		.modal-body
+			/ Form loaded dynamically.
+		.modal-footer
+			button class="submit btn btn-primary" Save
+	
+	#services
+		- if @active_dashboard
+			= link_to "Add Service", new_dashboard_path, :id => 'new_service_button', :class => 'btn btn-large btn-success'
+			= render partial: 'services/all', :locals => {:dashboard => @active_dashboard}
+		- else
+			p Whoa whoa whoa... you don't have any dashboards set up!
+		.clearfix

@@ -1,0 +1,58 @@
+= form_for @service, :url => dashboard_services_path(@service.dashboard), :html => {class: 'form-horizontal'} do |f|
+	- if @service.errors.any?
+		#error_explanation
+			h2
+				= pluralize(@service.errors.count, "error")
+				| prohibited this service from being saved:
+			ul
+				- @service.errors.full_messages.each do |msg|
+					li = msg
+
+
+	.control-group
+		= f.hidden_field :dashboard_id, :value => params[:dashboard_id]
+	
+	.control-group
+		= f.label :name, class: 'control-label'
+		.controls
+			= f.text_field :name, :required => true, :placeholder => 'Google', :required => true
+	
+	.control-group
+		= f.label :host, class: 'control-label'
+		.controls
+			= f.text_field :host, :required => true, :placeholder => 'www.google.com', :required => true
+	
+	.control-group
+		= f.label :ping, "Ping (ICMP)?", class: 'control-label'
+		.controls
+			= f.check_box :ping
+	
+	.control-group
+		= f.label :ping_threshold, class: 'control-label'
+		.controls
+			= f.number_field :ping_threshold
+	
+	.control-group
+		= f.label :http, "HTTP GET?", class: 'control-label'
+		.controls
+			= f.check_box :http
+	
+	.control-group
+		= f.label :https, "HTTPS GET?", class: 'control-label'
+		.controls
+			= f.check_box :https
+	
+	.control-group
+		= f.label :http_preview, "Take screenshot?", class: 'control-label'
+		.controls
+			= f.check_box :http_preview
+	
+	.control-group
+		= f.label :http_path, "HTTP path", class: 'control-label'
+		.controls
+			= f.text_field :http_path, :placeholder => '/index.html'
+	
+	.control-group
+		= f.label :http_xquery, 'XQuery Validation', class: 'control-label'
+		.controls
+			= f.text_field :http_xquery

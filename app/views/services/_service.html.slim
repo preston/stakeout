@@ -1,0 +1,37 @@
+.service id="service_#{service.id}"
+	.status
+		- if service.known_good(@since)
+			= image_tag('green_large.png')
+		- elsif service.known_bad(@since)
+			= image_tag('red_large.png')
+		- else
+			= image_tag('grey_large.png')
+
+	h2 = service.name
+	p.detail
+		= service.host
+	
+	- enabled = []
+	- enabled << 'ping' if service.ping
+	- enabled << 'http' if service.http
+	- enabled << 'https' if service.https
+	- enabled << 'screenshot' if service.http_preview
+
+	- if !enabled.empty?
+		p.detail = enabled.join(', ')
+
+	- if service.checked_at
+		p
+			| Checked 
+			= distance_of_time_in_words_to_now service.checked_at
+			|  ago.
+
+	p
+		| Added 
+		= distance_of_time_in_words_to_now service.created_at
+		|  ago.
+	p
+		| Modified 
+		= distance_of_time_in_words_to_now service.updated_at
+		|  ago.
+	button.service_remove.btn.btn-danger data-id="#{service.id}" Remove

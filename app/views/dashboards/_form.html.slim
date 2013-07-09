@@ -1,0 +1,13 @@
+= form_for(@dashboard) do |f|
+	- if @dashboard.errors.any?
+		#error_explanation
+			h2
+				= pluralize(@dashboard.errors.count, "error")
+				|  prohibited this dashboard from being saved:
+			ul
+				- @dashboard.errors.full_messages.each do |msg|
+					li = msg
+
+	.field
+		= f.label :name
+		= f.text_field :name, :required => true, :placeholder => "My Dashboard"
