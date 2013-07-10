@@ -6,8 +6,16 @@ class ServicesController < ApplicationController
   # GET /services
   # GET /services.json
   def index
+    period = 0
+    if !params[:period].nil?
+      period = params[:period].to_i
+    end
     @dashboard = Dashboard.find(params[:dashboard_id])
-    @services = Service.all
+    @services = @dashboard.services
+    since = Time.now - period
+    @services.each do |s|
+      s.check_if_older_than(since)
+    end
     render layout: false
   end
 
@@ -26,6 +34,7 @@ class ServicesController < ApplicationController
 
   # GET /services/1/edit
   def edit
+    render partial: 'services/edit'
   end
 
   # POST
@@ -48,10 +57,10 @@ class ServicesController < ApplicationController
   def update
     respond_to do |format|
       if @service.update(service_params)
-        format.html { redirect_to @service, notice: 'Service was successfully updated.' }
+        format.html { render partial: 'services/service', layout: false, locals: {service: @service} }
         format.json { head :no_content }
       else
-        format.html { render action: "edit" }
+        format.html { render partial: "services/edit", layout: false, status: :unprocessable_entity }
         format.json { render json: @service.errors, status: :unprocessable_entity }
       end
     end

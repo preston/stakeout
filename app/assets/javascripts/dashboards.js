@@ -19,6 +19,22 @@ $(function() {
 			currentValue.html(slider.val());
 		}
 	});
+
+	// Force recheck button.
+	$('html').on('click', '#control_panel_refresh_button', function() {
+		// load_services_if_necessary();
+		// load_services();
+		$('#refresh_in_progress_dialog').modal('show');
+		return false;
+	});
+
+	$('html').on('shown', '#refresh_in_progress_dialog', function() {
+		perform_load();
+		$('#refresh_in_progress_dialog').modal('hide');
+	});
+
+	// Create worker to check if a refresh is needed.
+	setInterval(function(){ load_services_if_necessary(); }, 1000 * 60);
 	
 
 	// Dashboard selection change..
@@ -53,20 +69,14 @@ $(function() {
 			});
 
 			var s = $('#services');
-			s.fadeOut('fast');
 			setTimeout(function() {
-				load_services();
+				$('#refresh_in_progress_dialog').modal('show');
 				s.fadeIn('fast');
 				}, 200);
-			// s.effect('explode');
-			// load_services();
-			// s.effect('slideDown');
-			// s.removeAttr( "style" ).hide().fadeIn();	
 		}
 	});
 	
 	// New dashboard dialog opening..
-	// $('#new_dashboard_dialog').dialog({ autoOpen: false, modal: true, title: 'Create a dashboard!' })	;
 	$('html').on('click', '#new_dashboard_button', function() {
 		var d = $('#new_dashboard_dialog');
 		d.modal('show');
@@ -81,6 +91,23 @@ $(function() {
 
 	$('html').on('submit', '#new_dashboard_dialog form', function() {
 		submit_new_dashboard_form(this);
+	});	
+
+	// Edit dashboard dialog opening..
+	$('html').on('click', '#edit_dashboard_button', function() {
+		var d = $('#edit_dashboard_dialog');
+		d.modal('show');
+		return false;
+	});
+	
+	// Edit dashboard dialog form submission..
+	$('html').on('click', '#edit_dashboard_dialog .submit', function() {
+		var f = $('#edit_dashboard_dialog form')[0];
+		submit_edit_dashboard_form(f);
+	});
+
+	$('html').on('submit', '#edit_dashboard_dialog form', function() {
+		submit_edit_dashboard_form(this);
 	});	
 	
 	// Delete dashboard button..
@@ -132,7 +159,28 @@ $(function() {
 	$('html').on('submit', '#new_service_dialog form', function() {
 		submit_new_service_form(this);
 	});	
+
+	// Edit service dialog show button..
+	$('html').on('click', '.service_edit', function() {
+		console.log("Opening edit service dialog for dashboard " + active_dashboard_id() + '.');
+		var d = $('#edit_service_dialog .modal-body');
+		var sid = $(this).data('id');
+		d.load('/dashboards/' + active_dashboard_id() + '/services/' + sid + '/edit');
+		$('#edit_service_dialog').modal('show');
+		$("#service_name").focus();
+		return false;
+	});
+
+	// Edit service dialog form submission..
+	$('html').on('click', '#edit_service_dialog .submit', function() {
+		var f = $('#edit_service_dialog form');
+		submit_edit_service_form(f);
+	});
 	
+	$('html').on('submit', '#edit_service_dialog form', function() {
+		submit_edit_service_form(this);
+	});
+
 	// Remove service buttons..
 	$('html').on('click', '.service_remove', function(e) {
 		// AJAX RESTful DELETE..
@@ -159,11 +207,21 @@ $(function() {
 });
 
 
-// Load services for the currently selected dashboard and update the screen..
-function load_services() {
+function update_last_service_load_time() {
+	last_services_load = (new Date()).getTime();	
+}
+update_last_service_load_time();
+
+
+
+
+
+function perform_load() {
+	update_last_service_load_time();
 	$.ajax({
 		url: ('/dashboards/' + active_dashboard_id() + '/services'),
 		async: false,
+		data: {period: refresh_period()},
 		dataType: 'html',
 		success: function(new_html, textStatus, jqXHR) {
 			console.log('Received service data from server.');
@@ -174,6 +232,23 @@ function load_services() {
 			// alert("Ahh! The file couldn't be loaded. Maybe try failing less?");
 		}
 	});
+}
+
+function load_services_if_necessary() {
+	var now = (new Date()).getTime();
+	var diff = (now - last_services_load) / 1000; // In seconds
+	var period = refresh_period();
+	if(diff > period) {
+		console.log("Reloading services automatically!");
+		perform_load();
+	} else {
+		console.log("Conditional service load skipped. Will again check later!");
+	}
+}
+
+// In seconds.
+function refresh_period() {
+	return $('#refresh_period').val() * 60;
 }
 
 function submit_new_service_form(form) {
@@ -196,6 +271,32 @@ function submit_new_service_form(form) {
 			// alert('fail');
 			console.log("Could not create service. :-(");
 			$('#new_service_dialog .modal-body').html(jqXHR.responseText);
+		}
+	});
+	return false;
+}
+
+function submit_edit_service_form(form) {
+	var action = form.attr('action');
+	// console.log(action);
+	// alert('hi');
+	var sid = form.data('id');
+	$.ajax({
+		url: form.attr('action'),
+		type: 'patch',
+		async: false,
+		data: form.serialize(),
+		success: function(html, textStatus, jqXHR) {
+			// alert('success');
+			console.log("Server successfully updated service!");
+			$('#service_' + sid).remove();
+			$('#services').prepend(html);
+			$('#edit_service_dialog').modal('hide');
+		},
+		error: function(jqXHR, textStatus, errorThrown) {
+			// alert('fail');
+			console.log("Could not update service. :-(");
+			$('#edit_service_dialog .modal-body').html(jqXHR.responseText);
 		}
 	});
 	return false;
@@ -245,3 +346,4 @@ function toggle_form_visible() {
 	}
 	control_panel_visible = !control_panel_visible;
 }
+

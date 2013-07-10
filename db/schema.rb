@@ -32,6 +32,7 @@ ActiveRecord::Schema.define(version: 20121014170439) do
     t.boolean  "https",            default: false
     t.string   "http_path",        default: "",    null: false
     t.boolean  "http_path_last",   default: false
+    t.boolean  "https_path_last",  default: false
     t.string   "http_xquery"
     t.boolean  "http_xquery_last", default: false
     t.boolean  "http_preview",     default: true

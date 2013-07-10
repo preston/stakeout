@@ -5,7 +5,7 @@
 	#control_panel
 		#bottom_group.btn-group
 			= link_to 'Hide', '#', id: 'control_panel_visibility_button', class: 'btn'
-			= link_to "Add Service", new_dashboard_path, :id => 'new_service_button', :class => 'btn btn-success'
+			= link_to text_with_icon('Freshen', 'refresh'), '#', id: 'control_panel_refresh_button', class: 'btn'
 
 		.widget
 			h1 Dashboard
@@ -16,6 +16,7 @@
 				= link_to text_with_icon('', 'plus'), new_dashboard_path, :id => 'new_dashboard_button', :class => 'btn btn-small'
 				= link_to text_with_icon('', 'edit'), dashboard_path(@active_dashboard), id: :edit_dashboard_button, class: "btn btn-small"
 				= link_to text_with_icon('', 'trash'), dashboard_path(@active_dashboard), id: :delete_dashboard_button, class: "btn btn-small"
+				= link_to text_with_icon("Add Service", 'plus'), new_dashboard_path, :id => 'new_service_button', :class => 'btn btn-small btn-success'
 
 
 		.widget
@@ -29,6 +30,17 @@
 		.clearfix
 
 
+	#refresh_in_progress_dialog.modal.hide.fade
+		.modal-header
+			/ button type="button" class="close" data-dismiss="modal" aria-hidden="true" &times;
+			h3 Chill out!
+		.modal-body
+			p Services are being rechecked from the server. Hold, please!
+			div.progress.progress-striped.active
+				div.bar style="width: 100%;"
+			p.muted If you really hate seeing this dialog all the time, dial down your refresh interval. We only update statuses and screenshots upon your request, and never more frequently than in 1-minute intervals to respect service providers.
+		.modal-footer
+
 	
 	#new_dashboard_dialog.modal.hide.fade
 		.modal-header
@@ -40,6 +52,15 @@
 		.modal-footer
 			button class="submit btn btn-primary" Save
 
+	#edit_dashboard_dialog.modal.hide.fade
+		.modal-header
+			button type="button" class="close" data-dismiss="modal" aria-hidden="true" &times;
+			h3 Edit dashboard.
+		.modal-body
+			/ Form loaded dynamically.
+		.modal-footer
+			button class="submit btn btn-primary" Save
+
 	#new_service_dialog.modal.hide.fade
 		.modal-header
 			button type="button" class="close" data-dismiss="modal" aria-hidden="true" &times;
@@ -48,11 +69,25 @@
 			/ Form loaded dynamically.
 		.modal-footer
 			button class="submit btn btn-primary" Save
+
+	#edit_service_dialog.modal.hide.fade
+		.modal-header
+			button type="button" class="close" data-dismiss="modal" aria-hidden="true" &times;
+			h3 Edit service monitoring.
+		.modal-body
+			/ Form loaded dynamically.
+		.modal-footer
+			button class="submit btn btn-primary" Save
 	
 
 	#services.row-fluid
-		- if @active_dashboard
-			= render partial: 'services/all', :locals => {:dashboard => @active_dashboard}
-		- else
-			p Whoa whoa whoa... you don't have any dashboards set up!
+		/ Only loaded via ajax!
+		/ - if @active_dashboard
+		/ 	= render partial: 'services/all', :locals => {:dashboard => @active_dashboard}
+		/ - else
+		/ 	p Whoa whoa whoa... you don't have any dashboards set up!
 		.clearfix
+	javascript:
+		$(function() {
+			$('#refresh_in_progress_dialog').modal('show');
+		});

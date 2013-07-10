@@ -1,4 +1,4 @@
-= form_for @service, :url => dashboard_services_path(@service.dashboard), :html => {class: 'form-horizontal'} do |f|
+= form_for [@service.dashboard, @service], :html => {class: 'form-horizontal', 'data-id' => @service.id} do |f|
 	- if @service.errors.any?
 		#error_explanation
 			h2
@@ -21,6 +21,7 @@
 		= f.label :host, class: 'control-label'
 		.controls
 			= f.text_field :host, :required => true, :placeholder => 'www.google.com', :required => true
+			p.help-block Do not include protocol prefixes such as "http://".
 	
 	.control-group
 		= f.label :ping, "Ping (ICMP)?", class: 'control-label'
@@ -31,28 +32,34 @@
 		= f.label :ping_threshold, class: 'control-label'
 		.controls
 			= f.number_field :ping_threshold
+			p.help-block The maximum number of milliseconds acceptable. Note that Stakeout will take a much longer time to ping the host that it would at the command line, so set this pretty high.
 	
 	.control-group
 		= f.label :http, "HTTP GET?", class: 'control-label'
 		.controls
 			= f.check_box :http
+			p.help-block All 2xx and 3xx-level response codes will be accepted. Redirects will not be followed!
 	
 	.control-group
 		= f.label :https, "HTTPS GET?", class: 'control-label'
 		.controls
 			= f.check_box :https
+			p.help-block All 2xx and 3xx-level response codes will be accepted. Redirects will not be followed!
 	
 	.control-group
 		= f.label :http_preview, "Take screenshot?", class: 'control-label'
 		.controls
 			= f.check_box :http_preview
+			p.help-block Grab a sweet screenshot when checking the status.
 	
 	.control-group
 		= f.label :http_path, "HTTP path", class: 'control-label'
 		.controls
 			= f.text_field :http_path, :placeholder => '/index.html'
+			p.help-block If unsure, leave blank or try '/index.html'. When specifying a custom path, be sure to include the leading forward slash. 
 	
 	/ .control-group
 		= f.label :http_xquery, 'XQuery Validation', class: 'control-label'
 		.controls
 			= f.text_field :http_xquery
+			p.help-block If provided, the response must match this XQuery pattern.

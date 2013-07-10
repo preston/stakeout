@@ -10,32 +10,44 @@ div id="service_#{service.id}" class="service #{service.http_screenshot.nil? ? :
 	- if !service.http_screenshot.nil?
 		img.img-polaroid.screenshot alt="Screenshot" src="data:image/png;base64,#{Base64.encode64(service.http_screenshot)}"
 
-	h2 = service.name
-	p.detail
-		= service.host
-	
-	- enabled = []
-	- enabled << 'ping' if service.ping
-	- enabled << 'http' if service.http
-	- enabled << 'https' if service.https
-	- enabled << 'screenshot' if service.http_preview
+	h1 = service.name
+	p.host
+		- if service.https
+			a href="https://#{service.host}" = "https://#{service.host}"
+		- elsif service.http
+			a href="http://#{service.host}" = "http://#{service.host}"
+		- else
+			= service.host
 
-	- if !enabled.empty?
-		p.detail = enabled.join(', ')
 
 
 	- if service.checked_at
 		p
-			| Checked 
+			| As of  
 			= distance_of_time_in_words_to_now service.checked_at
-			|  ago.
+			|  ago: 
+			- if service.http
+				span class="#{service.http_path_last ? 'text-success' : 'text-error'}"
+					| HTTP 
+			- if service.https
+				span class="#{service.https_path_last ? 'text-success' : 'text-error'}"
+					| HTTPS 
+			- if service.ping
+				span class="#{(!service.ping_last.nil? && service.ping_last >= 0 && service.ping_last < service.ping_threshold) ? 'text-success' : 'text-error'}"
+					| PING 
 
-	p
+
+	- else
+		p.muted Not checked.
+
+	/ p
 		| Added 
 		= distance_of_time_in_words_to_now service.created_at
 		|  ago.
-	p
+	/ p
 		| Modified 
 		= distance_of_time_in_words_to_now service.updated_at
 		|  ago.
-	button.service_remove.btn.btn-danger data-id="#{service.id}" Remove
+	.btn-group.pull-right
+		button.service_edit.btn data-id="#{service.id}" = text_with_icon('Edit', 'edit')
+		button.service_remove.btn.btn data-id="#{service.id}" = text_with_icon('Remove', 'trash')
