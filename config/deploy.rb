@@ -1,0 +1,62 @@
+set :stages, [:production, :uat]
+set :default_stage, "production"
+set :application, "stakeout"
+
+require 'capistrano/ext/multistage'
+require 'rvm/capistrano'
+require "bundler/capistrano"
+
+set :rvm_type,              :system
+set :rvm_ruby_string,       "ruby-2.0.0"
+set :rvm_path,              "/usr/local/rvm"
+
+# set :bundle_flags, "--binstubs"
+
+# set :user,  "apache"
+# set :group, "apache"
+
+set :scm, :git
+set :repository, "git@github.com:preston/stakeout.git"
+set :deploy_to, "/var/www/#{application}"
+set :deploy_env, 'uat'
+
+
+set :use_sudo,    false
+set :deploy_via, 'remote_cache'
+set :copy_exclude, ['.git']
+set :user,      "apache"
+
+after "deploy", "deploy:migrate"
+after "deploy:migrate", 'deploy:cleanup'
+# before "deploy:assets:precompile", "config:update"
+
+ssh_options[:forward_agent] = true
+default_run_options[:pty] = true
+
+
+namespace :deploy do
+  task :start do ; end
+  task :stop do ; end
+  task :restart, :roles => :app, :except => { :no_release => true } do
+    #unicorn via upstart
+    run "touch #{release_path}/tmp/restart.txt"
+  end
+end
+
+
+# Custom stuff.
+namespace :config do
+ 
+  desc "Add server-only shared directories."
+  task :setup, :roles => [:app] do
+    run "mkdir -p #{shared_path}/config"
+  end
+  after "deploy:setup", "config:setup"
+  
+  desc "Update server-only config files to new deployment directory."
+  task :update, :roles => [:app] do
+    run "cp -Rfv #{shared_path}/config #{release_path}"
+    # run "cp -Rfv #{shared_path}/public/data #{release_path}/public/"
+    run "ln -s #{shared_path}/public/data #{release_path}/public/data"
+  end
+end
