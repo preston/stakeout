@@ -49,7 +49,8 @@
 		.modal-footer
 			button class="submit btn btn-primary" Save
 	
-	#services
+
+	#services.row-fluid
 		- if @active_dashboard
 			= render partial: 'services/all', :locals => {:dashboard => @active_dashboard}
 		- else

@@ -1,4 +1,4 @@
-.service id="service_#{service.id}"
+div id="service_#{service.id}" class="service #{service.http_screenshot.nil? ? :single : :double}"
 	.status
 		- if service.known_good(@since)
 			= image_tag('green_large.png')
@@ -6,6 +6,9 @@
 			= image_tag('red_large.png')
 		- else
 			= image_tag('grey_large.png')
+
+	- if !service.http_screenshot.nil?
+		img.img-polaroid.screenshot alt="Screenshot" src="data:image/png;base64,#{Base64.encode64(service.http_screenshot)}"
 
 	h2 = service.name
 	p.detail
@@ -19,6 +22,7 @@
 
 	- if !enabled.empty?
 		p.detail = enabled.join(', ')
+
 
 	- if service.checked_at
 		p

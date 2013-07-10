@@ -23,6 +23,10 @@ gem 'pdfkit'
 
 gem 'capistrano'
 
+# Service-checking stuff.
+gem 'net-ping'		# ICMP pings.
+gem 'poltergeist'	# HTTP screenshots!
+
 group :development do
 	gem	'binding_of_caller'
 	gem 'better_errors'

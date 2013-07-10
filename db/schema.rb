@@ -35,6 +35,7 @@ ActiveRecord::Schema.define(version: 20121014170439) do
     t.string   "http_xquery"
     t.boolean  "http_xquery_last", default: false
     t.boolean  "http_preview",     default: true
+    t.binary   "http_screenshot"
     t.datetime "checked_at"
     t.datetime "created_at"
     t.datetime "updated_at"

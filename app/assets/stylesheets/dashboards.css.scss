@@ -50,12 +50,20 @@
 		margin-left: 0 auto;
 
 
+		.single {
+			width: 300px;
+		}
+
+		.double {
+			width: 600px;
+		}
+
 		.service {
 			float: left;
 			clear: none;
 			margin: 10px;
 			padding: 10px;
-			width: 400px;
+			// width: 400px;
 			border: 1px solid #eee;
 			box-shadow: 0 20px 20px #000;
 			border-radius: 4px;
@@ -69,10 +77,17 @@
 				color: #999;
 				font-style: italic;
 			}
-			.status img {
-				float: left;
+			.status {
+				// float: left;
+				display: inline;
 				margin: 0 6px 0 0;
 			}
+
+			.screenshot {
+				width: 200px;
+				display: inline;
+			}
+
 		
 		}
 		
