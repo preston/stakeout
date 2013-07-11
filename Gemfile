@@ -15,19 +15,22 @@ gem 'twitter-bootstrap-rails'
 # Templating
 gem 'slim-rails'
 
-
-gem 'sqlite3'
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
 gem 'pdfkit'
-
-gem 'capistrano'
 
 # Service-checking stuff.
 gem 'net-ping'		# ICMP pings.
 gem 'poltergeist'	# HTTP screenshots!
 
 group :development do
+	gem 'sqlite3'
+	gem 'capistrano'
+	gem 'capistrano-ext'
+
+	gem 'rvm-capistrano'
+	gem 'railroady'
+
 	gem	'binding_of_caller'
 	gem 'better_errors'
 end
