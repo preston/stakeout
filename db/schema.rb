@@ -23,20 +23,20 @@ ActiveRecord::Schema.define(version: 20121014170439) do
 
   create_table "services", force: true do |t|
     t.integer  "dashboard_id"
-    t.string   "name",                             null: false
-    t.string   "host",                             null: false
-    t.boolean  "ping",             default: true
-    t.integer  "ping_threshold",   default: 500
+    t.string   "name",                                             null: false
+    t.string   "host",                                             null: false
+    t.boolean  "ping",                             default: true
+    t.integer  "ping_threshold",                   default: 500
     t.integer  "ping_last"
-    t.boolean  "http",             default: true
-    t.boolean  "https",            default: false
-    t.string   "http_path",        default: "",    null: false
-    t.boolean  "http_path_last",   default: false
-    t.boolean  "https_path_last",  default: false
+    t.boolean  "http",                             default: true
+    t.boolean  "https",                            default: false
+    t.string   "http_path",                        default: "",    null: false
+    t.boolean  "http_path_last",                   default: false
+    t.boolean  "https_path_last",                  default: false
     t.string   "http_xquery"
-    t.boolean  "http_xquery_last", default: false
-    t.boolean  "http_preview",     default: true
-    t.binary   "http_screenshot"
+    t.boolean  "http_xquery_last",                 default: false
+    t.boolean  "http_preview",                     default: true
+    t.binary   "http_screenshot",  limit: 1048576
     t.datetime "checked_at"
     t.datetime "created_at"
     t.datetime "updated_at"
