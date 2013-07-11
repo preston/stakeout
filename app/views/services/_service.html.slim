@@ -13,9 +13,9 @@ div id="service_#{service.id}" class="service #{service.http_screenshot.nil? ? :
 	h1 = service.name
 	p.host
 		- if service.https
-			a href="https://#{service.host}" = "https://#{service.host}#{service.http_path}"
+			a href="https://#{service.host}#{service.http_path}" = "https://#{service.host}#{service.http_path}"
 		- elsif service.http
-			a href="http://#{service.host}" = "http://#{service.host}#{service.http_path}"
+			a href="http://#{service.host}#{service.http_path}" = "http://#{service.host}#{service.http_path}"
 		- else
 			= service.host
 
