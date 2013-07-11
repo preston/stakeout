@@ -34,8 +34,9 @@ div id="service_#{service.id}" class="service #{service.http_screenshot.nil? ? :
 					| HTTPS
 			- if service.ping
 				span.result class="#{(!service.ping_last.nil? && service.ping_last >= 0 && service.ping_last < service.ping_threshold) ? 'text-success' : 'text-error'}"
-					| Ping 
-					= service.ping_last < 0 ? '(Failed)' : "(#{service.ping_last}ms)"
+					| Ping
+					-if !service.ping_last.nil?
+						= service.ping_last < 0 ? ' (Failed)' : " (#{service.ping_last}ms)"
 
 
 	- else

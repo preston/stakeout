@@ -8,7 +8,9 @@ class Service < ActiveRecord::Base
 	validates_presence_of :name
 	validates_presence_of :host
 
-
+	# REFACTOR Nasty that this is a singleton, but it leaks a phantomjs process on #visit :(
+	# https://github.com/jonleighton/poltergeist/issues/348
+	BROWSER = Capybara::Session.new(:poltergeist)
 	PHOTO_OPTS  = {
 	  :x => 0,          # top left position
 	  :y => 0,
@@ -60,22 +62,26 @@ class Service < ActiveRecord::Base
 			end
 
 			if http_preview
-				browser = Capybara::Session.new :poltergeist
+				
 				begin
-					browser.visit uri.to_s
+					BROWSER.visit uri.to_s
 					# sleep 1
 	
 					tmp = Tempfile.new(['screenshot', '.png'])
 					# puts tmp.path
-					
-					browser.driver.render tmp.path,
-					  :width  => PHOTO_OPTS[:w] + PHOTO_OPTS[:x],
-					  :height => PHOTO_OPTS[:h] + PHOTO_OPTS[:y]
-					self.http_screenshot = IO.read tmp.path
-					tmp.close! # Close and delete the temporary file.
+					begin
+						BROWSER.driver.render tmp.path,
+						  :width  => PHOTO_OPTS[:w] + PHOTO_OPTS[:x],
+						  :height => PHOTO_OPTS[:h] + PHOTO_OPTS[:y]
+						self.http_screenshot = IO.read tmp.path
+					ensure
+						tmp.close # Close and delete the temporary file.
+						tmp.unlink
+					end
 				rescue
 					# The visit will throw an exception if it times out.
 				end
+				
 			end
 			if http_xquery
 				# TODO
@@ -106,7 +112,7 @@ class Service < ActiveRecord::Base
 	def known_good(since)
 		known = false
 		if !self.checked_at.nil? && (since.nil? || self.checked_at >= since)
-			ping_good = (!self.ping || (!self.ping_last.nil? && self.ping_last <= self.ping_threshold))
+			ping_good = (!self.ping || (!self.ping_last.nil? && self.ping_last >= 0 && self.ping_last <= self.ping_threshold))
 			http_good = (!self.http || self.http_path_last)
 			https_good = (!self.https || self.https_path_last)
 			# TODO xquery_good = (self.http_xquery.nil? || self.http_xquery == '' || (self.http_xquery && TODO))
@@ -120,7 +126,7 @@ class Service < ActiveRecord::Base
 	def known_bad(since)
 		known = false
 		if (self.checked_at && since.nil?) || (!since.nil? && self.checked_at >= since)
-			ping_bad = self.ping && !self.ping_last.nil? & !self.ping_last.nil? && (self.ping_last > self.ping_threshold)
+			ping_bad = self.ping && !self.ping_last.nil? && (self.ping_last > self.ping_threshold || self.ping_last < 0)
 			http_bad = self.http && !self.http_path_last
 			https_bad = self.https && !self.https_path_last
 			# xquery_bad = self.http_xquery && TODO
