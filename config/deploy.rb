@@ -18,11 +18,11 @@ set :rvm_path,              "/usr/local/rvm"
 set :scm, :git
 set :repository, "git@github.com:preston/stakeout.git"
 set :deploy_to, "/var/www/#{application}"
-set :deploy_env, 'uat'
+set :deploy_env, 'production'
 
 
 set :use_sudo,    false
-set :deploy_via, 'remote_cache'
+set :deploy_via, 'copy'
 set :copy_exclude, ['.git']
 set :user,      "apache"
 
@@ -30,8 +30,9 @@ after "deploy", "deploy:migrate"
 after "deploy:migrate", 'deploy:cleanup'
 # before "deploy:assets:precompile", "config:update"
 
-ssh_options[:forward_agent] = true
 default_run_options[:pty] = true
+set :ssh_options, { :forward_agent => true }
+# ssh_options[:forward_agent] = true
 
 
 namespace :deploy do
