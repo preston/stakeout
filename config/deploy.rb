@@ -28,7 +28,7 @@ set :user,      "apache"
 
 after "deploy", "deploy:migrate"
 after "deploy:migrate", 'deploy:cleanup'
-# before "deploy:assets:precompile", "config:update"
+before "deploy:assets:precompile", "config:update"
 
 default_run_options[:pty] = true
 set :ssh_options, { :forward_agent => true }
