@@ -21,6 +21,12 @@ class Service < ActiveRecord::Base
 	  :selector => nil  # wait until the selector matches to take the screenshot
 	}
 
+	def expire_check
+		self.checked_at = nil
+		self.http_screenshot = nil
+		self.save
+	end
+
 	def check_if_older_than(date)
 		last = self.checked_at
 		if last.nil? || last < date

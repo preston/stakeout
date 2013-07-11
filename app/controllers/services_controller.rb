@@ -57,6 +57,7 @@ class ServicesController < ApplicationController
   def update
     respond_to do |format|
       if @service.update(service_params)
+        @service.expire_check
         format.html { render partial: 'services/service', layout: false, locals: {service: @service} }
         format.json { head :no_content }
       else
