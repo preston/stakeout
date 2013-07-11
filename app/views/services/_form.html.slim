@@ -50,7 +50,7 @@
 		= f.label :http_preview, "Take screenshot?", class: 'control-label'
 		.controls
 			= f.check_box :http_preview
-			p.help-block Grab a sweet screenshot when checking the status.
+			p.help-block Grab a sweet screenshot when checking the status. HTTPS will be used instead, if enabled. Redirects will not be followed, and SSL and JavaScript-related warning or errors will prevent the screenshot from being taken.
 	
 	.control-group
 		= f.label :http_path, "HTTP path", class: 'control-label'
