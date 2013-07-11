@@ -188,7 +188,7 @@ $(function() {
 		console.log("AJAX DELETEing service ID " + id + ".");
 		$.ajax({
 			url: '/dashboards/' + active_dashboard_id() + '/services/' + id,
-			async: false,
+			// async: false,
 			type: 'DELETE',
 			dataType: 'json',
 			success: function(json, textStatus, jqXHR) {

@@ -27,14 +27,15 @@ div id="service_#{service.id}" class="service #{service.http_screenshot.nil? ? :
 			= distance_of_time_in_words_to_now service.checked_at
 			|  ago: 
 			- if service.http
-				span class="#{service.http_path_last ? 'text-success' : 'text-error'}"
-					| HTTP 
+				span.result class="#{service.http_path_last ? 'text-success' : 'text-error'}"
+					| HTTP
 			- if service.https
-				span class="#{service.https_path_last ? 'text-success' : 'text-error'}"
-					| HTTPS 
+				span.result class="#{service.https_path_last ? 'text-success' : 'text-error'}"
+					| HTTPS
 			- if service.ping
-				span class="#{(!service.ping_last.nil? && service.ping_last >= 0 && service.ping_last < service.ping_threshold) ? 'text-success' : 'text-error'}"
-					| PING 
+				span.result class="#{(!service.ping_last.nil? && service.ping_last >= 0 && service.ping_last < service.ping_threshold) ? 'text-success' : 'text-error'}"
+					| Ping 
+					= service.ping_last < 0 ? '(Failed)' : "(#{service.ping_last}ms)"
 
 
 	- else
