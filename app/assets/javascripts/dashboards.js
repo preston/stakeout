@@ -95,6 +95,14 @@ $(function() {
 
 	// Edit dashboard dialog opening..
 	$('html').on('click', '#edit_dashboard_button', function() {
+		console.log("Opening edit dashboard dialog for " + active_dashboard_id() + '.');
+		var d = $('#edit_dashboard_dialog .modal-body');
+		d.load('/dashboards/' + active_dashboard_id() + '/edit');
+		$('#edit_dashboard_dialog').modal('show');
+		$("#dashboard_name").focus();
+		return false;
+
+
 		var d = $('#edit_dashboard_dialog');
 		d.modal('show');
 		return false;
@@ -108,6 +116,7 @@ $(function() {
 
 	$('html').on('submit', '#edit_dashboard_dialog form', function() {
 		submit_edit_dashboard_form(this);
+		return false;
 	});	
 	
 	// Delete dashboard button..
@@ -321,6 +330,34 @@ function submit_new_dashboard_form(form) {
 	});
 	return false;
 }
+
+
+function submit_edit_dashboard_form(form) {
+	var f = $(form);
+	var action = f.attr('action');
+	// console.log(action);
+	// alert('hi');
+	var did = f.data('id');
+	$.ajax({
+		url: action + '.json',
+		type: 'patch',
+		async: false,
+		data: f.serialize(),
+		success: function(data, textStatus, jqXHR) {
+			// alert('success');
+			console.log("Server successfully updated dashboard!");
+			$('#active_dashboard_id option[value=' + did + ']').html(data['name']);
+			$('#edit_dashboard_dialog').modal('hide');
+		},
+		error: function(jqXHR, textStatus, errorThrown) {
+			// alert('fail');
+			console.log("Could not update dashboard. :-(");
+			$('#edit_dashboard_dialog .modal-body').html(jqXHR.responseText);
+		}
+	});
+	return false;
+}
+
 
 function active_dashboard_id() {
 	var id = $('#active_dashboard_id').val();

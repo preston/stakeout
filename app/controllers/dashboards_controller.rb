@@ -48,6 +48,7 @@ class DashboardsController < ApplicationController
 
   # GET /services/1/edit
   def edit
+    render partial: 'dashboards/edit'
   end
 
   # POST /dashboards
@@ -67,15 +68,13 @@ class DashboardsController < ApplicationController
     end
   end
 
-  # PUT /dashboards/1
-  # PUT /dashboards/1.json
   def update
     respond_to do |format|
       if @dashboard.update(dashboard_params)
-        format.html { redirect_to @dashboard, notice: 'Dashboard was successfully updated.' }
-        format.json { head :no_content }
+        format.html { redirect_to dashboards_path, notice: 'Dashboard was successfully updated.' }
+        format.json { render json: @dashboard }
       else
-        format.html { render action: "edit" }
+        format.html { render partial: "dashboards/edit", layout: false, status: :unprocessable_entity }
         format.json { render json: @dashboard.errors, status: :unprocessable_entity }
       end
     end
@@ -87,7 +86,7 @@ class DashboardsController < ApplicationController
     @dashboard.destroy
 		set_an_active_dashboard
     respond_to do |format|
-      format.html { redirect_to dashboards_url }
+      format.html { redirect_to dashboards_path }
       format.json { render	json: @active_dashboard }
     end
   end
