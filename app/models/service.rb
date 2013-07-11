@@ -70,30 +70,6 @@ class Service < ActiveRecord::Base
 				self.http_path_last = false
 			end
 
-			if http_preview
-				
-				begin
-					BROWSER_LOCK.synchronize do
-						BROWSER.visit uri.to_s
-						sleep 0.100 # Brief artificial delay for rendering. :(
-		
-						tmp = Tempfile.new(['screenshot', '.png'])
-						# puts tmp.path
-						begin
-							BROWSER.driver.render tmp.path,
-							  :width  => PHOTO_OPTS[:w] + PHOTO_OPTS[:x],
-							  :height => PHOTO_OPTS[:h] + PHOTO_OPTS[:y]
-							self.http_screenshot = IO.read tmp.path
-						ensure
-							tmp.close # Close and delete the temporary file.
-							tmp.unlink
-						end
-					end
-				rescue
-					# The visit will throw an exception if it times out.
-				end
-				
-			end
 			if http_xquery
 				# TODO
 			end
@@ -114,6 +90,34 @@ class Service < ActiveRecord::Base
 				# Possibly a DNS failure or something.
 				self.https_path_last = false
 			end
+		end
+
+		if http_preview && (http || https)
+			uri = URI("http://#{self.host}#{self.http_path}")
+			if https
+				uri = URI("https://#{self.host}#{self.http_path}")
+			end
+			begin
+				BROWSER_LOCK.synchronize do
+					BROWSER.visit uri.to_s
+					sleep 0.100 # Brief artificial delay for rendering. :(
+		
+					tmp = Tempfile.new(['screenshot', '.png'])
+					# puts tmp.path
+					begin
+						BROWSER.driver.render tmp.path,
+						  :width  => PHOTO_OPTS[:w] + PHOTO_OPTS[:x],
+						  :height => PHOTO_OPTS[:h] + PHOTO_OPTS[:y]
+						self.http_screenshot = IO.read tmp.path
+					ensure
+						tmp.close # Close and delete the temporary file.
+						tmp.unlink
+					end
+				end
+			rescue
+				# The visit will throw an exception if it times out.
+			end
+			
 		end
 
 		self.checked_at = Time.now
