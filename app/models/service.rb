@@ -65,7 +65,7 @@ class Service < ActiveRecord::Base
 				
 				begin
 					BROWSER.visit uri.to_s
-					# sleep 1
+					sleep 0.100 # Brief artificial delay for rendering. :(
 	
 					tmp = Tempfile.new(['screenshot', '.png'])
 					# puts tmp.path
