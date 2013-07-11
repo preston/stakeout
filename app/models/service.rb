@@ -99,6 +99,8 @@ class Service < ActiveRecord::Base
 			end
 			begin
 				BROWSER_LOCK.synchronize do
+					puts "Visiting #{uri}"
+					BROWSER.reset!
 					BROWSER.visit uri.to_s
 					sleep 0.100 # Brief artificial delay for rendering. :(
 		
