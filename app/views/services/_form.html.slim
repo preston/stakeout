@@ -44,7 +44,7 @@
 		= f.label :https, "HTTPS GET?", class: 'control-label'
 		.controls
 			= f.check_box :https
-			p.help-block All 2xx and 3xx-level response codes will be accepted. Redirects will not be followed!
+			p.help-block All 2xx and 3xx-level response codes will be accepted. Redirects will not be followed. Important: SSL or JavaScript-related warning will result in a failure state! So if you're running self-signed certificates, you'll probably want to disable this.
 	
 	.control-group
 		= f.label :http_preview, "Take screenshot?", class: 'control-label'
