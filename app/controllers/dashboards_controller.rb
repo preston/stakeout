@@ -62,7 +62,7 @@ class DashboardsController < ApplicationController
         format.html { redirect_to dashboards_path, notice: 'Dashboard was successfully created.' }
         format.json { render json: @dashboard, status: :created, location: @dashboard }
       else
-        format.html { render action: "new" }
+        format.html { render partial: "dashboards/new", layout: false, status: :unprocessable_entity }
         format.json { render json: @dashboard.errors, status: :unprocessable_entity }
       end
     end

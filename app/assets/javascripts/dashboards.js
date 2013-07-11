@@ -84,9 +84,11 @@ $(function() {
 	});
 	
 	// New dashboard dialog form submission..
-	$('html').on('click', '#new_dashboard_dialog .submit', function() {
-		var f = $('#new_dashboard_dialog form')[0];
-		submit_new_dashboard_form(f);
+	$('html').on('click', '#new_dashboard_dialog .submit', function(e) {
+		// e.preventDefault();
+		// var f = $('#new_dashboard_dialog form')[0];
+		// submit_new_dashboard_form(f);
+		$('#new_dashboard_dialog form').submit();
 	});
 
 	$('html').on('submit', '#new_dashboard_dialog form', function() {
@@ -313,12 +315,13 @@ function submit_edit_service_form(form) {
 
 
 function submit_new_dashboard_form(form) {
-	var action = form.attr('action');
+	var f = $(form);
+	var action = f.attr('action');
 	console.log(action);
 	$.post({
 		url: action,
 		async: false,
-		data: form.serialize(),
+		data: f.serializeArray(),
 		success: function(data, textStatus, jqXHR) {
 			console.log("Server successfully created dashboard!");
 			// Insert HTML for select box option.
@@ -326,6 +329,8 @@ function submit_new_dashboard_form(form) {
 		},
 		error: function(jqXHR, textStatus, errorThrown) {
 			console.log("Could not create dashboard.");
+			$('#new_dashboard_dialog .modal-body').html(jqXHR.responseText);
+			return false;
 		}
 	});
 	return false;
