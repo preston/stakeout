@@ -1,5 +1,6 @@
 require 'capybara'
 require 'capybara/poltergeist'
+require 'thread'
 
 class Service < ActiveRecord::Base
 
@@ -11,6 +12,8 @@ class Service < ActiveRecord::Base
 	# REFACTOR Nasty that this is a singleton, but it leaks a phantomjs process on #visit :(
 	# https://github.com/jonleighton/poltergeist/issues/348
 	BROWSER = Capybara::Session.new(:poltergeist)
+	BROWSER_LOCK = Mutex.new
+
 	PHOTO_OPTS  = {
 	  :x => 0,          # top left position
 	  :y => 0,
@@ -70,19 +73,21 @@ class Service < ActiveRecord::Base
 			if http_preview
 				
 				begin
-					BROWSER.visit uri.to_s
-					sleep 0.100 # Brief artificial delay for rendering. :(
-	
-					tmp = Tempfile.new(['screenshot', '.png'])
-					# puts tmp.path
-					begin
-						BROWSER.driver.render tmp.path,
-						  :width  => PHOTO_OPTS[:w] + PHOTO_OPTS[:x],
-						  :height => PHOTO_OPTS[:h] + PHOTO_OPTS[:y]
-						self.http_screenshot = IO.read tmp.path
-					ensure
-						tmp.close # Close and delete the temporary file.
-						tmp.unlink
+					BROWSER_LOCK.synchronize do
+						BROWSER.visit uri.to_s
+						sleep 0.100 # Brief artificial delay for rendering. :(
+		
+						tmp = Tempfile.new(['screenshot', '.png'])
+						# puts tmp.path
+						begin
+							BROWSER.driver.render tmp.path,
+							  :width  => PHOTO_OPTS[:w] + PHOTO_OPTS[:x],
+							  :height => PHOTO_OPTS[:h] + PHOTO_OPTS[:y]
+							self.http_screenshot = IO.read tmp.path
+						ensure
+							tmp.close # Close and delete the temporary file.
+							tmp.unlink
+						end
 					end
 				rescue
 					# The visit will throw an exception if it times out.
