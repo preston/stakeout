@@ -1,0 +1,129 @@
+.dashboard {
+
+	.container {
+		width: 98%;
+	}
+
+	
+	#control_panel {
+		position: relative;
+		border: 1px #ddd solid;
+		padding: 18px;
+		width: 600px;
+		margin: -20px auto 20px;
+		
+		box-shadow: 0 20px 20px #000;
+		border-radius: 4px;
+		
+		background: image-url("textures/light_noise_diagonal.png") repeat;
+		
+		h1 {
+			font-size: 18pt;
+			margin: 0 15px 0 0;
+			padding: 6px 0 4px;
+		}
+		
+		.knob { margin: 10px 0 0 10px; float: left; clear: left;}
+		
+		.widget {
+			width: 260px;
+			margin: 0 20px;
+			display: inline;
+			float: left;
+		}
+		
+		form {
+			select { width: 100%; }
+		}
+
+		#bottom_group {
+			position: absolute;
+			right: 4px;
+			bottom: 4px;
+		}
+
+		#control_panel_visibility_button {
+		}
+	}
+	
+	#services {
+		margin-left: 0 auto;
+
+
+		.single {
+			width: 174px;
+		}
+
+		.double {
+			width: 400px;
+		}
+
+		.service {
+			float: left;
+			clear: none;
+			margin: 14px 8px;
+			padding: 14px;
+			height: 360px;
+			border: 1px solid #eee;
+			box-shadow: 0 20px 20px #000;
+			border-radius: 4px;
+			position: relative;
+			
+			background: image-url("textures/light_noise_diagonal.png") repeat;
+			
+			h1 {
+				margin-bottom: 0;
+				// display: inline;
+			}
+
+			.host {
+				// display:inline;
+				// margin-left: 10px;
+			}
+
+			.status {
+				// float: left;
+				display: inline;
+				margin: 0 6px 0 0;
+			}
+
+			.screenshot {
+				width: 200px;
+				display: inline;
+			}
+
+			.btn-group {
+				position: absolute;
+				right: 4px;
+				bottom: 4px;
+			}
+
+			.result {
+				border-right: 1px solid #aaa;
+				white-space: nowrap;
+				padding-right: 4px;
+				margin-right: 4px;
+			}
+		
+		}
+		
+		.service:nth-child(4n) {
+			-webkit-transform:	rotate(-1deg); 
+			-moz-transform:		rotate(-1deg);
+			transform:			rotate(-1deg); 
+		}
+		
+		.service:nth-child(5n) {
+			-webkit-transform: rotate(1deg); 
+			-moz-transform: rotate(1deg);
+			transform: rotate(1deg); 
+		}
+		
+		.service h2 {margin: 10px 0 0; font-size: 1.2em; font-variant: small-caps;}
+		.service table { width: 100% ;}
+		.service table td { padding: 4px; }
+		.service table tr:nth-child(2n + 1) { background: #eee;}
+
+	}
+
+}

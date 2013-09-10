@@ -1,0 +1,40 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Dashboard:</b>
+  <%= @service.dashboard_id %>
+</p>
+
+<p>
+  <b>Name:</b>
+  <%= @service.name %>
+</p>
+
+<p>
+  <b>Host:</b>
+  <%= @service.host %>
+</p>
+
+<p>
+  <b>Ping:</b>
+  <%= @service.ping %>
+</p>
+
+<p>
+  <b>Http:</b>
+  <%= @service.http %>
+</p>
+
+<p>
+  <b>Http path:</b>
+  <%= @service.http_path %>
+</p>
+
+<p>
+  <b>Http xquery:</b>
+  <%= @service.http_xquery %>
+</p>
+
+
+<%= link_to 'Edit', edit_service_path(@service) %> |
+<%= link_to 'Back', services_path %>

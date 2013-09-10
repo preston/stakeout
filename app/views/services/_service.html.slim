@@ -1,0 +1,55 @@
+div id="service_#{service.id}" class="service #{service.http_screenshot.nil? ? :single : :double}"
+	.status
+		- if service.known_good(@since)
+			= image_tag('green_large.png')
+		- elsif service.known_bad(@since)
+			= image_tag('red_large.png')
+		- else
+			= image_tag('grey_large.png')
+
+	- if !service.http_screenshot.nil?
+		img.img-polaroid.screenshot alt="Screenshot" src="data:image/png;base64,#{Base64.encode64(service.http_screenshot)}"
+
+	h1 = service.name
+	p.host
+		- if service.https
+			a href="https://#{service.host}#{service.http_path}" = "https://#{service.host}#{service.http_path}"
+		- elsif service.http
+			a href="http://#{service.host}#{service.http_path}" = "http://#{service.host}#{service.http_path}"
+		- else
+			= service.host
+
+
+
+	- if service.checked_at
+		p
+			| As of  
+			= distance_of_time_in_words_to_now service.checked_at
+			|  ago: 
+			- if service.http
+				span.result class="#{service.http_path_last ? 'text-success' : 'text-error'}"
+					| HTTP
+			- if service.https
+				span.result class="#{service.https_path_last ? 'text-success' : 'text-error'}"
+					| HTTPS
+			- if service.ping
+				span.result class="#{(!service.ping_last.nil? && service.ping_last >= 0 && service.ping_last < service.ping_threshold) ? 'text-success' : 'text-error'}"
+					| Ping
+					-if !service.ping_last.nil?
+						= service.ping_last < 0 ? ' (Failed)' : " (#{service.ping_last}ms)"
+
+
+	- else
+		p.muted Not checked.
+
+	/ p
+		| Added 
+		= distance_of_time_in_words_to_now service.created_at
+		|  ago.
+	/ p
+		| Modified 
+		= distance_of_time_in_words_to_now service.updated_at
+		|  ago.
+	.btn-group.pull-right
+		button.service_edit.btn data-id="#{service.id}" = text_with_icon('Edit', 'edit')
+		button.service_remove.btn.btn data-id="#{service.id}" = text_with_icon('Remove', 'trash')

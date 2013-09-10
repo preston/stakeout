@@ -1,0 +1,65 @@
+= form_for [@service.dashboard, @service], :html => {class: 'form-horizontal', 'data-id' => @service.id} do |f|
+	- if @service.errors.any?
+		#error_explanation
+			h2
+				= pluralize(@service.errors.count, "error")
+				|  prohibited this service from being saved:
+			ul
+				- @service.errors.full_messages.each do |msg|
+					li = msg
+
+
+	.control-group
+		= f.hidden_field :dashboard_id, :value => params[:dashboard_id]
+	
+	.control-group
+		= f.label :name, class: 'control-label'
+		.controls
+			= f.text_field :name, :required => true, :placeholder => 'Google', :required => true
+	
+	.control-group
+		= f.label :host, class: 'control-label'
+		.controls
+			= f.text_field :host, :required => true, :placeholder => 'www.google.com', :required => true
+			p.help-block Do not include protocol prefixes such as "http://".
+	
+	.control-group
+		= f.label :ping, "Ping (ICMP)?", class: 'control-label'
+		.controls
+			= f.check_box :ping
+	
+	.control-group
+		= f.label :ping_threshold, class: 'control-label'
+		.controls
+			= f.number_field :ping_threshold
+			p.help-block The maximum number of milliseconds acceptable. Note that Stakeout will take a much longer time to ping the host that it would at the command line, so set this pretty high.
+	
+	.control-group
+		= f.label :http, "HTTP GET?", class: 'control-label'
+		.controls
+			= f.check_box :http
+			p.help-block All 2xx and 3xx-level response codes will be accepted. Redirects will not be followed!
+	
+	.control-group
+		= f.label :https, "HTTPS GET?", class: 'control-label'
+		.controls
+			= f.check_box :https
+			p.help-block All 2xx and 3xx-level response codes will be accepted. Redirects will not be followed. Important: SSL or JavaScript-related warning will result in a failure state! So if you're running self-signed certificates, you'll probably want to disable this.
+	
+	.control-group
+		= f.label :http_preview, "Take screenshot?", class: 'control-label'
+		.controls
+			= f.check_box :http_preview
+			p.help-block Grab a sweet screenshot when checking the status. HTTPS will be used instead, if enabled. Redirects will not be followed, and SSL and JavaScript-related warning or errors will prevent the screenshot from being taken.
+	
+	.control-group
+		= f.label :http_path, "HTTP path", class: 'control-label'
+		.controls
+			= f.text_field :http_path, :placeholder => '/index.html'
+			p.help-block If unsure, leave blank or try '/index.html'. When specifying a custom path, be sure to include the leading forward slash. 
+	
+	/ .control-group
+		= f.label :http_xquery, 'XQuery Validation', class: 'control-label'
+		.controls
+			= f.text_field :http_xquery
+			p.help-block If provided, the response must match this XQuery pattern.
