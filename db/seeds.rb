@@ -35,37 +35,27 @@ def create_example_dashboard
 		ping: false,
 		http: true,
 		https: false,
-		http_preview: false
+		http_preview: true
+	})
+	Service.create!({
+		dashboard: dash,
+		name: "New York Times",
+		host: "nytimes.com",
+		ping: false,
+		http: true,
+		https: false,
+		http_preview: true
+	})
+	Service.create!({
+		dashboard: dash,
+		name: "BBC",
+		host: "bbc.co.uk",
+		ping: false,
+		http: true,
+		https: false,
+		http_preview: true
 	})
 end
 
-def create_cloud_dashboard
-	domain = 'example.com'
-	dash = Dashboard.new(name: 'Cloud Services')
-	dash.save!
-
-	(1..2).each do |n|
-		Service.create!({
-			dashboard: dash,
-			name: "Controller #{n}",
-			host: "controller0#{n}.#{domain}",
-			ping: true,
-			http: false,
-			http_preview: false
-		})
-	end
-
-	(1..4).each do |n|
-		Service.create!({
-			dashboard: dash,
-			name: "Node #{n}",
-			host: "node0#{n}.#{domain}",
-			ping: true,
-			http: false,
-			http_preview: false
-		})
-	end
-end
 
 create_example_dashboard
-create_cloud_dashboard

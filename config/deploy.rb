@@ -1,8 +1,3 @@
-set :stages, [:production, :uat]
-set :default_stage, "production"
-set :application, "stakeout"
-
-require 'capistrano/ext/multistage'
 require 'rvm/capistrano'
 require "bundler/capistrano"
 
@@ -10,15 +5,11 @@ set :rvm_type,              :system
 set :rvm_ruby_string,       "ruby-2.0.0"
 set :rvm_path,              "/usr/local/rvm"
 
-# set :bundle_flags, "--binstubs"
+set :application, "stakeout"
 
-# set :user,  "apache"
-# set :group, "apache"
-
-role :web, "10.48.66.17"                          # Your HTTP server, Apache/etc
-role :app, "10.48.66.17"                          # This may be the same as your `Web` server
-role :db,  "10.48.66.17", :primary => true        # This is where Rails migrations will run
-
+role :app, 'gaia.prestonlee.com'
+role :web, 'gaia.prestonlee.com'
+role :db,  'gaia.prestonlee.com', :primary => true
 
 set :scm, :git
 set :repository, "git@github.com:preston/stakeout.git"
@@ -27,9 +18,8 @@ set :deploy_env, 'production'
 
 
 set :use_sudo,    false
-set :deploy_via, 'copy'
-set :copy_exclude, ['.git']
-set :user,      "apache"
+set :deploy_via, 'remote_cache'
+set :user,      "www-data"
 
 after "deploy", "deploy:migrate"
 after "deploy:migrate", 'deploy:cleanup'
