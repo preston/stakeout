@@ -1,5 +1,5 @@
 set :application, 'stakeout'
-set :repo_url, 'git@example.com:me/stakeout.git'
+set :repo_url, 'git@github.com:preston/stakeout.git'
 
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }
 
