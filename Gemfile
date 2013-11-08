@@ -25,9 +25,8 @@ gem 'poltergeist'	# HTTP screenshots!
 
 group :development do
 	gem 'sqlite3'
-	gem 'capistrano'
-
-	gem 'rvm-capistrano'
+	gem 'capistrano', '>= 3.0.1'
+	gem 'capistrano-rvm'
 	gem 'railroady'
 
 	gem	'binding_of_caller'
