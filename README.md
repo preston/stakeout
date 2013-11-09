@@ -1,7 +1,9 @@
 Stakeout
 ----
 
-A fantastically simple, one-page dashboard for SaaS availability checks. Supports HTTP, HTTPS, ICMP Ping, and automatic screenshots. (For the screenshot feature to work, you'll need PhantomJS installed! http://phantomjs.org/) Stakeout is a Ruby on Rails application utilizing
+A fantastically simple, one-page dashboard for SaaS availability checks. Supports HTTP, HTTPS, ICMP Ping, and automatic screenshots. (For the screenshot feature to work, you'll need PhantomJS installed! http://phantomjs.org/) Stakeout is a Ruby on Rails application utilizing jQuery and Bootstrap.
+
+![Screenshot](https://raw.github.com/preston/stakeout/master/app/assets/images/screenshots/1.png)
 
 Todo
 ----
