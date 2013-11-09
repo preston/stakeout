@@ -28,6 +28,7 @@ group :development do
 	gem 'capistrano', '>= 3.0.1'
 	gem 'capistrano-rvm'
 	gem 'capistrano-bundler'
+	gem 'capistrano-rails'
 	gem 'railroady'
 
 	gem	'binding_of_caller'

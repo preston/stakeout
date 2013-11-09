@@ -39,6 +39,8 @@ GEM
       sshkit (>= 0.0.23)
     capistrano-bundler (1.0.0)
       capistrano (>= 3.0.0.pre)
+    capistrano-rails (1.0.0)
+      capistrano
     capistrano-rvm (0.0.3)
       capistrano
     capybara (2.1.0)
@@ -185,6 +187,7 @@ DEPENDENCIES
   binding_of_caller
   capistrano (>= 3.0.1)
   capistrano-bundler
+  capistrano-rails
   capistrano-rvm
   coffee-rails (~> 4.0.1)
   jquery-rails
