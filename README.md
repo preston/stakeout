@@ -5,6 +5,9 @@ A fantastically simple, one-page dashboard for SaaS availability checks. Support
 
 ![Screenshot](https://raw.github.com/preston/stakeout/master/app/assets/images/screenshots/1.png)
 
+Stakeout is designed to be *extremely* simple to use, and does not support complex services, or really anything outside of basic HTTP(S) and ICMP. So if you're looking for Nagios, use Nagios. :)  No built-in authentication or authorization is provided, so for Internet-facing deployments you'll want to implement a challenge at the web server, such as HTTP Basic Auth.
+
+
 Todo
 ----
 
