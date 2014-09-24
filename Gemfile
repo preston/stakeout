@@ -1,11 +1,11 @@
 source 'https://rubygems.org'
-ruby '2.0.0'
+ruby '2.1.3'
 
-gem 'rails', '4.0.1'
-gem 'sass-rails', '~> 4.0.1'
-gem 'uglifier', '>= 2.3.0'
-gem 'coffee-rails', '~> 4.0.1'
-gem 'turbolinks'
+gem 'rails', '4.1.6'
+gem 'sass-rails', '~> 4.0.3'
+gem 'uglifier', '>= 1.3.0'
+
+# gem 'turbolinks'
 
 # Twitter bootstrap layout.
 gem "therubyracer"
@@ -25,14 +25,15 @@ gem 'poltergeist'	# HTTP screenshots!
 
 group :development do
 	gem 'sqlite3'
-	gem 'capistrano', '>= 3.0.1'
+	gem 'capistrano' #, '>= 3.0.1'
 	gem 'capistrano-rvm'
 	gem 'capistrano-bundler'
 	gem 'capistrano-rails'
 	gem 'railroady'
 
-	gem	'binding_of_caller'
-	gem 'better_errors'
+	gem 'byebug'
+	# gem	'binding_of_caller'
+	# gem 'better_errors'
 end
 
 group :production do
