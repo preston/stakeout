@@ -29,8 +29,9 @@ group :development do
 	gem 'rvm-capistrano'
 	gem 'railroady'
 
-	gem	'binding_of_caller'
-	gem 'better_errors'
+	gem 'byebug'
+	# gem	'binding_of_caller'
+	# gem 'better_errors'
 end
 
 group :production do

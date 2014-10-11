@@ -25,7 +25,25 @@ def create_example_dashboard
 		ping: false,
 		http: true,
 		https: false,
-		http_preview: false
+		http_preview: true
+	})
+	Service.create!({
+		dashboard: dash,
+		name: "New York Times",
+		host: "nytimes.com",
+		ping: false,
+		http: true,
+		https: false,
+		http_preview: true
+	})
+	Service.create!({
+		dashboard: dash,
+		name: "BBC",
+		host: "bbc.co.uk",
+		ping: false,
+		http: true,
+		https: false,
+		http_preview: true
 	})
 end
 
@@ -57,3 +75,4 @@ end
 
 create_example_dashboard
 create_cloud_dashboard
+
