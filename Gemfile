@@ -1,18 +1,18 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '4.0.5'
+ruby '4.0.6'
 
 gem 'bootsnap', require: false # Reduces boot times through caching; required in config/boot.rb
 gem 'rails', '~> 8.1.3'	# Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 
 gem 'jbuilder'	# Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 
-gem 'solid_queue' # Postgres-backed Active Job (Rails 8 default).
 gem 'pg' # Only PostgreSQL is supported!
 gem 'pg_search' # Full-text search. RAD!!!
 gem 'puma' # Better web server
 gem 'rack-cors'	# Allowing cross-origin clients.. which is all of them.
+gem 'solid_queue' # Postgres-backed Active Job (Rails 8 default).
 
 # Screenshots via Browserless REST API (STAKEOUT_SERVER_CHROME_URL), no gem needed.
 
