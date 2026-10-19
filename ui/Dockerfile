@@ -1,29 +1,19 @@
-FROM node:26-alpine AS builder
-LABEL maintainer="preston.lee@prestonlee.com"
-
-# Install dependencies first so they layer can be cached across builds.
-RUN mkdir /app
+# Build from the repository root: docker build -f ui/Dockerfile .
+FROM node:26-trixie-slim AS builder
 WORKDIR /app
 COPY package.json package-lock.json ./
-RUN npm i
-
-# Build
-COPY . .
-RUN npm run ng build --production
-#  -- --prod
+COPY core/package.json ./core/
+COPY server/package.json ./server/
+COPY ui/package.json ./ui/
+RUN npm ci --ignore-scripts --workspace=@stakeout/core --workspace=@stakeout/ui --include-workspace-root
+COPY core ./core
+COPY ui ./ui
+RUN npm run build:core && npm run build:ui
 
 FROM nginx:stable-alpine
-
-# We need to make a few changes to the default configuration file.
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-
-WORKDIR /usr/share/nginx/html
-
-# Remove any default nginx content
-RUN rm -rf *
-
-# Copy build from "builder" stage (application builder outputs to browser/ subdir)
-COPY --from=builder /app/dist/stakeout-ui/browser .
-
-# CMD ["./configure-from-environment.sh", "&&", "exec", "nginx", "-g", "'daemon off;'"]
-CMD envsubst < assets/configuration.template.js > assets/configuration.js  && exec nginx -g 'daemon off;'
+RUN apk add --no-cache jq
+ENV STAKEOUT_UI_SERVER_URL=http://localhost:3000 STAKEOUT_UI_TITLE="My Stakeout"
+COPY ui/nginx.conf /etc/nginx/conf.d/default.conf
+COPY --from=builder /app/ui/dist/stakeout-ui/browser /usr/share/nginx/html
+COPY --chmod=755 ui/docker-entrypoint.sh /docker-entrypoint.d/40-stakeout-configuration.sh
+EXPOSE 80

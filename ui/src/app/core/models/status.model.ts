@@ -1,4 +1,7 @@
-export class Status {
+import type { StatusDto } from '@stakeout/core';
+
+export class Status implements StatusDto {
   message = '';
-  database: object = {};
+  server = { datetime: '' };
+  database = { datetime: '' };
 }

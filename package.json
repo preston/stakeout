@@ -1,0 +1,39 @@
+{
+  "name": "stakeout",
+  "version": "4.2.0",
+  "private": true,
+  "engines": {
+    "node": "^26"
+  },
+  "packageManager": "npm@12.2.0",
+  "workspaces": [
+    "core",
+    "server",
+    "ui"
+  ],
+  "scripts": {
+    "build": "npm run build:core && npm run build:server && npm run build:ui",
+    "build:core": "npm run build --workspace=@stakeout/core",
+    "build:server": "npm run build --workspace=@stakeout/server",
+    "build:ui": "npm run build --workspace=@stakeout/ui",
+    "start": "npm run start:ui",
+    "start:ui": "npm run build:core && npm run start --workspace=@stakeout/ui",
+    "start:server": "npm run build:core && npm run dev --workspace=@stakeout/server",
+    "start:worker": "npm run build:core && npm run worker:dev --workspace=@stakeout/server",
+    "test": "npm run test:server && npm run test:ui",
+    "test:server": "npm run build:core && npm run db:generate && npm test --workspace=@stakeout/server",
+    "test:ui": "npm run build:core && npm test --workspace=@stakeout/ui -- --watch=false",
+    "db:generate": "npm run db:generate --workspace=@stakeout/server",
+    "db:migrate": "npm run db:migrate --workspace=@stakeout/server",
+    "db:migrate:dev": "npm run db:migrate:dev --workspace=@stakeout/server",
+    "db:seed": "npm run db:seed --workspace=@stakeout/server",
+    "check:1-minute": "npm run check:1-minute --workspace=@stakeout/server",
+    "check:5-minutes": "npm run check:5-minutes --workspace=@stakeout/server",
+    "verify:chrome": "npm run verify:chrome --workspace=@stakeout/server",
+    "verify:queue": "npm run verify:queue --workspace=@stakeout/server",
+    "docker:up": "docker compose -f docker-compose.development.yml up -d --wait",
+    "docker:down": "docker compose -f docker-compose.development.yml down",
+    "docker:up:full": "docker compose -f docker-compose.full.yml up -d --build --wait",
+    "docker:down:full": "docker compose -f docker-compose.full.yml down"
+  }
+}

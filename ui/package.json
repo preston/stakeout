@@ -1,11 +1,11 @@
 {
-  "name": "stakeout-ui",
+  "name": "@stakeout/ui",
   "version": "4.2.0",
   "scripts": {
     "ng": "ng",
-    "start": "envsubst < src/assets/configuration.template.js > src/assets/configuration.js && ng serve",
-    "build": "ng build",
-    "watch": "envsubst < src/assets/configuration.template.js > src/assets/configuration.js && ng build --watch --configuration development",
+    "start": "node scripts/configure.mjs && ng serve --host 0.0.0.0",
+    "build": "node scripts/configure.mjs && ng build",
+    "watch": "node scripts/configure.mjs && ng build --watch --configuration development",
     "test": "ng test"
   },
   "private": true,
@@ -22,7 +22,8 @@
     "ng-angular-popup": "^2.1.0",
     "rxjs": "~7.8.2",
     "tslib": "^2.8.1",
-    "uuid": "^14.0.3"
+    "uuid": "^14.0.3",
+    "@stakeout/core": "file:../core"
   },
   "devDependencies": {
     "@angular/build": "^22.2.3",

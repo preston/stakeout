@@ -1,0 +1,43 @@
+{
+  "name": "@stakeout/server",
+  "version": "4.2.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": "^26"
+  },
+  "scripts": {
+    "build": "prisma generate && tsc -p tsconfig.json",
+    "dev": "node --watch --env-file-if-exists=.env src/index.ts",
+    "start": "node --env-file-if-exists=.env dist/index.js",
+    "worker": "node --env-file-if-exists=.env dist/worker.js",
+    "worker:dev": "node --watch --env-file-if-exists=.env src/worker.ts",
+    "test": "node --test --test-concurrency=1 test/*.test.ts",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "db:generate": "prisma generate",
+    "db:migrate": "node --env-file-if-exists=.env src/bootstrap.ts",
+    "db:migrate:dev": "prisma migrate dev",
+    "db:seed": "node --env-file-if-exists=.env prisma/seed.ts",
+    "check:1-minute": "node --env-file-if-exists=.env src/cli.ts check 1",
+    "check:5-minutes": "node --env-file-if-exists=.env src/cli.ts check 5",
+    "verify:chrome": "node --env-file-if-exists=.env src/cli.ts verify chrome",
+    "verify:queue": "node --env-file-if-exists=.env src/cli.ts verify queue"
+  },
+  "dependencies": {
+    "@prisma/adapter-pg": "7.10.1",
+    "@prisma/client": "7.10.1",
+    "@stakeout/core": "file:../core",
+    "cors": "^2.8.6",
+    "express": "^5.3.0",
+    "pg": "^8.23.1",
+    "prisma": "7.10.1",
+    "undici": "^8.11.2"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/node": "^26.6.5",
+    "@types/pg": "^8",
+    "typescript": "<7"
+  }
+}

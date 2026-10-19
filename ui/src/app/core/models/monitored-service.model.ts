@@ -1,4 +1,7 @@
-export class MonitoredService {
+import type { ServiceAttributes } from '@stakeout/core';
+
+export class MonitoredService implements Omit<ServiceAttributes, 'created_at' | 'updated_at'> {
+  dashboard_id: string | null = null;
   id = '';
   name = '';
   host = '';
@@ -13,8 +16,8 @@ export class MonitoredService {
   http_preview = false;
   http_screenshot = '';
 
-  checked_at: Date | string | null = null;
+  checked_at: string | null = null;
 
-  created_at: Date | null = null;
-  updated_at: Date | null = null;
+  created_at: string | null = null;
+  updated_at: string | null = null;
 }

@@ -1,101 +1,103 @@
 {
-    "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
-    "version": 1,
-    "newProjectRoot": "projects",
-    "projects": {
-        "stakeout-ui": {
-            "projectType": "application",
-            "schematics": {
-                "@schematics/angular:component": {
-                    "style": "scss",
-                    "standalone": true,
-                    "skipTests": false
-                }
-            },
-            "root": "",
-            "sourceRoot": "src",
-            "prefix": "app",
-            "architect": {
-                "build": {
-                    "builder": "@angular/build:application",
-                    "options": {
-                        "outputPath": {
-                            "base": "dist/stakeout-ui"
-                        },
-                        "index": "src/index.html",
-                        "polyfills": [],
-                        "tsConfig": "tsconfig.app.json",
-                        "inlineStyleLanguage": "scss",
-                        "assets": [
-                            "src/favicon.ico",
-                            "src/assets"
-                        ],
-                        "styles": [
-                            "node_modules/bootswatch/dist/litera/bootstrap.min.css",
-                            "node_modules/bootstrap-icons/font/bootstrap-icons.css",
-                            "src/styles.scss"
-                        ],
-                        "scripts": [
-                            "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
-                        ],
-                        "browser": "src/main.ts"
-                    },
-                    "configurations": {
-                        "production": {
-                            "budgets": [
-                                {
-                                    "type": "initial",
-                                    "maximumWarning": "2mb",
-                                    "maximumError": "4mb"
-                                },
-                                {
-                                    "type": "anyComponentStyle",
-                                    "maximumWarning": "4kb",
-                                    "maximumError": "8kb"
-                                }
-                            ],
-                            "outputHashing": "all"
-                        },
-                        "development": {
-                            "optimization": false,
-                            "extractLicenses": false,
-                            "sourceMap": true,
-                            "namedChunks": true
-                        }
-                    },
-                    "defaultConfiguration": "production"
-                },
-                "serve": {
-                    "builder": "@angular/build:dev-server",
-                    "configurations": {
-                        "production": {
-                            "buildTarget": "stakeout-ui:build:production"
-                        },
-                        "development": {
-                            "buildTarget": "stakeout-ui:build:development"
-                        }
-                    },
-                    "defaultConfiguration": "development"
-                },
-                "extract-i18n": {
-                    "builder": "@angular/build:extract-i18n",
-                    "options": {
-                        "buildTarget": "stakeout-ui:build"
-                    }
-                },
-                "test": {
-                    "builder": "@angular/build:unit-test",
-                    "options": {
-                        "tsConfig": "tsconfig.spec.json",
-                        "runner": "vitest",
-                        "buildTarget": "stakeout-ui:build:development",
-                        "setupFiles": ["src/test-setup.ts"]
-                    }
-                }
-            }
+  "$schema": "../node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "stakeout-ui": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss",
+          "standalone": true,
+          "skipTests": false
         }
-    },
-    "cli": {
-        "analytics": false
+      },
+      "root": "",
+      "sourceRoot": "src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:application",
+          "options": {
+            "outputPath": {
+              "base": "dist/stakeout-ui"
+            },
+            "index": "src/index.html",
+            "polyfills": [],
+            "tsConfig": "tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "src/favicon.ico",
+              "src/assets"
+            ],
+            "styles": [
+              "bootswatch/dist/litera/bootstrap.min.css",
+              "bootstrap-icons/font/bootstrap-icons.css",
+              "src/styles.scss"
+            ],
+            "scripts": [
+              "bootstrap/dist/js/bootstrap.bundle.min.js"
+            ],
+            "browser": "src/main.ts"
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "4mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "4kb",
+                  "maximumError": "8kb"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular/build:dev-server",
+          "configurations": {
+            "production": {
+              "buildTarget": "stakeout-ui:build:production"
+            },
+            "development": {
+              "buildTarget": "stakeout-ui:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular/build:extract-i18n",
+          "options": {
+            "buildTarget": "stakeout-ui:build"
+          }
+        },
+        "test": {
+          "builder": "@angular/build:unit-test",
+          "options": {
+            "tsConfig": "tsconfig.spec.json",
+            "runner": "vitest",
+            "buildTarget": "stakeout-ui:build:development",
+            "setupFiles": [
+              "src/test-setup.ts"
+            ]
+          }
+        }
+      }
     }
+  },
+  "cli": {
+    "analytics": false
+  }
 }
