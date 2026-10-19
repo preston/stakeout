@@ -1,0 +1,43 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  dashboard: one
+  name: Example Service
+  host: example.com
+  http: true
+  https: false
+  http_path: ""
+  http_xquery:
+  port: 80
+
+wsj:
+  dashboard: news_sites
+  name: Wall Street Journal
+  host: www.wsj.com
+  http: true
+  http_path: "" 
+  http_xquery:
+
+nyt:
+  dashboard: news_sites
+  name: New York Times
+  host: www.nytimes.com
+  http: true
+  http_path: ""
+  http_xquery: 
+
+google:
+  dashboard: search_services
+  name: Google
+  host: www.google.com
+  http: true
+  http_path: /index.html
+  http_xquery:
+
+bing:
+  dashboard: search_services
+  name: Bing
+  host: www.bing.com
+  http: true
+  http_path: /
+  http_xquery:

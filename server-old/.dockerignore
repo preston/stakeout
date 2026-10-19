@@ -1,0 +1,11 @@
+.dockerignore
+.git
+.gitattributes
+.gitignore
+
+Dockerfile
+db/*.sql
+log/*.log
+storage/*
+tmp/*
+README.md

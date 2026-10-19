@@ -1,0 +1,68 @@
+name: stakeout
+networks:
+  stakeout:
+services:
+  stakeout-ui:
+    image: p3000/stakeout-ui:latest
+    ports:
+      - "4200:80"
+    environment:
+      - STAKEOUT_UI_SERVER_URL=http://localhost:3000
+      - STAKEOUT_UI_TITLE=My Stakeout
+    networks:
+      - stakeout
+    depends_on:
+      - stakeout-server
+  stakeout-server:
+    image: p3000/stakeout-server:latest
+    ports:
+      - "3000:3000"
+    environment:
+      - STAKEOUT_SERVER_DATABASE_URL=postgresql://stakeout:password@stakeout-postgresql:5432/stakeout
+      - STAKEOUT_SERVER_CHROME_URL=ws://stakeout-chrome:3000
+      - STAKEOUT_SERVER_USERNAME=stakeout
+      - STAKEOUT_SERVER_PASSWORD=password
+    networks:
+      - stakeout
+    depends_on:
+      stakeout-postgresql:
+        condition: service_healthy
+  stakeout-worker:
+    image: p3000/stakeout-server:latest
+    # command: bundle exec rake solid_queue:start
+    command: bin/jobs
+    environment:
+      - STAKEOUT_SERVER_DATABASE_URL=postgresql://stakeout:password@stakeout-postgresql:5432/stakeout
+      - STAKEOUT_SERVER_CHROME_URL=http://stakeout-chrome:3000
+      - STAKEOUT_SERVER_USERNAME=stakeout
+      - STAKEOUT_SERVER_PASSWORD=password
+      - STAKEOUT_SERVER_LOG_TO_STDOUT=true
+    networks:
+      - stakeout
+    depends_on:
+      stakeout-postgresql:
+        condition: service_healthy
+      stakeout-chrome:
+        condition: service_started
+  stakeout-chrome:
+    image: browserless/chrome:latest
+    environment:
+      - ENABLE_DEBUGGER=false
+      - DISABLE_AUTO_SET_DOWNLOAD_BEHAVIOR=true
+      - DEFAULT_BLOCK_ADS=true
+    networks:
+      - stakeout
+
+  stakeout-postgresql:
+    image: postgres:18
+    environment:
+      - POSTGRES_USER=stakeout
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=stakeout
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - stakeout
