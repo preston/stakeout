@@ -1,0 +1,6 @@
+#!/usr/bin/env node
+// Run the compiled worker from the same image used by the API.
+import('../dist/worker.js').then(({ main }) => main()).catch((error) => {
+  console.error(error instanceof Error ? error.message : String(error));
+  process.exitCode = 1;
+});
