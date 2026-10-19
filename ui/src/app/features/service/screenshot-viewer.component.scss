@@ -1,0 +1,87 @@
+.screenshot-dialog {
+    width: min(92vw, 1000px);
+    max-width: calc(100vw - 1rem);
+    max-height: 92dvh;
+    padding: 0;
+    border: 1px solid var(--bs-border-color);
+    border-radius: .75rem;
+    color: var(--bs-body-color);
+    background: var(--bs-body-bg);
+    box-shadow: 0 1.5rem 5rem #0008;
+    overflow: hidden;
+
+    &::backdrop {
+        background: #0008;
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+    }
+}
+
+.viewer-content {
+    display: flex;
+    flex-direction: column;
+    max-height: 92dvh;
+    background: var(--bs-body-bg);
+    color: var(--bs-body-color);
+
+    &:fullscreen {
+        width: 100vw;
+        height: 100dvh;
+        max-height: none;
+
+        .image-area { flex: 1; }
+        img { width: min(100%, calc(100dvh - 11rem)); }
+    }
+}
+
+.viewer-header, .viewer-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: .75rem;
+    padding: .75rem 1rem;
+    flex-shrink: 0;
+}
+
+.viewer-header { border-bottom: 1px solid var(--bs-border-color); }
+.viewer-footer { border-top: 1px solid var(--bs-border-color); font-size: .875rem; }
+.viewer-heading { min-width: 0; overflow-wrap: anywhere; }
+h2 { margin: 0; font-size: 1.25rem; }
+.viewer-actions { display: flex; gap: .5rem; flex-shrink: 0; }
+
+.image-area {
+    position: relative;
+    display: grid;
+    place-items: center;
+    min-height: 0;
+    padding: 1rem;
+    overflow: auto;
+    background: #15171a;
+
+    img {
+        display: block;
+        width: min(100%, calc(92dvh - 11rem));
+        max-width: 1280px;
+        height: auto;
+        aspect-ratio: 1;
+        object-fit: contain;
+        position: relative;
+    }
+}
+
+.image-message, .empty-message {
+    color: #fff;
+    text-align: center;
+    margin: 1rem;
+}
+.image-message { position: absolute; }
+.image-failed { visibility: hidden; }
+.empty-message { padding: 3rem 0; }
+.fullscreen-error { margin: 0; padding: .5rem 1rem; color: var(--bs-danger-text-emphasis); }
+
+@media (max-width: 480px) {
+    .viewer-header { gap: .5rem; }
+    .viewer-actions { width: 100%; justify-content: flex-end; }
+    .image-area img { width: min(100%, calc(92dvh - 15rem)); }
+}

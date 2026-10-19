@@ -2,6 +2,8 @@
   <div class="wrapper">
     <nav
       id="sidebar"
+      [inert]="!sidebarActive()"
+      (keydown.escape)="sidebarActive.set(false)"
       [class.active]="sidebarActive()"
       [class.inactive]="!sidebarActive()"
     >
@@ -40,6 +42,8 @@
                 class="my-2"
                 [routerLink]="['/dashboards', d.id]"
                 [routerLinkActive]="'active'"
+                (click)="closeSidebarOnMobile()"
+                (keydown.enter)="select(d); closeSidebarOnMobile()"
                 role="button"
               >
                 @if (editable()) {
@@ -93,27 +97,16 @@
           </ul>
         </li>
       </ul>
-      <hr />
-      <button
-        class="m-1 btn btn-sm btn-secondary float-end"
-        [routerLink]="['/settings']"
-      >
-        <span class="bi bi-gear"></span>
-      </button>
-      @if (settingsService.editable()) {
-        <button
-          class="m-1 btn btn-sm btn-warning float-end"
-          (click)="lock()"
-        >
-          <span class="bi bi-lock"></span> Lock Editing
-        </button>
-      }
+
     </nav>
 
     <div id="content">
       <button
         type="button"
         id="sidebarCollapse"
+        aria-label="Toggle dashboards sidebar"
+        aria-controls="sidebar"
+        [attr.aria-expanded]="sidebarActive()"
         class="navbar-btn"
         [class.active]="sidebarActive()"
         [class.inactive]="!sidebarActive()"

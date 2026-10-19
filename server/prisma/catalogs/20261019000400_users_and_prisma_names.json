@@ -1,0 +1,1093 @@
+{
+  "relations": [
+    {
+      "name": "Dashboard",
+      "kind": "r",
+      "row_security": false,
+      "force_row_security": false,
+      "definition": null
+    },
+    {
+      "name": "Service",
+      "kind": "r",
+      "row_security": false,
+      "force_row_security": false,
+      "definition": null
+    },
+    {
+      "name": "ServiceCheckJob",
+      "kind": "r",
+      "row_security": false,
+      "force_row_security": false,
+      "definition": null
+    },
+    {
+      "name": "Session",
+      "kind": "r",
+      "row_security": false,
+      "force_row_security": false,
+      "definition": null
+    },
+    {
+      "name": "User",
+      "kind": "r",
+      "row_security": false,
+      "force_row_security": false,
+      "definition": null
+    }
+  ],
+  "columns": [
+    {
+      "table_name": "Dashboard",
+      "name": "createdAt",
+      "type": "timestamp(6) without time zone",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "Dashboard",
+      "name": "id",
+      "type": "uuid",
+      "not_null": true,
+      "default_value": "gen_random_uuid()",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "Dashboard",
+      "name": "name",
+      "type": "character varying",
+      "not_null": false,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "Dashboard",
+      "name": "updatedAt",
+      "type": "timestamp(6) without time zone",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "Service",
+      "name": "checkedAt",
+      "type": "timestamp(6) without time zone",
+      "not_null": false,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "Service",
+      "name": "createdAt",
+      "type": "timestamp(6) without time zone",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "Service",
+      "name": "dashboardId",
+      "type": "uuid",
+      "not_null": false,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "Service",
+      "name": "host",
+      "type": "character varying",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "Service",
+      "name": "http",
+      "type": "boolean",
+      "not_null": false,
+      "default_value": "true",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "Service",
+      "name": "httpPath",
+      "type": "character varying",
+      "not_null": true,
+      "default_value": "''::character varying",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "Service",
+      "name": "httpPathLast",
+      "type": "boolean",
+      "not_null": false,
+      "default_value": "false",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "Service",
+      "name": "httpPreview",
+      "type": "boolean",
+      "not_null": false,
+      "default_value": "true",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "Service",
+      "name": "httpScreenshot",
+      "type": "bytea",
+      "not_null": false,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "Service",
+      "name": "httpScreenshotHash",
+      "type": "character varying(64)",
+      "not_null": false,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "Service",
+      "name": "httpScreenshotPreview",
+      "type": "bytea",
+      "not_null": false,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "Service",
+      "name": "httpXquery",
+      "type": "character varying",
+      "not_null": false,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "Service",
+      "name": "httpXqueryLast",
+      "type": "boolean",
+      "not_null": false,
+      "default_value": "false",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "Service",
+      "name": "https",
+      "type": "boolean",
+      "not_null": false,
+      "default_value": "false",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "Service",
+      "name": "httpsPathLast",
+      "type": "boolean",
+      "not_null": false,
+      "default_value": "false",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "Service",
+      "name": "id",
+      "type": "uuid",
+      "not_null": true,
+      "default_value": "gen_random_uuid()",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "Service",
+      "name": "name",
+      "type": "character varying",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "Service",
+      "name": "port",
+      "type": "integer",
+      "not_null": true,
+      "default_value": "0",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "Service",
+      "name": "updatedAt",
+      "type": "timestamp(6) without time zone",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "ServiceCheckJob",
+      "name": "attempts",
+      "type": "integer",
+      "not_null": true,
+      "default_value": "0",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "ServiceCheckJob",
+      "name": "availableAt",
+      "type": "timestamp(6) with time zone",
+      "not_null": true,
+      "default_value": "CURRENT_TIMESTAMP",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "ServiceCheckJob",
+      "name": "completedAt",
+      "type": "timestamp(6) with time zone",
+      "not_null": false,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "ServiceCheckJob",
+      "name": "createdAt",
+      "type": "timestamp(6) with time zone",
+      "not_null": true,
+      "default_value": "CURRENT_TIMESTAMP",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "ServiceCheckJob",
+      "name": "id",
+      "type": "uuid",
+      "not_null": true,
+      "default_value": "gen_random_uuid()",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "ServiceCheckJob",
+      "name": "lastError",
+      "type": "text",
+      "not_null": false,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "ServiceCheckJob",
+      "name": "leaseExpiresAt",
+      "type": "timestamp(6) with time zone",
+      "not_null": false,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "ServiceCheckJob",
+      "name": "lockedBy",
+      "type": "text",
+      "not_null": false,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "ServiceCheckJob",
+      "name": "maxAttempts",
+      "type": "integer",
+      "not_null": true,
+      "default_value": "3",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "ServiceCheckJob",
+      "name": "serviceId",
+      "type": "uuid",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "ServiceCheckJob",
+      "name": "status",
+      "type": "text",
+      "not_null": true,
+      "default_value": "'pending'::text",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "ServiceCheckJob",
+      "name": "updatedAt",
+      "type": "timestamp(6) with time zone",
+      "not_null": true,
+      "default_value": "CURRENT_TIMESTAMP",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "Session",
+      "name": "createdAt",
+      "type": "timestamp(6) with time zone",
+      "not_null": true,
+      "default_value": "CURRENT_TIMESTAMP",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "Session",
+      "name": "csrfToken",
+      "type": "character varying(64)",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "Session",
+      "name": "expiresAt",
+      "type": "timestamp(6) with time zone",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "Session",
+      "name": "id",
+      "type": "uuid",
+      "not_null": true,
+      "default_value": "gen_random_uuid()",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "Session",
+      "name": "tokenHash",
+      "type": "character varying(64)",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "Session",
+      "name": "userId",
+      "type": "uuid",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "User",
+      "name": "createdAt",
+      "type": "timestamp(6) with time zone",
+      "not_null": true,
+      "default_value": "CURRENT_TIMESTAMP",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "User",
+      "name": "dashboardOrder",
+      "type": "text",
+      "not_null": true,
+      "default_value": "'asc'::text",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "User",
+      "name": "developer",
+      "type": "boolean",
+      "not_null": true,
+      "default_value": "false",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "User",
+      "name": "displayMode",
+      "type": "text",
+      "not_null": true,
+      "default_value": "'overlay'::text",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "User",
+      "name": "displayName",
+      "type": "text",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "User",
+      "name": "experimental",
+      "type": "boolean",
+      "not_null": true,
+      "default_value": "false",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "User",
+      "name": "id",
+      "type": "uuid",
+      "not_null": true,
+      "default_value": "gen_random_uuid()",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "User",
+      "name": "isActive",
+      "type": "boolean",
+      "not_null": true,
+      "default_value": "true",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "User",
+      "name": "lastLoginAt",
+      "type": "timestamp(6) with time zone",
+      "not_null": false,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "User",
+      "name": "passwordHash",
+      "type": "text",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "User",
+      "name": "refreshIntervalMs",
+      "type": "integer",
+      "not_null": true,
+      "default_value": "60000",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "User",
+      "name": "screenshots",
+      "type": "boolean",
+      "not_null": true,
+      "default_value": "true",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "User",
+      "name": "serviceOrder",
+      "type": "text",
+      "not_null": true,
+      "default_value": "'asc'::text",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "User",
+      "name": "serviceSort",
+      "type": "text",
+      "not_null": true,
+      "default_value": "'name'::text",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "User",
+      "name": "themePreferred",
+      "type": "text",
+      "not_null": true,
+      "default_value": "'automatic'::text",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "User",
+      "name": "updatedAt",
+      "type": "timestamp(6) with time zone",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "User",
+      "name": "username",
+      "type": "text",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    }
+  ],
+  "constraints": [
+    {
+      "table_name": "Dashboard",
+      "name": "Dashboard_pkey",
+      "type": "p",
+      "definition": "PRIMARY KEY (id)",
+      "validated": true
+    },
+    {
+      "table_name": "Dashboard",
+      "name": "dashboards_created_at_not_null",
+      "type": "n",
+      "definition": "NOT NULL \"createdAt\"",
+      "validated": true
+    },
+    {
+      "table_name": "Dashboard",
+      "name": "dashboards_id_not_null",
+      "type": "n",
+      "definition": "NOT NULL id",
+      "validated": true
+    },
+    {
+      "table_name": "Dashboard",
+      "name": "dashboards_updated_at_not_null",
+      "type": "n",
+      "definition": "NOT NULL \"updatedAt\"",
+      "validated": true
+    },
+    {
+      "table_name": "Service",
+      "name": "Service_dashboardId_fkey",
+      "type": "f",
+      "definition": "FOREIGN KEY (\"dashboardId\") REFERENCES \"Dashboard\"(id)",
+      "validated": true
+    },
+    {
+      "table_name": "Service",
+      "name": "Service_pkey",
+      "type": "p",
+      "definition": "PRIMARY KEY (id)",
+      "validated": true
+    },
+    {
+      "table_name": "Service",
+      "name": "services_created_at_not_null",
+      "type": "n",
+      "definition": "NOT NULL \"createdAt\"",
+      "validated": true
+    },
+    {
+      "table_name": "Service",
+      "name": "services_host_not_null",
+      "type": "n",
+      "definition": "NOT NULL host",
+      "validated": true
+    },
+    {
+      "table_name": "Service",
+      "name": "services_http_path_not_null",
+      "type": "n",
+      "definition": "NOT NULL \"httpPath\"",
+      "validated": true
+    },
+    {
+      "table_name": "Service",
+      "name": "services_id_not_null",
+      "type": "n",
+      "definition": "NOT NULL id",
+      "validated": true
+    },
+    {
+      "table_name": "Service",
+      "name": "services_name_not_null",
+      "type": "n",
+      "definition": "NOT NULL name",
+      "validated": true
+    },
+    {
+      "table_name": "Service",
+      "name": "services_port_not_null",
+      "type": "n",
+      "definition": "NOT NULL port",
+      "validated": true
+    },
+    {
+      "table_name": "Service",
+      "name": "services_updated_at_not_null",
+      "type": "n",
+      "definition": "NOT NULL \"updatedAt\"",
+      "validated": true
+    },
+    {
+      "table_name": "ServiceCheckJob",
+      "name": "ServiceCheckJob_attempts_check",
+      "type": "c",
+      "definition": "CHECK (attempts >= 0 AND \"maxAttempts\" > 0)",
+      "validated": true
+    },
+    {
+      "table_name": "ServiceCheckJob",
+      "name": "ServiceCheckJob_pkey",
+      "type": "p",
+      "definition": "PRIMARY KEY (id)",
+      "validated": true
+    },
+    {
+      "table_name": "ServiceCheckJob",
+      "name": "ServiceCheckJob_serviceId_fkey",
+      "type": "f",
+      "definition": "FOREIGN KEY (\"serviceId\") REFERENCES \"Service\"(id) ON UPDATE CASCADE ON DELETE CASCADE",
+      "validated": true
+    },
+    {
+      "table_name": "ServiceCheckJob",
+      "name": "ServiceCheckJob_status_check",
+      "type": "c",
+      "definition": "CHECK (status = ANY (ARRAY['pending'::text, 'running'::text, 'completed'::text, 'failed'::text]))",
+      "validated": true
+    },
+    {
+      "table_name": "ServiceCheckJob",
+      "name": "service_check_jobs_attempts_not_null",
+      "type": "n",
+      "definition": "NOT NULL attempts",
+      "validated": true
+    },
+    {
+      "table_name": "ServiceCheckJob",
+      "name": "service_check_jobs_available_at_not_null",
+      "type": "n",
+      "definition": "NOT NULL \"availableAt\"",
+      "validated": true
+    },
+    {
+      "table_name": "ServiceCheckJob",
+      "name": "service_check_jobs_created_at_not_null",
+      "type": "n",
+      "definition": "NOT NULL \"createdAt\"",
+      "validated": true
+    },
+    {
+      "table_name": "ServiceCheckJob",
+      "name": "service_check_jobs_id_not_null",
+      "type": "n",
+      "definition": "NOT NULL id",
+      "validated": true
+    },
+    {
+      "table_name": "ServiceCheckJob",
+      "name": "service_check_jobs_max_attempts_not_null",
+      "type": "n",
+      "definition": "NOT NULL \"maxAttempts\"",
+      "validated": true
+    },
+    {
+      "table_name": "ServiceCheckJob",
+      "name": "service_check_jobs_service_id_not_null",
+      "type": "n",
+      "definition": "NOT NULL \"serviceId\"",
+      "validated": true
+    },
+    {
+      "table_name": "ServiceCheckJob",
+      "name": "service_check_jobs_status_not_null",
+      "type": "n",
+      "definition": "NOT NULL status",
+      "validated": true
+    },
+    {
+      "table_name": "ServiceCheckJob",
+      "name": "service_check_jobs_updated_at_not_null",
+      "type": "n",
+      "definition": "NOT NULL \"updatedAt\"",
+      "validated": true
+    },
+    {
+      "table_name": "Session",
+      "name": "Session_createdAt_not_null",
+      "type": "n",
+      "definition": "NOT NULL \"createdAt\"",
+      "validated": true
+    },
+    {
+      "table_name": "Session",
+      "name": "Session_csrfToken_not_null",
+      "type": "n",
+      "definition": "NOT NULL \"csrfToken\"",
+      "validated": true
+    },
+    {
+      "table_name": "Session",
+      "name": "Session_expiresAt_not_null",
+      "type": "n",
+      "definition": "NOT NULL \"expiresAt\"",
+      "validated": true
+    },
+    {
+      "table_name": "Session",
+      "name": "Session_id_not_null",
+      "type": "n",
+      "definition": "NOT NULL id",
+      "validated": true
+    },
+    {
+      "table_name": "Session",
+      "name": "Session_pkey",
+      "type": "p",
+      "definition": "PRIMARY KEY (id)",
+      "validated": true
+    },
+    {
+      "table_name": "Session",
+      "name": "Session_tokenHash_not_null",
+      "type": "n",
+      "definition": "NOT NULL \"tokenHash\"",
+      "validated": true
+    },
+    {
+      "table_name": "Session",
+      "name": "Session_userId_fkey",
+      "type": "f",
+      "definition": "FOREIGN KEY (\"userId\") REFERENCES \"User\"(id) ON UPDATE CASCADE ON DELETE CASCADE",
+      "validated": true
+    },
+    {
+      "table_name": "Session",
+      "name": "Session_userId_not_null",
+      "type": "n",
+      "definition": "NOT NULL \"userId\"",
+      "validated": true
+    },
+    {
+      "table_name": "User",
+      "name": "User_createdAt_not_null",
+      "type": "n",
+      "definition": "NOT NULL \"createdAt\"",
+      "validated": true
+    },
+    {
+      "table_name": "User",
+      "name": "User_dashboardOrder_not_null",
+      "type": "n",
+      "definition": "NOT NULL \"dashboardOrder\"",
+      "validated": true
+    },
+    {
+      "table_name": "User",
+      "name": "User_developer_not_null",
+      "type": "n",
+      "definition": "NOT NULL developer",
+      "validated": true
+    },
+    {
+      "table_name": "User",
+      "name": "User_displayMode_not_null",
+      "type": "n",
+      "definition": "NOT NULL \"displayMode\"",
+      "validated": true
+    },
+    {
+      "table_name": "User",
+      "name": "User_displayName_not_null",
+      "type": "n",
+      "definition": "NOT NULL \"displayName\"",
+      "validated": true
+    },
+    {
+      "table_name": "User",
+      "name": "User_experimental_not_null",
+      "type": "n",
+      "definition": "NOT NULL experimental",
+      "validated": true
+    },
+    {
+      "table_name": "User",
+      "name": "User_id_not_null",
+      "type": "n",
+      "definition": "NOT NULL id",
+      "validated": true
+    },
+    {
+      "table_name": "User",
+      "name": "User_isActive_not_null",
+      "type": "n",
+      "definition": "NOT NULL \"isActive\"",
+      "validated": true
+    },
+    {
+      "table_name": "User",
+      "name": "User_passwordHash_not_null",
+      "type": "n",
+      "definition": "NOT NULL \"passwordHash\"",
+      "validated": true
+    },
+    {
+      "table_name": "User",
+      "name": "User_pkey",
+      "type": "p",
+      "definition": "PRIMARY KEY (id)",
+      "validated": true
+    },
+    {
+      "table_name": "User",
+      "name": "User_refreshIntervalMs_not_null",
+      "type": "n",
+      "definition": "NOT NULL \"refreshIntervalMs\"",
+      "validated": true
+    },
+    {
+      "table_name": "User",
+      "name": "User_screenshots_not_null",
+      "type": "n",
+      "definition": "NOT NULL screenshots",
+      "validated": true
+    },
+    {
+      "table_name": "User",
+      "name": "User_serviceOrder_not_null",
+      "type": "n",
+      "definition": "NOT NULL \"serviceOrder\"",
+      "validated": true
+    },
+    {
+      "table_name": "User",
+      "name": "User_serviceSort_not_null",
+      "type": "n",
+      "definition": "NOT NULL \"serviceSort\"",
+      "validated": true
+    },
+    {
+      "table_name": "User",
+      "name": "User_themePreferred_not_null",
+      "type": "n",
+      "definition": "NOT NULL \"themePreferred\"",
+      "validated": true
+    },
+    {
+      "table_name": "User",
+      "name": "User_updatedAt_not_null",
+      "type": "n",
+      "definition": "NOT NULL \"updatedAt\"",
+      "validated": true
+    },
+    {
+      "table_name": "User",
+      "name": "User_username_normalized_check",
+      "type": "c",
+      "definition": "CHECK (username = lower(btrim(username)) AND length(username) > 0)",
+      "validated": true
+    },
+    {
+      "table_name": "User",
+      "name": "User_username_not_null",
+      "type": "n",
+      "definition": "NOT NULL username",
+      "validated": true
+    }
+  ],
+  "indexes": [
+    {
+      "table_name": "Dashboard",
+      "name": "Dashboard_name_key",
+      "definition": "CREATE UNIQUE INDEX \"Dashboard_name_key\" ON public.\"Dashboard\" USING btree (name)",
+      "valid": true,
+      "ready": true
+    },
+    {
+      "table_name": "Dashboard",
+      "name": "Dashboard_pkey",
+      "definition": "CREATE UNIQUE INDEX \"Dashboard_pkey\" ON public.\"Dashboard\" USING btree (id)",
+      "valid": true,
+      "ready": true
+    },
+    {
+      "table_name": "Service",
+      "name": "Service_dashboardId_idx",
+      "definition": "CREATE INDEX \"Service_dashboardId_idx\" ON public.\"Service\" USING btree (\"dashboardId\")",
+      "valid": true,
+      "ready": true
+    },
+    {
+      "table_name": "Service",
+      "name": "Service_dashboardId_name_key",
+      "definition": "CREATE UNIQUE INDEX \"Service_dashboardId_name_key\" ON public.\"Service\" USING btree (\"dashboardId\", name)",
+      "valid": true,
+      "ready": true
+    },
+    {
+      "table_name": "Service",
+      "name": "Service_pkey",
+      "definition": "CREATE UNIQUE INDEX \"Service_pkey\" ON public.\"Service\" USING btree (id)",
+      "valid": true,
+      "ready": true
+    },
+    {
+      "table_name": "ServiceCheckJob",
+      "name": "ServiceCheckJob_pkey",
+      "definition": "CREATE UNIQUE INDEX \"ServiceCheckJob_pkey\" ON public.\"ServiceCheckJob\" USING btree (id)",
+      "valid": true,
+      "ready": true
+    },
+    {
+      "table_name": "ServiceCheckJob",
+      "name": "ServiceCheckJob_serviceId_active_key",
+      "definition": "CREATE UNIQUE INDEX \"ServiceCheckJob_serviceId_active_key\" ON public.\"ServiceCheckJob\" USING btree (\"serviceId\") WHERE (status = ANY (ARRAY['pending'::text, 'running'::text]))",
+      "valid": true,
+      "ready": true
+    },
+    {
+      "table_name": "ServiceCheckJob",
+      "name": "ServiceCheckJob_status_availableAt_createdAt_idx",
+      "definition": "CREATE INDEX \"ServiceCheckJob_status_availableAt_createdAt_idx\" ON public.\"ServiceCheckJob\" USING btree (status, \"availableAt\", \"createdAt\")",
+      "valid": true,
+      "ready": true
+    },
+    {
+      "table_name": "Session",
+      "name": "Session_expiresAt_idx",
+      "definition": "CREATE INDEX \"Session_expiresAt_idx\" ON public.\"Session\" USING btree (\"expiresAt\")",
+      "valid": true,
+      "ready": true
+    },
+    {
+      "table_name": "Session",
+      "name": "Session_pkey",
+      "definition": "CREATE UNIQUE INDEX \"Session_pkey\" ON public.\"Session\" USING btree (id)",
+      "valid": true,
+      "ready": true
+    },
+    {
+      "table_name": "Session",
+      "name": "Session_tokenHash_key",
+      "definition": "CREATE UNIQUE INDEX \"Session_tokenHash_key\" ON public.\"Session\" USING btree (\"tokenHash\")",
+      "valid": true,
+      "ready": true
+    },
+    {
+      "table_name": "Session",
+      "name": "Session_userId_idx",
+      "definition": "CREATE INDEX \"Session_userId_idx\" ON public.\"Session\" USING btree (\"userId\")",
+      "valid": true,
+      "ready": true
+    },
+    {
+      "table_name": "User",
+      "name": "User_pkey",
+      "definition": "CREATE UNIQUE INDEX \"User_pkey\" ON public.\"User\" USING btree (id)",
+      "valid": true,
+      "ready": true
+    },
+    {
+      "table_name": "User",
+      "name": "User_username_key",
+      "definition": "CREATE UNIQUE INDEX \"User_username_key\" ON public.\"User\" USING btree (username)",
+      "valid": true,
+      "ready": true
+    }
+  ],
+  "sequences": [],
+  "extensions": [
+    {
+      "name": "uuid-ossp",
+      "schema": "public"
+    }
+  ],
+  "functions": [],
+  "triggers": [],
+  "policies": [],
+  "enums": [],
+  "types": [],
+  "aggregates": []
+}

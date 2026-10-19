@@ -28,7 +28,7 @@ export class ServiceService extends BaseService {
     const params = new HttpParams()
       .set('sort', sort)
       .set('order', order)
-      .set('screenshots', screenshots);
+      .set('screenshots', screenshots ? 'urls' : 'false');
     return this.http.get<MonitoredService[]>(this.url(dashboard), {
       headers: this.headers(),
       params,

@@ -1,0 +1,66 @@
+<div class="card"><div class="card-body">
+  <div class="d-flex justify-content-between mb-3 align-items-center">
+    <h2 class="h5 mb-0">Users</h2>
+    <button id="admin-create-user" class="btn btn-sm btn-primary" (click)="create()" [disabled]="busy()">Create user</button>
+  </div>
+  @if (error()) { <div id="admin-users-error" class="alert alert-danger" role="alert">{{ error() }}</div> }
+  @if (message()) { <div id="admin-users-message" class="alert alert-success" role="status">{{ message() }}</div> }
+  <div class="row g-4">
+    <div class="col-12 col-xl-5">
+      <label for="admin-users-search" class="visually-hidden">Search users</label>
+      <input id="admin-users-search" type="search" class="form-control mb-3" placeholder="Search name or username" [value]="search()" (input)="searchChanged($event)" />
+      <div id="admin-users-list" class="list-group">
+        @for (user of filteredUsers(); track user.id) {
+          <button type="button" class="list-group-item list-group-item-action" [id]="'admin-user-' + user.id" [class.active]="selectedId() === user.id" (click)="select(user)" [disabled]="busy()">
+            <div class="d-flex justify-content-between gap-2"><strong>{{ user.displayName }}</strong>
+              @if (!user.isActive) { <span class="badge text-bg-secondary">Disabled</span> }
+            </div>
+            <small>{{ user.username }}</small>
+          </button>
+        } @empty { <p class="text-secondary">{{ loading() ? 'Loading users…' : 'No users found.' }}</p> }
+      </div>
+    </div>
+    <div class="col-12 col-xl-7">
+      @if (creating() || selected()) {
+        <form (submit)="save($event)">
+          <fieldset [disabled]="busy()" class="border-0 p-0">
+            <h3 class="h6">{{ creating() ? 'Create user' : 'Account details' }}</h3>
+            <label for="admin-user-username" class="form-label">Username</label>
+            <input id="admin-user-username" class="form-control mb-3" autocomplete="off" [formField]="userForm.username" />
+            <label for="admin-user-display-name" class="form-label">Display name</label>
+            <input id="admin-user-display-name" class="form-control mb-3" [formField]="userForm.displayName" />
+            <div class="form-check form-switch mb-3">
+              <input id="admin-user-active" type="checkbox" class="form-check-input" [formField]="userForm.isActive" />
+              <label for="admin-user-active" class="form-check-label">Active</label>
+            </div>
+            @if (creating()) {
+              <label for="admin-user-password" class="form-label">Password</label>
+              <input id="admin-user-password" type="password" autocomplete="new-password" class="form-control" [formField]="userForm.password" />
+              <div class="form-text mb-3">At least 12 characters.</div>
+              <label for="admin-user-password-confirm" class="form-label">Confirm password</label>
+              <input id="admin-user-password-confirm" type="password" autocomplete="new-password" class="form-control mb-3" [formField]="userForm.confirmation" />
+            }
+            <div class="d-flex flex-wrap gap-2">
+              <button id="admin-user-save" class="btn btn-primary">{{ busy() ? 'Saving…' : creating() ? 'Create user' : 'Save user' }}</button>
+              @if (selected()) { <button id="admin-user-delete" type="button" class="btn btn-outline-danger" (click)="remove()">Delete user</button> }
+            </div>
+          </fieldset>
+        </form>
+        @if (selected(); as user) {
+          <p class="small text-secondary mt-3">Last sign-in: {{ user.lastLoginAt ?? 'Never' }}</p>
+          <form class="border-top pt-3 mt-3" (submit)="resetPassword($event)">
+            <fieldset [disabled]="busy()" class="border-0 p-0">
+              <h3 class="h6">Reset password</h3>
+              <label for="admin-reset-password" class="form-label">New password</label>
+              <input id="admin-reset-password" type="password" autocomplete="new-password" class="form-control" [formField]="userForm.password" />
+              <div class="form-text mb-3">At least 12 characters. Existing sessions will be signed out.</div>
+              <label for="admin-reset-confirm" class="form-label">Confirm password</label>
+              <input id="admin-reset-confirm" type="password" autocomplete="new-password" class="form-control mb-3" [formField]="userForm.confirmation" />
+              <button id="admin-reset-submit" class="btn btn-outline-primary">Reset password</button>
+            </fieldset>
+          </form>
+        }
+      } @else { <p class="text-secondary">Select a user to manage their account, or create a user.</p> }
+    </div>
+  </div>
+</div></div>

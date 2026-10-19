@@ -7,57 +7,169 @@ datasource db {
 }
 
 model Dashboard {
-  id         String    @id(map: "dashboards_pkey") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name       String?   @unique(map: "index_dashboards_on_name") @db.VarChar
-  created_at DateTime  @db.Timestamp(6)
-  updated_at DateTime  @db.Timestamp(6)
-  services   Service[]
-
-  @@map("dashboards")
+  id        String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name      String?   @unique @db.VarChar
+  createdAt DateTime  @db.Timestamp(6)
+  updatedAt DateTime  @db.Timestamp(6)
+  services  Service[]
+  monitoringEnabled Boolean @default(true)
+  checkIntervalSeconds Int @default(60)
+  screenshotsEnabled Boolean @default(true)
+  screenshotIntervalSeconds Int @default(60)
+  screenshotDemandUntil DateTime? @db.Timestamptz(6)
+  monitoringRevision Int @default(1)
+  hourlyRetentionDays Int? @default(14)
+  dailyRetentionDays Int?
+  availabilityRetentionDays Int?
+  historyStartedAt DateTime @default(now()) @db.Timestamptz(6)
 }
 
 model Service {
-  id               String            @id(map: "services_pkey") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  dashboard_id     String?           @db.Uuid
-  name             String            @db.VarChar
-  host             String            @db.VarChar
-  port             Int               @default(0)
-  http             Boolean?          @default(true)
-  https            Boolean?          @default(false)
-  http_path        String            @default("") @db.VarChar
-  http_path_last   Boolean?          @default(false)
-  https_path_last  Boolean?          @default(false)
-  http_xquery      String?           @db.VarChar
-  http_xquery_last Boolean?          @default(false)
-  http_preview     Boolean?          @default(true)
-  http_screenshot  Bytes?
-  checked_at       DateTime?         @db.Timestamp(6)
-  created_at       DateTime          @db.Timestamp(6)
-  updated_at       DateTime          @db.Timestamp(6)
-  dashboard        Dashboard?        @relation(fields: [dashboard_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_725921ac06")
-  check_jobs       ServiceCheckJob[]
+  id                    String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  dashboardId           String?           @db.Uuid
+  name                  String            @db.VarChar
+  host                  String            @db.VarChar
+  port                  Int               @default(0)
+  http                  Boolean?          @default(true)
+  https                 Boolean?          @default(false)
+  httpPath              String            @default("") @db.VarChar
+  httpPathLast          Boolean?          @default(false)
+  httpsPathLast         Boolean?          @default(false)
+  httpXquery            String?           @db.VarChar
+  httpXqueryLast        Boolean?          @default(false)
+  httpPreview           Boolean?          @default(true)
+  httpScreenshot        Bytes?
+  httpScreenshotHash    String?           @db.VarChar(64)
+  httpScreenshotPreview Bytes?
+  checkedAt             DateTime?         @db.Timestamp(6)
+  createdAt             DateTime          @db.Timestamp(6)
+  updatedAt             DateTime          @db.Timestamp(6)
+  configRevision        Int               @default(1)
+  screenshotCheckedAt   DateTime?         @db.Timestamptz(6)
+  availabilityCheckRequestedAt DateTime?  @db.Timestamptz(6)
+  historyStartedAt      DateTime          @default(now()) @db.Timestamptz(6)
+  availabilityPrunedBefore DateTime?      @db.Timestamptz(6)
+  configurations        ServiceConfiguration[]
+  availabilityIntervals AvailabilityInterval[]
+  performanceAggregates PerformanceAggregate[]
+  dashboard             Dashboard?        @relation(fields: [dashboardId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  checkJobs             ServiceCheckJob[]
 
-  @@unique([dashboard_id, name], map: "index_services_on_dashboard_id_and_name")
-  @@index([dashboard_id], map: "index_services_on_dashboard_id")
-  @@map("services")
+  @@unique([dashboardId, name])
+  @@index([dashboardId])
 }
 
 model ServiceCheckJob {
-  id               String    @id(map: "service_check_jobs_pkey") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  service_id       String    @db.Uuid
-  status           String    @default("pending")
-  available_at     DateTime  @default(now()) @db.Timestamptz(6)
-  locked_by        String?
-  lease_expires_at DateTime? @db.Timestamptz(6)
-  attempts         Int       @default(0)
-  max_attempts     Int       @default(3)
-  last_error       String?
-  created_at       DateTime  @default(now()) @db.Timestamptz(6)
-  updated_at       DateTime  @default(now()) @db.Timestamptz(6)
-  completed_at     DateTime? @db.Timestamptz(6)
-  service          Service   @relation(fields: [service_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  id             String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  serviceId      String    @db.Uuid
+  kind           String    @default("availability")
+  status         String    @default("pending")
+  availableAt    DateTime  @default(now()) @db.Timestamptz(6)
+  lockedBy       String?
+  leaseExpiresAt DateTime? @db.Timestamptz(6)
+  attempts       Int       @default(0)
+  maxAttempts    Int       @default(3)
+  lastError      String?
+  createdAt      DateTime  @default(now()) @db.Timestamptz(6)
+  updatedAt      DateTime  @default(now()) @db.Timestamptz(6)
+  completedAt    DateTime? @db.Timestamptz(6)
+  service        Service   @relation(fields: [serviceId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
-  // Active-service uniqueness and queue CHECK constraints live in migration SQL.
-  @@index([status, available_at, created_at], map: "service_check_jobs_claim_idx")
-  @@map("service_check_jobs")
+  // Queue CHECK constraints live in migration SQL.
+  @@unique([serviceId, kind])
+  @@index([status, availableAt, createdAt])
+}
+
+model ServiceConfiguration {
+  id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  serviceId String @db.Uuid
+  revision Int
+  createdAt DateTime @default(now()) @db.Timestamptz(6)
+  host String
+  port Int
+  http Boolean
+  https Boolean
+  httpPath String
+  httpXquery String?
+  service Service @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  intervals AvailabilityInterval[]
+  @@unique([serviceId, revision])
+}
+
+model AvailabilityInterval {
+  id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  serviceId String @db.Uuid
+  configurationId String @db.Uuid
+  startedAt DateTime @db.Timestamptz(6)
+  endedAt DateTime? @db.Timestamptz(6)
+  lastObservedAt DateTime? @db.Timestamptz(6)
+  state String
+  httpState String?
+  httpsState String?
+  reason String?
+  httpStatus Int?
+  httpsStatus Int?
+  httpError String?
+  httpsError String?
+  eventKind String @default("status")
+  checkIntervalSeconds Int @default(60)
+  service Service @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  configuration ServiceConfiguration @relation(fields: [configurationId], references: [id], onDelete: Cascade)
+  @@index([serviceId, startedAt])
+  @@index([endedAt])
+}
+
+model PerformanceAggregate {
+  serviceId String @db.Uuid
+  resolution String
+  bucketStart DateTime @db.Timestamptz(6)
+  httpCount Int @default(0)
+  httpFailures Int @default(0)
+  httpResponseCount Int @default(0)
+  httpDurationSum Float @default(0)
+  httpDurationMin Float?
+  httpDurationMax Float?
+  httpsCount Int @default(0)
+  httpsFailures Int @default(0)
+  httpsResponseCount Int @default(0)
+  httpsDurationSum Float @default(0)
+  httpsDurationMin Float?
+  httpsDurationMax Float?
+  service Service @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  @@id([serviceId, resolution, bucketStart])
+  @@index([resolution, bucketStart])
+}
+
+model User {
+  id                String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  username          String    @unique
+  displayName       String
+  passwordHash      String
+  isActive          Boolean   @default(true)
+  lastLoginAt       DateTime? @db.Timestamptz(6)
+  createdAt         DateTime  @default(now()) @db.Timestamptz(6)
+  updatedAt         DateTime  @updatedAt @db.Timestamptz(6)
+  experimental      Boolean   @default(false)
+  developer         Boolean   @default(false)
+  themePreferred    String    @default("automatic")
+  screenshots       Boolean   @default(true)
+  displayMode       String    @default("overlay")
+  refreshIntervalMs Int       @default(60000)
+  dashboardOrder    String    @default("asc")
+  serviceSort       String    @default("name")
+  serviceOrder      String    @default("asc")
+  sessions          Session[]
+}
+
+model Session {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId    String   @db.Uuid
+  tokenHash String   @unique @db.VarChar(64)
+  csrfToken String   @db.VarChar(64)
+  expiresAt DateTime @db.Timestamptz(6)
+  createdAt DateTime @default(now()) @db.Timestamptz(6)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([expiresAt])
 }

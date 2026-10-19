@@ -1,7 +1,7 @@
 // Author: Preston Lee
 
 /** Public JSON attributes shared by the browser and HTTP API. */
-export interface DashboardAttributes {
+export interface DashboardAttributes extends Partial<import('./history.js').DashboardMonitoringSettings> {
   id: string;
   name: string | null;
   created_at: string;
@@ -34,6 +34,7 @@ export interface ServiceAttributes {
 
 export interface ServiceDto extends ServiceAttributes {
   http_screenshot?: string | null;
+  screenshot?: { preview_url: string; original_url: string } | null;
   path: string;
   url: string;
 }
@@ -49,3 +50,7 @@ export interface StatusDto {
 }
 
 export type ValidationErrors = Record<string, string[]>;
+
+export * from './account.js';
+export * from './history.js';
+export * from './service-url.js';

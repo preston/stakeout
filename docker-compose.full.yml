@@ -7,11 +7,15 @@ x-server-environment: &server-environment
   NODE_ENV: production
   PORT: 3000
   STAKEOUT_SERVER_DATABASE_URL: postgresql://stakeout:password@stakeout-postgresql:5432/stakeout
-  STAKEOUT_SERVER_USERNAME: stakeout
-  STAKEOUT_SERVER_PASSWORD: password
+  STAKEOUT_SERVER_BOOTSTRAP_USERNAME: stakeout
+  STAKEOUT_SERVER_BOOTSTRAP_PASSWORD: stakeout-development-password
+  STAKEOUT_SERVER_CORS_ORIGIN: http://localhost:4200
   STAKEOUT_SERVER_CHROME_URL: http://stakeout-chrome:3000
   STAKEOUT_SERVER_CHROME_TOKEN: stakeout-development-browser
   STAKEOUT_SERVER_WORKER_CONCURRENCY: 3
+  STAKEOUT_SERVER_SCREENSHOT_WORKER_CONCURRENCY: 1
+  STAKEOUT_SERVER_HISTORY_PRUNE_INTERVAL_MS: 60000
+  STAKEOUT_SERVER_HISTORY_PRUNE_BATCH_SIZE: 1000
 
 services:
   stakeout-server:

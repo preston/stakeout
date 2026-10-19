@@ -1,15 +1,16 @@
-export enum ThemeType {
-  AUTOMATIC = 'automatic',
-  LIGHT = 'light',
-  DARK = 'dark',
-}
+// Author: Preston Lee
 
-export class Settings {
-  static readonly DEFAULT_THEME = ThemeType.AUTOMATIC;
+import { DEFAULT_PREFERENCES, type UserPreferences } from '@stakeout/core';
 
-  experimental = false;
-  developer = false;
-  cds_username = '';
-  cds_password = '';
-  theme_preferred: ThemeType = ThemeType.AUTOMATIC;
+export enum ThemeType { AUTOMATIC = 'automatic', LIGHT = 'light', DARK = 'dark' }
+export class Settings implements UserPreferences {
+  experimental = DEFAULT_PREFERENCES.experimental;
+  developer = DEFAULT_PREFERENCES.developer;
+  themePreferred = DEFAULT_PREFERENCES.themePreferred;
+  screenshots = DEFAULT_PREFERENCES.screenshots;
+  displayMode = DEFAULT_PREFERENCES.displayMode;
+  refreshIntervalMs = DEFAULT_PREFERENCES.refreshIntervalMs;
+  dashboardOrder = DEFAULT_PREFERENCES.dashboardOrder;
+  serviceSort = DEFAULT_PREFERENCES.serviceSort;
+  serviceOrder = DEFAULT_PREFERENCES.serviceOrder;
 }

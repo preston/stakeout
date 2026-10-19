@@ -1,4 +1,38 @@
 <div class="app-container" [attr.data-bs-theme]="settingsService.theme_effective()">
+  <nav id="nav-primary" class="navbar navbar-expand-lg bg-body-tertiary border-bottom px-3" aria-label="Primary">
+    <a class="navbar-brand" routerLink="/">{{ title }}</a>
+    <button id="nav-toggle" class="navbar-toggler" type="button" aria-controls="nav-content" [attr.aria-expanded]="navExpanded()" aria-label="Toggle navigation" (click)="navExpanded.set(!navExpanded())"><span class="navbar-toggler-icon"></span></button>
+    <div id="nav-content" class="collapse navbar-collapse" [class.show]="navExpanded()">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item"><a id="nav-dashboards" class="nav-link" routerLink="/" (click)="navExpanded.set(false)">Dashboards</a></li>
+        @if (auth.isAuthenticated()) {
+          <li class="nav-item"><a id="nav-administration" class="nav-link" routerLink="/admin" routerLinkActive="active" (click)="navExpanded.set(false)">System Administration</a></li>
+        }
+      </ul>
+      <div class="d-flex align-items-center gap-3">
+        @if (auth.isAuthenticated()) {
+          @if (dashboardRoute()) {
+            <div class="form-check form-switch mb-0">
+              <input id="nav-edit" type="checkbox" class="form-check-input" [checked]="settingsService.editable()" (change)="settingsService.setEditable(!settingsService.editable())" />
+              <label class="form-check-label" for="nav-edit">Edit dashboards</label>
+            </div>
+          }
+          <div class="dropdown">
+            <button id="nav-account" class="btn btn-outline-secondary dropdown-toggle" [attr.aria-expanded]="accountMenu()" (click)="accountMenu.set(!accountMenu())">{{ auth.session()?.user?.displayName }}</button>
+            @if (accountMenu()) {
+              <ul class="dropdown-menu dropdown-menu-end show">
+                <li><a id="nav-profile" class="dropdown-item" routerLink="/profile" (click)="accountMenu.set(false); navExpanded.set(false)">Profile</a></li>
+                <li><button id="nav-sign-out" class="dropdown-item" (click)="logout()">Sign out</button></li>
+              </ul>
+            }
+          </div>
+        } @else {
+          <a id="nav-sign-in" class="btn btn-primary" routerLink="/login" [queryParams]="{ returnUrl: currentUrl() }">Sign in</a>
+        }
+      </div>
+    </div>
+  </nav>
+  @if (logoutError()) { <div class="alert alert-danger m-3" role="alert">{{ logoutError() }}</div> }
   <router-outlet></router-outlet>
   <ng-toast />
   <footer class="fixed-bottom text-center">

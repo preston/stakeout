@@ -1,4 +1,4 @@
-import type { ServiceAttributes } from '@stakeout/core';
+import type { ServiceAttributes, ServiceDto } from '@stakeout/core';
 
 export class MonitoredService implements Omit<ServiceAttributes, 'created_at' | 'updated_at'> {
   dashboard_id: string | null = null;
@@ -15,6 +15,7 @@ export class MonitoredService implements Omit<ServiceAttributes, 'created_at' | 
   http_xquery_last = true;
   http_preview = false;
   http_screenshot = '';
+  screenshot: ServiceDto['screenshot'] = null;
 
   checked_at: string | null = null;
 

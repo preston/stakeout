@@ -22,11 +22,11 @@ async function main(): Promise<void> {
   try {
     if (command === 'check') {
       const count = await enqueueStaleServiceChecks(Number(argument) * 60_000);
-      console.info(`Enqueued ${count} service checks older than ${argument} minute(s).`);
+      console.info(`Scheduled ${count} missing availability jobs older than ${argument} minute(s), respecting dashboard monitoring and check intervals.`);
     } else {
-      const { rows } = await jobDatabase().query<{ status: string; count: string }>('SELECT status, count(*)::text AS count FROM service_check_jobs GROUP BY status ORDER BY status');
+      const { rows } = await jobDatabase().query<{ kind: string; status: string; count: string }>('SELECT kind, status, count(*)::text AS count FROM "ServiceCheckJob" GROUP BY kind, status ORDER BY kind, status');
       console.info('Queue verification: PostgreSQL connection OK');
-      for (const row of rows) console.info(`  ${row.status}: ${row.count}`);
+      for (const row of rows) console.info(`  ${row.kind} ${row.status}: ${row.count}`);
       if (!rows.length) console.info('  Queue is empty.');
     }
   } finally {

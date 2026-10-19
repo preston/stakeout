@@ -1,13 +1,11 @@
 @if (loadedDashboard(); as d) {
   <div class="container-fluid">
   <div class="float-end m-2">
-    <fieldset [disabled]="editable()" class="border-0 m-0 p-0">
-      <select class="form-control form-control-sm" [formField]="toolbarForm.refresh">
-        @for (r of refreshOptions(); track r.value) {
-          <option [value]="'' + r.value">{{ r.name }}</option>
-        }
-      </select>
-    </fieldset>
+    <select class="form-control form-control-sm" id="dashboard-refresh" aria-label="Refresh interval" (change)="setRefresh($event)">
+      @for (r of refreshOptions(); track r.value) {
+        <option [value]="'' + r.value" [selected]="settingsService.settings().refreshIntervalMs === r.value">{{ r.name }}</option>
+      }
+    </select>
   </div>
 
   <div class="btn-group float-end m-2">
@@ -17,7 +15,7 @@
         type="checkbox"
         role="button"
         id="dashboard_screenshots"
-        [formField]="toolbarForm.screenshots"
+        [checked]="settingsService.screenshots()" (change)="setScreenshots($event)"
       />
       <label class="form-check-label" for="dashboard_screenshots">
         Show Screenshots
@@ -86,7 +84,12 @@
   }
   <div class="clearfix"></div>
 
-  @for (s of services(); track s.id) {
+  <app-history-panel [dashboard]="d" [services]="services()" [refreshToken]="lastReload()"
+    (viewChanged)="historyView.set($event)" (rowsChanged)="historyRows.set($event)" (serviceIdsChanged)="visibleServiceIds.set($event)"
+    (configurationSaved)="reload()" />
+
+  @if (historyView() === 'overview') {
+  @for (s of visibleServices(); track s.id) {
     <div class="m-2 service-card align-top">
       @if (editable()) {
         <button
@@ -101,10 +104,14 @@
         [dashboard]="d"
         [service]="s"
         [startEditing]="isEditing(s.id)"
+        [history]="historyFor(s.id)"
+        (historyOpened)="openHistory($event)"
         (serviceUpdated)="onServiceUpdated()"
         (editingClosed)="closeServiceEditing(s.id)"
+        (screenshotOpened)="selectedServiceId.set($event)"
       />
     </div>
+  }
   }
   </div>
 } @else if (loading()) {
@@ -119,3 +126,4 @@
     </button>
   </div>
 }
+<app-screenshot-viewer [service]="selectedService()" (closed)="selectedServiceId.set(null)" />

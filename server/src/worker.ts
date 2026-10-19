@@ -3,7 +3,9 @@ import { pathToFileURL } from 'node:url';
 import { readConfig } from './config.ts';
 import { assertDatabaseReady, DatabaseNotReadyError } from './db/migrate.ts';
 import { executeJob } from './jobs/executor.ts';
-import { claimNextJob, closeJobDatabase, configureJobDatabase, jobDatabase, pruneFinishedJobs, recoverExpiredJobs } from './jobs/queue.ts';
+import { claimNextJob, closeJobDatabase, configureJobDatabase, jobDatabase, pruneFinishedJobs, recoverExpiredJobs,
+  reconcileHistories, scheduleDueServiceJobs, type JobKind } from './jobs/queue.ts';
+import { pruneHistory } from './history/recording.ts';
 
 function sleep(ms: number, signal: AbortSignal): Promise<void> {
   if (signal.aborted) return Promise.resolve();
@@ -48,30 +50,50 @@ export async function runWorker(signal: AbortSignal): Promise<void> {
   await waitForDatabase(signal, configuration.jobPollIntervalMs, 120_000, configuration.databaseUrl);
   if (signal.aborted) return;
   const identity = `${hostname()}:${process.pid}`;
-  let lastPruneAt = 0;
-  const consumer = async (index: number) => {
+  const consumer = async (kind: JobKind, index: number) => {
     while (!signal.aborted) {
       try {
-        await recoverExpiredJobs();
-        if (index === 0 && Date.now() - lastPruneAt >= 60_000) {
-          await pruneFinishedJobs();
-          lastPruneAt = Date.now();
-        }
-        const job = await claimNextJob(`${identity}:${index}`, configuration.jobLeaseMs);
+        const job = await claimNextJob(`${identity}:${kind}:${index}`, configuration.jobLeaseMs, kind);
         if (job) {
           await executeJob(job, configuration, { signal, leaseMs: configuration.jobLeaseMs });
         } else {
           await sleep(configuration.jobPollIntervalMs, signal);
         }
       } catch (error) {
-        console.error('Service check worker failed:', error instanceof Error ? error.message : String(error));
+        console.error(`${kind} worker failed:`, error instanceof Error ? error.message : String(error));
         await sleep(configuration.jobPollIntervalMs, signal);
       }
     }
   };
-  console.log(`stakeout-worker started (${configuration.workerConcurrency} consumers)`);
+  const maintenance = async () => {
+    let lastPruneAt = 0;
+    let lastReconcileAt = 0;
+    while (!signal.aborted) {
+      try {
+        await recoverExpiredJobs();
+        await scheduleDueServiceJobs();
+        if (Date.now() - lastReconcileAt >= 5000) {
+          await reconcileHistories();
+          lastReconcileAt = Date.now();
+        }
+        if (Date.now() - lastPruneAt >= configuration.historyPruneIntervalMs) {
+          await pruneFinishedJobs();
+          await pruneHistory(jobDatabase(), configuration.historyPruneBatchSize);
+          lastPruneAt = Date.now();
+        }
+      } catch (error) {
+        console.error('Monitoring maintenance failed:', error instanceof Error ? error.message : String(error));
+      }
+      await sleep(configuration.jobPollIntervalMs, signal);
+    }
+  };
+  console.log(`stakeout-worker started (${configuration.workerConcurrency} availability, ${configuration.screenshotWorkerConcurrency} screenshot consumers)`);
   try {
-    await Promise.all(Array.from({ length: configuration.workerConcurrency }, (_, index) => consumer(index)));
+    await Promise.all([
+      maintenance(),
+      ...Array.from({ length: configuration.workerConcurrency }, (_, index) => consumer('availability', index)),
+      ...Array.from({ length: configuration.screenshotWorkerConcurrency }, (_, index) => consumer('screenshot', index)),
+    ]);
   } finally {
     await closeJobDatabase();
   }

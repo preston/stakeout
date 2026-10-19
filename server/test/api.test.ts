@@ -8,6 +8,8 @@ import { promisify } from 'node:util';
 import { fileURLToPath } from 'node:url';
 import { Client } from 'pg';
 import { test } from 'node:test';
+import { bootstrapUser } from '../src/auth/accounts.ts';
+import type { SessionDto } from '@stakeout/core';
 import { createApp } from '../src/app.ts';
 import { createPrisma } from '../src/db/prisma.ts';
 import { bootstrapDatabase } from '../src/bootstrap.ts';
@@ -29,13 +31,12 @@ const fixtures = (JSON.parse(await readFile(new URL('./fixtures/rails-responses.
 const DASHBOARD_ID = '11111111-1111-4111-8111-111111111111';
 const SERVICE_ID = '22222222-2222-4222-8222-222222222222';
 const DATE = new Date('2026-01-02T03:04:05.000Z');
-const AUTHORIZATION = `Basic ${Buffer.from('admin:sëcret:password').toString('base64')}`;
 const exec = promisify(execFile);
 
 function normalize(value: unknown, ids: Record<string, string> = {}): unknown {
   if (Array.isArray(value)) return value.map(item => normalize(item, ids));
   if (typeof value === 'object' && value !== null) {
-    return Object.fromEntries(Object.entries(value).map(([key, item]) => [key,
+    return Object.fromEntries(Object.entries(value).filter(([key]) => !['monitoring_enabled','check_interval_seconds','screenshots_enabled','screenshot_interval_seconds','hourly_retention_days','daily_retention_days','availability_retention_days'].includes(key)).map(([key, item]) => [key,
       ['created_at', 'updated_at', 'checked_at', 'datetime'].includes(key) && item !== null ? '<datetime>' : normalize(item, ids)]));
   }
   if (typeof value === 'string') {
@@ -96,19 +97,24 @@ test('HTTP API preserves captured Rails responses and corrects supported defects
   await withPostgres(async databaseUrl => {
     await bootstrapDatabase(databaseUrl);
     const prisma = createPrisma(databaseUrl);
+    await bootstrapUser(prisma, { bootstrapUsername: 'admin', bootstrapPassword: 'sëcret:password' });
     const enqueued: string[] = [];
-    const app = createApp({ prisma, config: { username: 'admin', password: 'sëcret:password', corsOrigin: '*', trustProxy: true },
+    const app = createApp({ prisma, config: { production: false, corsOrigin: 'http://localhost:4200', trustProxy: true },
       enqueueDashboardChecks: async id => { enqueued.push(id); return 0; } });
     const server = app.listen(0, '127.0.0.1');
     await new Promise<void>(resolve => server.once('listening', resolve));
     const address = server.address();
     assert.ok(address && typeof address !== 'string');
     const origin = `http://127.0.0.1:${address.port}`;
+    const login = await fetch(`${origin}/auth/login`, { method: 'POST', headers: { Accept: 'application/json', 'Content-Type': 'application/json' }, body: JSON.stringify({ username: 'admin', password: 'sëcret:password' }) });
+    assert.equal(login.status, 200);
+    const cookie = login.headers.get('set-cookie')!.split(';')[0];
+    const csrf = ((await login.json()) as SessionDto).csrfToken;
     const request = async (path: string, options: { method?: string; body?: unknown; authenticated?: boolean; headers?: Record<string, string>; raw?: string } = {}): Promise<CapturedResponse> => {
       const response = await fetch(`${origin}${path}`, {
         method: options.method ?? 'GET',
         headers: { Host: 'example.test', Accept: 'application/json',
-          ...(options.authenticated ? { Authorization: AUTHORIZATION } : {}),
+          ...(options.authenticated ? { Cookie: cookie, 'X-CSRF-Token': csrf } : {}),
           ...(options.body !== undefined || options.raw !== undefined ? { 'Content-Type': 'application/json' } : {}),
           ...options.headers },
         ...(options.body !== undefined ? { body: JSON.stringify(options.body) } : options.raw !== undefined ? { body: options.raw } : {}),
@@ -122,7 +128,7 @@ test('HTTP API preserves captured Rails responses and corrects supported defects
       assert.deepEqual(normalize(actual, { ...ids, [origin]: 'http://example.test' }), fixtures[name], name);
     };
     try {
-      await t.test('JSON negotiation, CORS and Basic authentication', async () => {
+      await t.test('JSON negotiation, credentialed CORS and rejected Basic authentication', async () => {
         assert.equal((await request('/dashboards', { headers: { Accept: '*/*' } })).status, 406);
         assert.equal((await request('/dashboards.json', { headers: { Accept: '*/*' } })).status, 200);
         assert.equal((await request('/status', { headers: { Accept: 'text/html' } })).status, 406);
@@ -132,7 +138,8 @@ test('HTTP API preserves captured Rails responses and corrects supported defects
         const preflight = await fetch(`${origin}/dashboards`, { method: 'OPTIONS', headers: { Origin: 'http://localhost:4200',
           'Access-Control-Request-Method': 'POST', 'Access-Control-Request-Headers': 'authorization,content-type' } });
         assert.equal(preflight.status, 204);
-        assert.equal(preflight.headers.get('access-control-allow-origin'), '*');
+        assert.equal(preflight.headers.get('access-control-allow-origin'), 'http://localhost:4200');
+        assert.equal(preflight.headers.get('access-control-allow-credentials'), 'true');
         assert.match(preflight.headers.get('access-control-allow-headers') ?? '', /authorization/);
       });
 
@@ -142,7 +149,7 @@ test('HTTP API preserves captured Rails responses and corrects supported defects
         }
         assert.equal((await request('/dashboards?format=xml', { headers: { Accept: '*/*' } })).status, 406);
         assert.equal((await request('/test?format=json', { method: 'POST', headers: { Accept: '*/*' } })).status, 401);
-        assert.equal((await request('/test?format=json', { method: 'POST', authenticated: true, headers: { Accept: '*/*' } })).status, 200);
+        assert.equal((await request('/test?format=json', { method: 'POST', authenticated: true, headers: { Accept: '*/*' } })).status, 404);
       });
 
       let dashboardId = '';
@@ -167,8 +174,8 @@ test('HTTP API preserves captured Rails responses and corrects supported defects
         serviceId = (created.body as { id: string }).id;
         ids[serviceId] = SERVICE_ID;
         compare('service_create', created, ids);
-        await prisma.service.update({ where: { id: serviceId }, data: { checked_at: DATE,
-          http_screenshot: Buffer.from('iVBORw0KGgpmaXh0dXJl', 'base64') } });
+        await prisma.service.update({ where: { id: serviceId }, data: { checkedAt: DATE,
+          httpScreenshot: Buffer.from('iVBORw0KGgpmaXh0dXJl', 'base64') } });
         compare('service_show', await request(`/dashboards/${dashboardId}/services/${serviceId}`), ids);
         compare('service_index', await request(`/dashboards/${dashboardId}/services`), ids);
         compare('service_index_screenshots', await request(`/dashboards/${dashboardId}/services?screenshots=true`), ids);
@@ -177,15 +184,15 @@ test('HTTP API preserves captured Rails responses and corrects supported defects
         compare('service_update', await request(`/dashboards/${dashboardId}/services/${serviceId}`, { method: 'PATCH', authenticated: true,
           body: { service: { name: 'Changed', host: 'new.example.org' } } }), ids);
         const updated = await prisma.service.findUniqueOrThrow({ where: { id: serviceId } });
-        assert.equal(updated.checked_at, null);
-        assert.equal(updated.http_screenshot, null);
-        assert.ok((await prisma.dashboard.findUniqueOrThrow({ where: { id: dashboardId } })).updated_at > before.updated_at);
+        assert.equal(updated.checkedAt, null);
+        assert.equal(updated.httpScreenshot, null);
+        assert.ok((await prisma.dashboard.findUniqueOrThrow({ where: { id: dashboardId } })).updatedAt > before.updatedAt);
         assert.equal(rubyBase64(Buffer.alloc(90, 1)), `${Buffer.alloc(90, 1).toString('base64').match(/.{1,60}/g)?.join('\n')}\n`);
       });
 
       await t.test('sorting, full text prefix search and dashboard scoping', async () => {
-        const other = await prisma.dashboard.create({ data: { name: 'Alpha Status', created_at: DATE, updated_at: DATE } });
-        await prisma.service.create({ data: { dashboard_id: dashboardId, name: 'Alpha Database', host: 'database.example.org', created_at: DATE, updated_at: DATE } });
+        const other = await prisma.dashboard.create({ data: { name: 'Alpha Status', createdAt: DATE, updatedAt: DATE } });
+        await prisma.service.create({ data: { dashboardId: dashboardId, name: 'Alpha Database', host: 'database.example.org', createdAt: DATE, updatedAt: DATE } });
         const sorted = await request(`/dashboards/${dashboardId}/services?sort=name&order=desc`);
         assert.deepEqual((sorted.body as { name: string }[]).map(service => service.name), ['Changed', 'Alpha Database']);
         const searched = await request(`/dashboards/${dashboardId}/services?text=alp%20data`);
@@ -196,7 +203,7 @@ test('HTTP API preserves captured Rails responses and corrects supported defects
         assert.equal((await request(`/dashboards/${other.id}/services/${serviceId}`)).status, 404);
         assert.equal((await request(`/dashboards/${other.id}/services/${serviceId}`, { method: 'PUT', authenticated: true, body: { service: { name: 'Stolen' } } })).status, 404);
         await request(`/dashboards/${dashboardId}/services/${serviceId}`, { method: 'PUT', authenticated: true, body: { service: { dashboard_id: other.id } } });
-        assert.equal((await prisma.service.findUniqueOrThrow({ where: { id: serviceId } })).dashboard_id, dashboardId);
+        assert.equal((await prisma.service.findUniqueOrThrow({ where: { id: serviceId } })).dashboardId, dashboardId);
         assert.equal((await request(`/dashboards/${dashboardId}/check`)).status, 404);
         assert.equal((await request('/dashboards/not-a-uuid')).status, 404);
       });
@@ -214,24 +221,20 @@ test('HTTP API preserves captured Rails responses and corrects supported defects
         assert.equal((await request(`/dashboards/${dashboardId}/services/${serviceId}`, { method: 'PATCH', authenticated: true, body: { service: { port: 65536 } } })).status, 422);
       });
 
-      await t.test('status and authenticated credential test return the expected health shape', async () => {
+      await t.test('public status retains the expected health shape', async () => {
         const status = await request('/status');
         compare('status', status);
-        const checked = await request('/test', { method: 'POST', authenticated: true, body: {} });
-        compare('status', checked);
-        for (const body of [status.body, checked.body]) {
-          const value = body as { server: { datetime: string }; database: { datetime: string } };
-          assert.ok(Number.isFinite(Date.parse(value.server.datetime)));
-          assert.ok(Number.isFinite(Date.parse(value.database.datetime)));
-        }
+        const value = status.body as { server: { datetime: string }; database: { datetime: string } };
+        assert.ok(Number.isFinite(Date.parse(value.server.datetime)));
+        assert.ok(Number.isFinite(Date.parse(value.database.datetime)));
       });
 
       await t.test('dependent deletes, response bodies and dashboard touching', async () => {
         const before = await prisma.dashboard.findUniqueOrThrow({ where: { id: dashboardId } });
         compare('service_delete', await request(`/dashboards/${dashboardId}/services/${serviceId}`, { method: 'DELETE', authenticated: true }));
-        assert.ok((await prisma.dashboard.findUniqueOrThrow({ where: { id: dashboardId } })).updated_at > before.updated_at);
+        assert.ok((await prisma.dashboard.findUniqueOrThrow({ where: { id: dashboardId } })).updatedAt > before.updatedAt);
         compare('dashboard_delete', await request(`/dashboards/${dashboardId}`, { method: 'DELETE', authenticated: true }));
-        assert.equal(await prisma.service.count({ where: { dashboard_id: dashboardId } }), 0);
+        assert.equal(await prisma.service.count({ where: { dashboardId: dashboardId } }), 0);
         assert.equal((await request(`/dashboards/${dashboardId}`)).status, 404);
       });
 
@@ -241,19 +244,20 @@ test('HTTP API preserves captured Rails responses and corrects supported defects
         await exec(process.execPath, ['prisma/seed.ts'], { cwd, env });
         assert.equal(await prisma.service.count(), 13);
         const example = await prisma.dashboard.findUniqueOrThrow({ where: { name: 'Example' } });
-        const google = await prisma.service.findUniqueOrThrow({ where: { dashboard_id_name: { dashboard_id: example.id, name: 'Google' } } });
+        const google = await prisma.service.findUniqueOrThrow({ where: { dashboardId_name: { dashboardId: example.id, name: 'Google' } } });
         await prisma.service.update({ where: { id: google.id }, data: { host: 'custom.example.org' } });
         await exec(process.execPath, ['prisma/seed.ts'], { cwd, env });
         assert.equal(await prisma.service.count(), 13);
         assert.equal((await prisma.service.findUniqueOrThrow({ where: { id: google.id } })).host, 'custom.example.org');
         assert.equal(await prisma.serviceCheckJob.count(), 0);
         const queued = await exec(process.execPath, ['src/cli.ts', 'check', '1'], { cwd, env });
-        assert.match(queued.stdout, /Enqueued 13 service checks/);
+        const eligible = await prisma.service.count({ where: { dashboard: { monitoringEnabled: true }, OR: [{ http: true }, { https: true }] } });
+        assert.match(queued.stdout, new RegExp(`Scheduled ${eligible} missing availability jobs`));
         await exec(process.execPath, ['src/cli.ts', 'check', '5'], { cwd, env });
-        assert.equal(await prisma.serviceCheckJob.count(), 13);
+        assert.equal(await prisma.serviceCheckJob.count(), eligible);
         const verified = await exec(process.execPath, ['src/cli.ts', 'verify', 'queue'], { cwd, env });
         assert.match(verified.stdout, /PostgreSQL connection OK/);
-        assert.match(verified.stdout, /pending: 13/);
+        assert.match(verified.stdout, new RegExp(`pending: ${eligible}`));
         await assert.rejects(exec(process.execPath, ['src/cli.ts', 'check', '2'], { cwd, env }), /Usage:/);
 
         const browserless = createServer((incoming, response) => {

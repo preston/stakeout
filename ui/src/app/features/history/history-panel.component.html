@@ -1,0 +1,176 @@
+<section class="history-panel" aria-label="Availability history">
+  <nav class="history-tabs" aria-label="Dashboard views">
+    @for (option of views; track option) {
+      <button type="button" class="btn" [class.active]="view() === option" [attr.aria-current]="view() === option ? 'page' : null" (click)="changeView(option)">{{ option }}</button>
+    }
+  </nav>
+  <div class="history-filters">
+    <label>Period
+      <select class="form-select form-select-sm" [value]="range()" (change)="setFilter('range', $any($event.target).value)">
+        <option value="24h">Last 24 hours</option><option value="7d">Last 7 days</option><option value="30d">Last 30 days</option><option value="90d">Last 90 days</option><option value="custom">Custom dates</option>
+      </select>
+    </label>
+    @if (range() === 'custom') {
+      <label>From<input class="form-control form-control-sm" type="datetime-local" [value]="customFrom()" (change)="setFilter('from', $any($event.target).value)" /></label>
+      <label>To<input class="form-control form-control-sm" type="datetime-local" [value]="customTo()" (change)="setFilter('to', $any($event.target).value)" /></label>
+    }
+    <label>Service<select class="form-select form-select-sm" [value]="serviceFilter()" (change)="setFilter('service', $any($event.target).value)">
+      <option value="">All services</option>
+      @for (service of services(); track service.id) { <option [value]="service.id">{{ service.name }}</option> }
+    </select></label>
+    <label>Status<select class="form-select form-select-sm" [value]="stateFilter()" (change)="setFilter('state', $any($event.target).value)">
+      <option value="">All statuses</option>
+      @for (state of states; track state) { <option [value]="state">{{ state }}</option> }
+    </select></label>
+    <a class="btn btn-sm btn-outline-secondary" [href]="exportUrl()" [class.disabled]="!!rangeError()" download>{{ view() === 'events' ? 'Export events' : 'Export services' }} CSV</a>
+  </div>
+  <p class="period-caption small text-body-secondary my-2">Times in {{ timezone }}. @if (!rangeError()) { {{ query().from | date:'medium' }} – {{ query().to | date:'medium' }} }</p>
+  @if (rangeError()) { <p class="alert alert-warning" role="alert">{{ rangeError() }}</p> }
+  @if (dashboard().monitoring_enabled === false) { <p class="alert alert-secondary">Availability monitoring is paused. Paused time is excluded from uptime. Screenshot capture follows its own settings.</p> }
+  @if (historyStale()) { <p class="alert alert-secondary small" role="status">This history snapshot was last refreshed {{ history.value()?.generated_at | date:'medium' }}. Refresh to see recent observations. <button type="button" class="btn btn-sm btn-outline-secondary" (click)="retry()">Refresh history</button></p> }
+  @if (historyError() || eventsError()) { <p class="alert alert-warning" role="alert">Could not load availability history. <button type="button" class="btn btn-sm btn-outline-secondary" (click)="retry()">Retry</button></p> }
+  @if (history.value(); as data) {
+    <div class="summary-grid" aria-label="Availability summary">
+      <div><span class="metric">{{ data.summary.uptime_percent === null ? '—' : (data.summary.uptime_percent | number:'1.2-2') + '%' }}</span><span>Uptime</span></div>
+      <div><span class="metric">{{ data.summary.coverage_percent === null ? '—' : (data.summary.coverage_percent | number:'1.1-1') + '%' }}</span><span>Observed coverage</span></div>
+      <div><span class="metric">{{ duration(data.summary.down_ms + data.summary.degraded_ms) }}</span><span>Observed disruption</span></div>
+      <div class="status-counts">@for (item of counts(); track item.state) { <span [class]="'status-pill status-' + item.state">{{ item.count }} {{ item.state }}</span> }</div>
+    </div>
+    @if ((data.summary.coverage_percent ?? 0) < 100) { <p class="small text-body-secondary">Partial coverage: unknown, paused, unretained time, and time before monitoring began are excluded from uptime.</p> }
+    @if (view() === 'timeline') {
+      <div class="legend d-flex align-items-center flex-wrap gap-2 my-3 small" aria-label="Availability legend">@for (state of states; track state) { <span [class]="'status-pill status-' + state">{{ state }}</span> }<span>· dotted: no retained history</span></div>
+      <div class="timeline-list">
+        @for (service of data.services; track service.service_id) {
+          <div class="timeline-row">
+            <button class="service-link" type="button" (click)="openService(service.service_id)">{{ service.name }}<small>{{ service.statistics.uptime_percent === null ? 'No observations' : (service.statistics.uptime_percent | number:'1.2-2') + '% uptime' }}</small></button>
+            <app-history-timeline [buckets]="service.timeline" [label]="service.name + ' availability'" (periodSelected)="openService(service.service_id, $event)" />
+            <span [class]="'status-pill status-' + service.current_state">{{ service.current_state }}</span>
+          </div>
+        } @empty { <p class="empty-state text-body-secondary p-3">No services match these filters.</p> }
+      </div>
+      <p class="small text-body-secondary">Each segment shows the most severe observed status, so brief disruptions remain visible. Select a segment for exact observations.</p>
+    }
+    @if (view() === 'services') {
+      <div class="table-responsive"><table class="table table-hover service-history-table small">
+        <thead><tr>
+          <th><button type="button" (click)="sortBy('name')">Service {{ sort() === 'name' ? (order() === 'asc' ? '↑' : '↓') : '' }}</button></th>
+          <th><button type="button" (click)="sortBy('state')">Status</button></th>
+          <th><button type="button" (click)="sortBy('uptime')">Uptime</button></th><th>Coverage</th>
+          <th><button type="button" (click)="sortBy('downtime')">Disruption</button></th>
+          <th><button type="button" (click)="sortBy('outage_count')">Outages</button></th>
+          <th><button type="button" (click)="sortBy('latest_check_at')">Latest check</button></th>
+          <th><button type="button" (click)="sortBy('response_ms')">Response average</button></th>
+        </tr></thead>
+        <tbody>@for (service of data.services; track service.service_id) {
+          <tr><td><button type="button" class="service-link" (click)="openService(service.service_id)">{{ service.name }}</button><small class="d-block">{{ service.host }}</small></td>
+            <td><span [class]="'status-pill status-' + service.current_state">{{ service.current_state }}</span></td>
+            <td>{{ service.statistics.uptime_percent === null ? '—' : (service.statistics.uptime_percent | number:'1.2-2') + '%' }}</td>
+            <td>{{ service.statistics.coverage_percent === null ? '—' : (service.statistics.coverage_percent | number:'1.1-1') + '%' }}</td>
+            <td>{{ duration(service.statistics.down_ms + service.statistics.degraded_ms) }}</td><td>{{ service.statistics.outage_count }}</td>
+            <td>{{ service.latest_check_at ? (service.latest_check_at | date:'short') : 'Never checked' }}</td>
+            <td><span class="d-block">HTTP {{ service.performance.http.average_ms === null ? '—' : (service.performance.http.average_ms | number:'1.0-0') + ' ms' }}</span><span>HTTPS {{ service.performance.https.average_ms === null ? '—' : (service.performance.https.average_ms | number:'1.0-0') + ' ms' }}</span></td>
+          </tr>
+        } @empty { <tr><td colspan="8">No services match these filters.</td></tr> }</tbody>
+      </table></div>
+    }
+    @if (view() === 'overview' && data.services.length === 0 && !history.isLoading()) { <p class="empty-state text-body-secondary p-3">No history yet. Monitoring will record availability from the first accepted check.</p> }
+  } @else if (history.isLoading()) { <p class="text-body-secondary" role="status">Loading availability history…</p> }
+  @if (view() === 'events') {
+    <p class="small text-body-secondary">Status filters apply to the event's resulting status.</p>
+    <ol class="events-list">
+      @for (event of events.value()?.events ?? []; track event.id) {
+        <li [class.selected]="event.id === eventId()"><button type="button" (click)="openEvent(event)">
+          <time>{{ event.at | date:'medium' }}</time><strong>{{ event.service_name }}</strong>
+          <span [class]="'status-pill status-' + event.state">{{ event.previous_state ? event.previous_state + ' → ' : '' }}{{ event.state }}</span>
+          <span>{{ event.kind.replaceAll('_', ' ') }}@if (event.reason) { · {{ event.reason }} }</span>
+        </button></li>
+      } @empty { <li class="empty-state text-body-secondary p-3">{{ events.isLoading() ? 'Loading events…' : 'No events in this period.' }}</li> }
+    </ol>
+  }
+  @if (pagination(); as pagination) {
+    @if (pagination.total_pages > 1) {
+      <nav class="pagination-controls d-flex justify-content-center align-items-center gap-3 my-3 small" aria-label="History pages">
+        <button type="button" class="btn btn-sm btn-outline-secondary" [disabled]="pagination.page <= 1" (click)="setPage(pagination.page - 1)">Previous</button>
+        <span>Page {{ pagination.page }} of {{ pagination.total_pages }} · {{ pagination.total }} {{ view() === 'events' ? 'events' : 'services' }}</span>
+        <button type="button" class="btn btn-sm btn-outline-secondary" [disabled]="pagination.page >= pagination.total_pages" (click)="setPage(pagination.page + 1)">Next</button>
+      </nav>
+    }
+  }
+  @if (detailId()) {
+    <section #detailPane tabindex="-1" class="service-detail shadow-sm" aria-label="Service history detail" (keydown.escape)="closeDetail()">
+      <button type="button" class="btn btn-sm btn-outline-secondary float-end" (click)="closeDetail()">Close details</button>
+      @if (detailError()) { <p role="alert">Could not load this service's history. <button type="button" class="btn btn-sm btn-outline-secondary" (click)="retry()">Retry</button></p> }
+      @if (detail.value(); as service) {
+        <h2 class="h5">{{ service.name }}</h2><p>{{ service.host }} <span [class]="'status-pill status-' + service.current_state">{{ service.current_state }}</span></p>
+        @if (activeEvent(); as event) { <p class="alert alert-secondary">Selected event: {{ event.at | date:'medium' }} · {{ event.kind.replaceAll('_', ' ') }} · {{ event.reason }} <button type="button" class="btn btn-sm btn-outline-secondary" (click)="clearEventSelection()">Show all observations</button></p> }
+        @else if (eventId()) { <p class="alert alert-warning" role="status">The selected event is not available in this period. It may have been removed by retention. <button type="button" class="btn btn-sm btn-outline-secondary" (click)="clearEventSelection()">Show all observations</button></p> }
+        @if (selectedPeriod(); as period) { <p class="alert alert-secondary">Selected timeline period: {{ period.from | date:'medium' }} – {{ period.to | date:'medium' }} · {{ period.states.join(', ') }}. <button type="button" class="btn btn-sm btn-outline-secondary" (click)="selectedPeriod.set(null)">Show full range</button></p> }
+        <p>Monitoring began {{ service.history_started_at | date:'medium' }}. @if (service.availability_pruned_before) { History before {{ service.availability_pruned_before | date:'medium' }} was removed by retention. }</p>
+        <app-history-timeline [buckets]="service.timeline" [label]="service.name + ' detailed availability'" (periodSelected)="selectDetailPeriod($event)" />
+        <h3 class="h6 mt-4">Response time</h3>
+        <p class="small text-body-secondary">{{ service.performance_resolution === 'mixed' ? 'Hourly and daily' : service.performance_resolution === 'hour' ? 'Hourly' : 'Daily' }} summaries in UTC. Only retained performance data is shown. Solid lines show averages; dotted lines show minimum and maximum.</p>
+        @if (chart().hasData) {
+          <div class="response-chart">
+            <span class="small text-body-secondary">{{ chart().max | number:'1.0-0' }} ms</span>
+            <svg viewBox="0 0 600 130" role="img" aria-label="Response-time averages, minimums and maximums. Exact values follow in the accessible data table." preserveAspectRatio="none">
+              <line x1="0" y1="120" x2="600" y2="120" class="chart-axis" />
+              @for (points of chart().httpMin; track $index) { <polyline [attr.points]="points" class="http-series range-series" /> }
+              @for (points of chart().httpMax; track $index) { <polyline [attr.points]="points" class="http-series range-series" /> }
+              @for (points of chart().httpsMin; track $index) { <polyline [attr.points]="points" class="https-series range-series" /> }
+              @for (points of chart().httpsMax; track $index) { <polyline [attr.points]="points" class="https-series range-series" /> }
+              @for (points of chart().http; track $index) { <polyline [attr.points]="points" class="http-series" /> }
+              @for (points of chart().https; track $index) { <polyline [attr.points]="points" class="https-series" /> }
+              @for (point of chart().httpDots; track $index) { <circle [attr.cx]="point.x" [attr.cy]="point.y" r="2" fill="#248da1" /> }
+              @for (point of chart().httpsDots; track $index) { <circle [attr.cx]="point.x" [attr.cy]="point.y" r="2" fill="#9974e7" /> }
+            </svg>
+            <div class="chart-labels d-flex flex-wrap justify-content-between gap-3 small text-body-secondary"><span>{{ service.from | date:'short' }}</span><span><b class="http-legend">— HTTP</b> <b class="https-legend">— HTTPS</b></span><span>{{ service.to | date:'short' }}</span></div>
+          </div>
+        } @else { <p class="empty-state text-body-secondary p-3">No retained response-time observations in this period.</p> }
+        <details><summary>Response-time data table</summary><div class="table-responsive"><table class="table table-sm"><thead><tr><th>Period start</th><th>HTTP average / min / max</th><th>HTTPS average / min / max</th></tr></thead><tbody>
+          @for (bucket of service.performance_buckets; track bucket.from) { <tr><td>{{ bucket.from | date:'short' }}</td><td>{{ bucket.http.average_ms === null ? '—' : (bucket.http.average_ms | number:'1.0-0') }} / {{ bucket.http.min_ms ?? '—' }} / {{ bucket.http.max_ms ?? '—' }} ms</td><td>{{ bucket.https.average_ms === null ? '—' : (bucket.https.average_ms | number:'1.0-0') }} / {{ bucket.https.min_ms ?? '—' }} / {{ bucket.https.max_ms ?? '—' }} ms</td></tr> }
+        </tbody></table></div></details>
+        <h3 class="h6 mt-4">Observed outages</h3>
+        <ul class="outage-list">@for (outage of service.outages; track outage.from) {
+          <li>{{ outage.from | date:'medium' }} – {{ outage.to | date:'medium' }} · {{ duration(+newDate(outage.to) - +newDate(outage.from)) }}@if (outage.ongoing) { · ongoing at period end }@if (outage.interrupted_by) { · interrupted by {{ outage.interrupted_by.replaceAll('_', ' ') }} }</li>
+        } @empty { <li>{{ service.outage_pagination && service.outage_pagination.total ? 'No outages on this page.' : 'No observed disruptions in this period.' }}</li> }</ul>
+        @if (service.outage_pagination; as pages) {
+          @if (pages.total_pages > 1) { <nav class="pagination-controls d-flex justify-content-center align-items-center gap-3 my-3 small" aria-label="Service outage pages"><button class="btn btn-sm btn-outline-secondary" type="button" [disabled]="pages.page <= 1" (click)="detailOutagePage.set(detailOutagePage() - 1)">Previous outages</button><span>Page {{ pages.page }} of {{ pages.total_pages }} · {{ pages.total }} outages</span><button type="button" class="btn btn-sm btn-outline-secondary" [disabled]="pages.page >= pages.total_pages" (click)="detailOutagePage.set(detailOutagePage() + 1)">Next outages</button></nav> }
+        }
+        <h3 class="h6 mt-4">Protocol diagnostics and target revisions</h3>
+        <div class="table-responsive"><table class="table table-sm"><thead><tr><th>Observed period</th><th>Status</th><th>HTTP</th><th>HTTPS</th><th>Target</th></tr></thead><tbody>
+          @for (interval of service.intervals; track interval.id) {
+            <tr [class.table-active]="intervalMatchesSelection(interval.from, interval.to)"><td>{{ interval.from | date:'medium' }}<br />{{ interval.to | date:'medium' }}<small class="d-block">Last observation: {{ interval.last_observed_at ? (interval.last_observed_at | date:'medium') : 'none' }}</small></td>
+              <td><span [class]="'status-pill status-' + interval.state">{{ interval.state }}</span><small class="d-block">{{ interval.event_kind.replaceAll('_', ' ') }} · {{ interval.reason }}</small></td>
+              <td>{{ interval.http_state ?? 'disabled' }} {{ interval.http_status ?? '' }}<small class="d-block">{{ interval.http_error }}</small></td>
+              <td>{{ interval.https_state ?? 'disabled' }} {{ interval.https_status ?? '' }}<small class="d-block">{{ interval.https_error }}</small></td>
+              <td>Revision {{ interval.configuration.revision }}<br />{{ interval.configuration.host }}{{ interval.configuration.port ? ':' + interval.configuration.port : '' }}{{ interval.configuration.http_path }}</td></tr>
+          } @empty { <tr><td colspan="5">No retained observations in this period.</td></tr> }
+        </tbody></table></div>
+        @if (service.pagination.total_pages > 1) { <nav class="pagination-controls d-flex justify-content-center align-items-center gap-3 my-3 small" aria-label="Service observation pages"><button class="btn btn-sm btn-outline-secondary" type="button" [disabled]="service.pagination.page <= 1" (click)="detailPage.set(detailPage() - 1)">Previous observations</button><span>Page {{ service.pagination.page }} of {{ service.pagination.total_pages }}</span><button type="button" class="btn btn-sm btn-outline-secondary" [disabled]="service.pagination.page >= service.pagination.total_pages" (click)="detailPage.set(detailPage() + 1)">Next observations</button></nav> }
+      } @else if (detail.isLoading()) { <p role="status">Loading service history…</p> }
+    </section>
+  }
+  @if (editable()) {
+    <details class="monitoring-settings"><summary>Dashboard monitoring settings</summary>
+      <form class="small pt-3" (submit)="saveSettings($event)">
+        <div class="settings-grid">
+          <label class="form-check"><input type="checkbox" class="form-check-input" [checked]="draft().monitoring_enabled" (change)="updateDraft('monitoring_enabled', $any($event.target).checked)" /> Monitor availability</label>
+          <label>Check interval (seconds)<input class="form-control form-control-sm" type="number" min="1" step="1" required [value]="draft().check_interval_seconds" (change)="updateDraft('check_interval_seconds', $any($event.target).value)" /></label>
+          <label class="form-check"><input class="form-check-input" type="checkbox" [checked]="draft().screenshots_enabled" (change)="updateDraft('screenshots_enabled', $any($event.target).checked)" /> Capture current screenshots</label>
+          <label>Screenshot interval (seconds)<input class="form-control form-control-sm" type="number" min="1" step="1" required [value]="draft().screenshot_interval_seconds" (change)="updateDraft('screenshot_interval_seconds', $any($event.target).value)" /></label>
+        </div>
+        <p class="small text-body-secondary">Availability runs continuously. Screenshots are captured only while a viewer displays previews with screen refresh enabled. Only the current screenshot is kept.</p>
+        <details><summary>Advanced: history retention</summary>
+          <p>Leave a retention field blank to keep indefinitely. A positive number automatically deletes older records after that many days. Deletion is permanent. Open availability intervals and intervals crossing the cutoff are preserved.</p>
+          <div class="settings-grid">
+            <label>Hourly response summaries (days)<input class="form-control form-control-sm" type="number" min="1" step="1" placeholder="Keep indefinitely" [value]="draft().hourly_retention_days ?? ''" (change)="updateDraft('hourly_retention_days', $any($event.target).value)" /></label>
+            <label>Daily response summaries (days)<input class="form-control form-control-sm" type="number" min="1" step="1" placeholder="Keep indefinitely" [value]="draft().daily_retention_days ?? ''" (change)="updateDraft('daily_retention_days', $any($event.target).value)" /></label>
+            <label>Availability intervals (days)<input class="form-control form-control-sm" type="number" min="1" step="1" placeholder="Keep indefinitely" [value]="draft().availability_retention_days ?? ''" (change)="updateDraft('availability_retention_days', $any($event.target).value)" /></label>
+          </div>
+        </details>
+        <button type="submit" class="btn btn-primary btn-sm mt-3" [disabled]="saving()">{{ saving() ? 'Saving…' : 'Save monitoring settings' }}</button>
+        @if (settingsMessage()) { <p role="status" class="mt-2">{{ settingsMessage() }}</p> }
+      </form>
+    </details>
+  }
+</section>

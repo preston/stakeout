@@ -25,11 +25,11 @@ async function main(): Promise<void> {
         ], cloud: true },
       ]) {
         const dashboard = await transaction.dashboard.upsert({ where: { name: definition.name },
-          create: { name: definition.name, created_at: now, updated_at: now }, update: {} });
+          create: { name: definition.name, createdAt: now, updatedAt: now }, update: {} });
         for (const service of definition.services) {
-          await transaction.service.upsert({ where: { dashboard_id_name: { dashboard_id: dashboard.id, name: service.name } },
-            create: { ...service, dashboard_id: dashboard.id, http: !definition.cloud, http_preview: !definition.cloud,
-              created_at: now, updated_at: now }, update: {} });
+          await transaction.service.upsert({ where: { dashboardId_name: { dashboardId: dashboard.id, name: service.name } },
+            create: { ...service, dashboardId: dashboard.id, http: !definition.cloud, httpPreview: !definition.cloud,
+              createdAt: now, updatedAt: now }, update: {} });
         }
       }
     });

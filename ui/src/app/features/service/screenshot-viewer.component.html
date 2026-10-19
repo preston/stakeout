@@ -1,0 +1,62 @@
+<dialog #dialog class="screenshot-dialog" aria-labelledby="screenshot-title"
+  (cancel)="onCancel($event)" (close)="onClosed()"
+  (pointerdown)="onPointerDown($event)" (click)="onClick($event)">
+  <div #content class="viewer-content">
+    @if (service(); as s) {
+      <header class="viewer-header">
+        <div class="viewer-heading">
+          <h2 id="screenshot-title">{{ s.name }}</h2>
+          <span class="text-body-secondary">{{ s.host }}</span>
+        </div>
+        <div class="viewer-actions">
+          <button type="button" class="btn btn-sm btn-outline-primary" (click)="toggleFullscreen()"
+            [attr.aria-pressed]="fullscreen()">
+            <span [class]="fullscreen() ? 'bi bi-fullscreen-exit' : 'bi bi-fullscreen'" aria-hidden="true"></span>
+            {{ fullscreen() ? 'Exit full screen' : 'Full screen' }}
+          </button>
+          <button type="button" class="btn btn-sm btn-primary" (click)="close()" autofocus>
+            <span class="bi bi-x-lg" aria-hidden="true"></span> Close
+          </button>
+        </div>
+      </header>
+      <div class="image-area" [attr.aria-busy]="loading() && !!s.screenshot">
+        @if (s.screenshot; as image) {
+          @if (loading() && !imageFailed()) {
+            <p class="image-message" role="status">Loading screenshot…</p>
+          }
+          @for (attempt of [imageAttempt()]; track attempt) {
+            <img [src]="image.original_url" [alt]="'Screenshot of ' + s.name" width="1280" height="1280"
+              [class.image-failed]="imageFailed()"
+              (load)="loading.set(false)" (error)="imageFailed.set(true); loading.set(false)" />
+          }
+          @if (imageFailed()) {
+            <p class="image-message" role="status">Screenshot unavailable. Updates will continue automatically.</p>
+          }
+        } @else {
+          <p class="empty-message" role="status">No screenshot available. Waiting for the next update.</p>
+        }
+      </div>
+      <footer class="viewer-footer">
+        <span>
+          @if (s.http) {
+            <span class="badge" [class.text-bg-success]="s.checked_at && s.http_path_last"
+              [class.text-bg-danger]="s.checked_at && !s.http_path_last"
+              [class.text-bg-secondary]="!s.checked_at">HTTP</span>
+          }
+          @if (s.https) {
+            <span class="badge ms-1" [class.text-bg-success]="s.checked_at && s.https_path_last"
+              [class.text-bg-danger]="s.checked_at && !s.https_path_last"
+              [class.text-bg-secondary]="!s.checked_at">HTTPS</span>
+          }
+        </span>
+        <span class="text-body-secondary">
+          @if (s.checked_at) { Checked {{ s.checked_at | timeAgo:clock.now() }} }
+          @else { Pending service check }
+        </span>
+      </footer>
+      @if (fullscreenError()) {
+        <p class="fullscreen-error" role="status">The browser could not switch full screen mode.</p>
+      }
+    }
+  </div>
+</dialog>

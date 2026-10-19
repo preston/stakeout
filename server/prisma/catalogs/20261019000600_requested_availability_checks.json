@@ -1,0 +1,2104 @@
+{
+  "relations": [
+    {
+      "name": "AvailabilityInterval",
+      "kind": "r",
+      "row_security": false,
+      "force_row_security": false,
+      "definition": null
+    },
+    {
+      "name": "Dashboard",
+      "kind": "r",
+      "row_security": false,
+      "force_row_security": false,
+      "definition": null
+    },
+    {
+      "name": "PerformanceAggregate",
+      "kind": "r",
+      "row_security": false,
+      "force_row_security": false,
+      "definition": null
+    },
+    {
+      "name": "Service",
+      "kind": "r",
+      "row_security": false,
+      "force_row_security": false,
+      "definition": null
+    },
+    {
+      "name": "ServiceCheckJob",
+      "kind": "r",
+      "row_security": false,
+      "force_row_security": false,
+      "definition": null
+    },
+    {
+      "name": "ServiceConfiguration",
+      "kind": "r",
+      "row_security": false,
+      "force_row_security": false,
+      "definition": null
+    },
+    {
+      "name": "Session",
+      "kind": "r",
+      "row_security": false,
+      "force_row_security": false,
+      "definition": null
+    },
+    {
+      "name": "User",
+      "kind": "r",
+      "row_security": false,
+      "force_row_security": false,
+      "definition": null
+    }
+  ],
+  "columns": [
+    {
+      "table_name": "AvailabilityInterval",
+      "name": "checkIntervalSeconds",
+      "type": "integer",
+      "not_null": true,
+      "default_value": "60",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "AvailabilityInterval",
+      "name": "configurationId",
+      "type": "uuid",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "AvailabilityInterval",
+      "name": "endedAt",
+      "type": "timestamp(6) with time zone",
+      "not_null": false,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "AvailabilityInterval",
+      "name": "eventKind",
+      "type": "text",
+      "not_null": true,
+      "default_value": "'status'::text",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "AvailabilityInterval",
+      "name": "httpError",
+      "type": "text",
+      "not_null": false,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "AvailabilityInterval",
+      "name": "httpState",
+      "type": "text",
+      "not_null": false,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "AvailabilityInterval",
+      "name": "httpStatus",
+      "type": "integer",
+      "not_null": false,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "AvailabilityInterval",
+      "name": "httpsError",
+      "type": "text",
+      "not_null": false,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "AvailabilityInterval",
+      "name": "httpsState",
+      "type": "text",
+      "not_null": false,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "AvailabilityInterval",
+      "name": "httpsStatus",
+      "type": "integer",
+      "not_null": false,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "AvailabilityInterval",
+      "name": "id",
+      "type": "uuid",
+      "not_null": true,
+      "default_value": "gen_random_uuid()",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "AvailabilityInterval",
+      "name": "lastObservedAt",
+      "type": "timestamp(6) with time zone",
+      "not_null": false,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "AvailabilityInterval",
+      "name": "reason",
+      "type": "text",
+      "not_null": false,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "AvailabilityInterval",
+      "name": "serviceId",
+      "type": "uuid",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "AvailabilityInterval",
+      "name": "startedAt",
+      "type": "timestamp(6) with time zone",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "AvailabilityInterval",
+      "name": "state",
+      "type": "text",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "Dashboard",
+      "name": "availabilityRetentionDays",
+      "type": "integer",
+      "not_null": false,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "Dashboard",
+      "name": "checkIntervalSeconds",
+      "type": "integer",
+      "not_null": true,
+      "default_value": "60",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "Dashboard",
+      "name": "createdAt",
+      "type": "timestamp(6) without time zone",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "Dashboard",
+      "name": "dailyRetentionDays",
+      "type": "integer",
+      "not_null": false,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "Dashboard",
+      "name": "historyStartedAt",
+      "type": "timestamp(6) with time zone",
+      "not_null": true,
+      "default_value": "CURRENT_TIMESTAMP",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "Dashboard",
+      "name": "hourlyRetentionDays",
+      "type": "integer",
+      "not_null": false,
+      "default_value": "14",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "Dashboard",
+      "name": "id",
+      "type": "uuid",
+      "not_null": true,
+      "default_value": "gen_random_uuid()",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "Dashboard",
+      "name": "monitoringEnabled",
+      "type": "boolean",
+      "not_null": true,
+      "default_value": "true",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "Dashboard",
+      "name": "monitoringRevision",
+      "type": "integer",
+      "not_null": true,
+      "default_value": "1",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "Dashboard",
+      "name": "name",
+      "type": "character varying",
+      "not_null": false,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "Dashboard",
+      "name": "screenshotDemandUntil",
+      "type": "timestamp(6) with time zone",
+      "not_null": false,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "Dashboard",
+      "name": "screenshotIntervalSeconds",
+      "type": "integer",
+      "not_null": true,
+      "default_value": "60",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "Dashboard",
+      "name": "screenshotsEnabled",
+      "type": "boolean",
+      "not_null": true,
+      "default_value": "true",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "Dashboard",
+      "name": "updatedAt",
+      "type": "timestamp(6) without time zone",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "PerformanceAggregate",
+      "name": "bucketStart",
+      "type": "timestamp(6) with time zone",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "PerformanceAggregate",
+      "name": "httpCount",
+      "type": "integer",
+      "not_null": true,
+      "default_value": "0",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "PerformanceAggregate",
+      "name": "httpDurationMax",
+      "type": "double precision",
+      "not_null": false,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "PerformanceAggregate",
+      "name": "httpDurationMin",
+      "type": "double precision",
+      "not_null": false,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "PerformanceAggregate",
+      "name": "httpDurationSum",
+      "type": "double precision",
+      "not_null": true,
+      "default_value": "0",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "PerformanceAggregate",
+      "name": "httpFailures",
+      "type": "integer",
+      "not_null": true,
+      "default_value": "0",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "PerformanceAggregate",
+      "name": "httpResponseCount",
+      "type": "integer",
+      "not_null": true,
+      "default_value": "0",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "PerformanceAggregate",
+      "name": "httpsCount",
+      "type": "integer",
+      "not_null": true,
+      "default_value": "0",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "PerformanceAggregate",
+      "name": "httpsDurationMax",
+      "type": "double precision",
+      "not_null": false,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "PerformanceAggregate",
+      "name": "httpsDurationMin",
+      "type": "double precision",
+      "not_null": false,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "PerformanceAggregate",
+      "name": "httpsDurationSum",
+      "type": "double precision",
+      "not_null": true,
+      "default_value": "0",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "PerformanceAggregate",
+      "name": "httpsFailures",
+      "type": "integer",
+      "not_null": true,
+      "default_value": "0",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "PerformanceAggregate",
+      "name": "httpsResponseCount",
+      "type": "integer",
+      "not_null": true,
+      "default_value": "0",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "PerformanceAggregate",
+      "name": "resolution",
+      "type": "text",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "PerformanceAggregate",
+      "name": "serviceId",
+      "type": "uuid",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "Service",
+      "name": "availabilityCheckRequestedAt",
+      "type": "timestamp(6) with time zone",
+      "not_null": false,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "Service",
+      "name": "availabilityPrunedBefore",
+      "type": "timestamp(6) with time zone",
+      "not_null": false,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "Service",
+      "name": "checkedAt",
+      "type": "timestamp(6) without time zone",
+      "not_null": false,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "Service",
+      "name": "configRevision",
+      "type": "integer",
+      "not_null": true,
+      "default_value": "1",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "Service",
+      "name": "createdAt",
+      "type": "timestamp(6) without time zone",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "Service",
+      "name": "dashboardId",
+      "type": "uuid",
+      "not_null": false,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "Service",
+      "name": "historyStartedAt",
+      "type": "timestamp(6) with time zone",
+      "not_null": true,
+      "default_value": "CURRENT_TIMESTAMP",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "Service",
+      "name": "host",
+      "type": "character varying",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "Service",
+      "name": "http",
+      "type": "boolean",
+      "not_null": false,
+      "default_value": "true",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "Service",
+      "name": "httpPath",
+      "type": "character varying",
+      "not_null": true,
+      "default_value": "''::character varying",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "Service",
+      "name": "httpPathLast",
+      "type": "boolean",
+      "not_null": false,
+      "default_value": "false",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "Service",
+      "name": "httpPreview",
+      "type": "boolean",
+      "not_null": false,
+      "default_value": "true",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "Service",
+      "name": "httpScreenshot",
+      "type": "bytea",
+      "not_null": false,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "Service",
+      "name": "httpScreenshotHash",
+      "type": "character varying(64)",
+      "not_null": false,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "Service",
+      "name": "httpScreenshotPreview",
+      "type": "bytea",
+      "not_null": false,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "Service",
+      "name": "httpXquery",
+      "type": "character varying",
+      "not_null": false,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "Service",
+      "name": "httpXqueryLast",
+      "type": "boolean",
+      "not_null": false,
+      "default_value": "false",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "Service",
+      "name": "https",
+      "type": "boolean",
+      "not_null": false,
+      "default_value": "false",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "Service",
+      "name": "httpsPathLast",
+      "type": "boolean",
+      "not_null": false,
+      "default_value": "false",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "Service",
+      "name": "id",
+      "type": "uuid",
+      "not_null": true,
+      "default_value": "gen_random_uuid()",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "Service",
+      "name": "name",
+      "type": "character varying",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "Service",
+      "name": "port",
+      "type": "integer",
+      "not_null": true,
+      "default_value": "0",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "Service",
+      "name": "screenshotCheckedAt",
+      "type": "timestamp(6) with time zone",
+      "not_null": false,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "Service",
+      "name": "updatedAt",
+      "type": "timestamp(6) without time zone",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "ServiceCheckJob",
+      "name": "attempts",
+      "type": "integer",
+      "not_null": true,
+      "default_value": "0",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "ServiceCheckJob",
+      "name": "availableAt",
+      "type": "timestamp(6) with time zone",
+      "not_null": true,
+      "default_value": "CURRENT_TIMESTAMP",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "ServiceCheckJob",
+      "name": "completedAt",
+      "type": "timestamp(6) with time zone",
+      "not_null": false,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "ServiceCheckJob",
+      "name": "createdAt",
+      "type": "timestamp(6) with time zone",
+      "not_null": true,
+      "default_value": "CURRENT_TIMESTAMP",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "ServiceCheckJob",
+      "name": "id",
+      "type": "uuid",
+      "not_null": true,
+      "default_value": "gen_random_uuid()",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "ServiceCheckJob",
+      "name": "kind",
+      "type": "text",
+      "not_null": true,
+      "default_value": "'availability'::text",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "ServiceCheckJob",
+      "name": "lastError",
+      "type": "text",
+      "not_null": false,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "ServiceCheckJob",
+      "name": "leaseExpiresAt",
+      "type": "timestamp(6) with time zone",
+      "not_null": false,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "ServiceCheckJob",
+      "name": "lockedBy",
+      "type": "text",
+      "not_null": false,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "ServiceCheckJob",
+      "name": "maxAttempts",
+      "type": "integer",
+      "not_null": true,
+      "default_value": "3",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "ServiceCheckJob",
+      "name": "serviceId",
+      "type": "uuid",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "ServiceCheckJob",
+      "name": "status",
+      "type": "text",
+      "not_null": true,
+      "default_value": "'pending'::text",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "ServiceCheckJob",
+      "name": "updatedAt",
+      "type": "timestamp(6) with time zone",
+      "not_null": true,
+      "default_value": "CURRENT_TIMESTAMP",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "ServiceConfiguration",
+      "name": "createdAt",
+      "type": "timestamp(6) with time zone",
+      "not_null": true,
+      "default_value": "CURRENT_TIMESTAMP",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "ServiceConfiguration",
+      "name": "host",
+      "type": "text",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "ServiceConfiguration",
+      "name": "http",
+      "type": "boolean",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "ServiceConfiguration",
+      "name": "httpPath",
+      "type": "text",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "ServiceConfiguration",
+      "name": "httpXquery",
+      "type": "text",
+      "not_null": false,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "ServiceConfiguration",
+      "name": "https",
+      "type": "boolean",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "ServiceConfiguration",
+      "name": "id",
+      "type": "uuid",
+      "not_null": true,
+      "default_value": "gen_random_uuid()",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "ServiceConfiguration",
+      "name": "port",
+      "type": "integer",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "ServiceConfiguration",
+      "name": "revision",
+      "type": "integer",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "ServiceConfiguration",
+      "name": "serviceId",
+      "type": "uuid",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "Session",
+      "name": "createdAt",
+      "type": "timestamp(6) with time zone",
+      "not_null": true,
+      "default_value": "CURRENT_TIMESTAMP",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "Session",
+      "name": "csrfToken",
+      "type": "character varying(64)",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "Session",
+      "name": "expiresAt",
+      "type": "timestamp(6) with time zone",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "Session",
+      "name": "id",
+      "type": "uuid",
+      "not_null": true,
+      "default_value": "gen_random_uuid()",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "Session",
+      "name": "tokenHash",
+      "type": "character varying(64)",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "Session",
+      "name": "userId",
+      "type": "uuid",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "User",
+      "name": "createdAt",
+      "type": "timestamp(6) with time zone",
+      "not_null": true,
+      "default_value": "CURRENT_TIMESTAMP",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "User",
+      "name": "dashboardOrder",
+      "type": "text",
+      "not_null": true,
+      "default_value": "'asc'::text",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "User",
+      "name": "developer",
+      "type": "boolean",
+      "not_null": true,
+      "default_value": "false",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "User",
+      "name": "displayMode",
+      "type": "text",
+      "not_null": true,
+      "default_value": "'overlay'::text",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "User",
+      "name": "displayName",
+      "type": "text",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "User",
+      "name": "experimental",
+      "type": "boolean",
+      "not_null": true,
+      "default_value": "false",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "User",
+      "name": "id",
+      "type": "uuid",
+      "not_null": true,
+      "default_value": "gen_random_uuid()",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "User",
+      "name": "isActive",
+      "type": "boolean",
+      "not_null": true,
+      "default_value": "true",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "User",
+      "name": "lastLoginAt",
+      "type": "timestamp(6) with time zone",
+      "not_null": false,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "User",
+      "name": "passwordHash",
+      "type": "text",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "User",
+      "name": "refreshIntervalMs",
+      "type": "integer",
+      "not_null": true,
+      "default_value": "60000",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "User",
+      "name": "screenshots",
+      "type": "boolean",
+      "not_null": true,
+      "default_value": "true",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "User",
+      "name": "serviceOrder",
+      "type": "text",
+      "not_null": true,
+      "default_value": "'asc'::text",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "User",
+      "name": "serviceSort",
+      "type": "text",
+      "not_null": true,
+      "default_value": "'name'::text",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "User",
+      "name": "themePreferred",
+      "type": "text",
+      "not_null": true,
+      "default_value": "'automatic'::text",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "User",
+      "name": "updatedAt",
+      "type": "timestamp(6) with time zone",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "User",
+      "name": "username",
+      "type": "text",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    }
+  ],
+  "constraints": [
+    {
+      "table_name": "AvailabilityInterval",
+      "name": "AvailabilityInterval_cadence_check",
+      "type": "c",
+      "definition": "CHECK (\"checkIntervalSeconds\" > 0)",
+      "validated": true
+    },
+    {
+      "table_name": "AvailabilityInterval",
+      "name": "AvailabilityInterval_checkIntervalSeconds_not_null",
+      "type": "n",
+      "definition": "NOT NULL \"checkIntervalSeconds\"",
+      "validated": true
+    },
+    {
+      "table_name": "AvailabilityInterval",
+      "name": "AvailabilityInterval_configurationId_fkey",
+      "type": "f",
+      "definition": "FOREIGN KEY (\"configurationId\") REFERENCES \"ServiceConfiguration\"(id) ON UPDATE CASCADE ON DELETE CASCADE",
+      "validated": true
+    },
+    {
+      "table_name": "AvailabilityInterval",
+      "name": "AvailabilityInterval_configurationId_not_null",
+      "type": "n",
+      "definition": "NOT NULL \"configurationId\"",
+      "validated": true
+    },
+    {
+      "table_name": "AvailabilityInterval",
+      "name": "AvailabilityInterval_eventKind_not_null",
+      "type": "n",
+      "definition": "NOT NULL \"eventKind\"",
+      "validated": true
+    },
+    {
+      "table_name": "AvailabilityInterval",
+      "name": "AvailabilityInterval_id_not_null",
+      "type": "n",
+      "definition": "NOT NULL id",
+      "validated": true
+    },
+    {
+      "table_name": "AvailabilityInterval",
+      "name": "AvailabilityInterval_pkey",
+      "type": "p",
+      "definition": "PRIMARY KEY (id)",
+      "validated": true
+    },
+    {
+      "table_name": "AvailabilityInterval",
+      "name": "AvailabilityInterval_protocol_check",
+      "type": "c",
+      "definition": "CHECK ((\"httpState\" IS NULL OR (\"httpState\" = ANY (ARRAY['up'::text, 'down'::text]))) AND (\"httpsState\" IS NULL OR (\"httpsState\" = ANY (ARRAY['up'::text, 'down'::text]))))",
+      "validated": true
+    },
+    {
+      "table_name": "AvailabilityInterval",
+      "name": "AvailabilityInterval_serviceId_fkey",
+      "type": "f",
+      "definition": "FOREIGN KEY (\"serviceId\") REFERENCES \"Service\"(id) ON UPDATE CASCADE ON DELETE CASCADE",
+      "validated": true
+    },
+    {
+      "table_name": "AvailabilityInterval",
+      "name": "AvailabilityInterval_serviceId_not_null",
+      "type": "n",
+      "definition": "NOT NULL \"serviceId\"",
+      "validated": true
+    },
+    {
+      "table_name": "AvailabilityInterval",
+      "name": "AvailabilityInterval_startedAt_not_null",
+      "type": "n",
+      "definition": "NOT NULL \"startedAt\"",
+      "validated": true
+    },
+    {
+      "table_name": "AvailabilityInterval",
+      "name": "AvailabilityInterval_state_check",
+      "type": "c",
+      "definition": "CHECK (state = ANY (ARRAY['up'::text, 'degraded'::text, 'down'::text, 'unknown'::text, 'paused'::text]))",
+      "validated": true
+    },
+    {
+      "table_name": "AvailabilityInterval",
+      "name": "AvailabilityInterval_state_not_null",
+      "type": "n",
+      "definition": "NOT NULL state",
+      "validated": true
+    },
+    {
+      "table_name": "AvailabilityInterval",
+      "name": "AvailabilityInterval_time_check",
+      "type": "c",
+      "definition": "CHECK (\"endedAt\" IS NULL OR \"endedAt\" >= \"startedAt\")",
+      "validated": true
+    },
+    {
+      "table_name": "Dashboard",
+      "name": "Dashboard_checkIntervalSeconds_not_null",
+      "type": "n",
+      "definition": "NOT NULL \"checkIntervalSeconds\"",
+      "validated": true
+    },
+    {
+      "table_name": "Dashboard",
+      "name": "Dashboard_historyStartedAt_not_null",
+      "type": "n",
+      "definition": "NOT NULL \"historyStartedAt\"",
+      "validated": true
+    },
+    {
+      "table_name": "Dashboard",
+      "name": "Dashboard_monitoringEnabled_not_null",
+      "type": "n",
+      "definition": "NOT NULL \"monitoringEnabled\"",
+      "validated": true
+    },
+    {
+      "table_name": "Dashboard",
+      "name": "Dashboard_monitoringRevision_not_null",
+      "type": "n",
+      "definition": "NOT NULL \"monitoringRevision\"",
+      "validated": true
+    },
+    {
+      "table_name": "Dashboard",
+      "name": "Dashboard_monitoring_check",
+      "type": "c",
+      "definition": "CHECK (\"checkIntervalSeconds\" > 0 AND \"screenshotIntervalSeconds\" > 0 AND \"monitoringRevision\" > 0 AND (\"hourlyRetentionDays\" IS NULL OR \"hourlyRetentionDays\" > 0) AND (\"dailyRetentionDays\" IS NULL OR \"dailyRetentionDays\" > 0) AND (\"availabilityRetentionDays\" IS NULL OR \"availabilityRetentionDays\" > 0))",
+      "validated": true
+    },
+    {
+      "table_name": "Dashboard",
+      "name": "Dashboard_pkey",
+      "type": "p",
+      "definition": "PRIMARY KEY (id)",
+      "validated": true
+    },
+    {
+      "table_name": "Dashboard",
+      "name": "Dashboard_screenshotIntervalSeconds_not_null",
+      "type": "n",
+      "definition": "NOT NULL \"screenshotIntervalSeconds\"",
+      "validated": true
+    },
+    {
+      "table_name": "Dashboard",
+      "name": "Dashboard_screenshotsEnabled_not_null",
+      "type": "n",
+      "definition": "NOT NULL \"screenshotsEnabled\"",
+      "validated": true
+    },
+    {
+      "table_name": "Dashboard",
+      "name": "dashboards_created_at_not_null",
+      "type": "n",
+      "definition": "NOT NULL \"createdAt\"",
+      "validated": true
+    },
+    {
+      "table_name": "Dashboard",
+      "name": "dashboards_id_not_null",
+      "type": "n",
+      "definition": "NOT NULL id",
+      "validated": true
+    },
+    {
+      "table_name": "Dashboard",
+      "name": "dashboards_updated_at_not_null",
+      "type": "n",
+      "definition": "NOT NULL \"updatedAt\"",
+      "validated": true
+    },
+    {
+      "table_name": "PerformanceAggregate",
+      "name": "PerformanceAggregate_bucketStart_not_null",
+      "type": "n",
+      "definition": "NOT NULL \"bucketStart\"",
+      "validated": true
+    },
+    {
+      "table_name": "PerformanceAggregate",
+      "name": "PerformanceAggregate_httpCount_not_null",
+      "type": "n",
+      "definition": "NOT NULL \"httpCount\"",
+      "validated": true
+    },
+    {
+      "table_name": "PerformanceAggregate",
+      "name": "PerformanceAggregate_httpDurationSum_not_null",
+      "type": "n",
+      "definition": "NOT NULL \"httpDurationSum\"",
+      "validated": true
+    },
+    {
+      "table_name": "PerformanceAggregate",
+      "name": "PerformanceAggregate_httpFailures_not_null",
+      "type": "n",
+      "definition": "NOT NULL \"httpFailures\"",
+      "validated": true
+    },
+    {
+      "table_name": "PerformanceAggregate",
+      "name": "PerformanceAggregate_httpResponseCount_not_null",
+      "type": "n",
+      "definition": "NOT NULL \"httpResponseCount\"",
+      "validated": true
+    },
+    {
+      "table_name": "PerformanceAggregate",
+      "name": "PerformanceAggregate_httpsCount_not_null",
+      "type": "n",
+      "definition": "NOT NULL \"httpsCount\"",
+      "validated": true
+    },
+    {
+      "table_name": "PerformanceAggregate",
+      "name": "PerformanceAggregate_httpsDurationSum_not_null",
+      "type": "n",
+      "definition": "NOT NULL \"httpsDurationSum\"",
+      "validated": true
+    },
+    {
+      "table_name": "PerformanceAggregate",
+      "name": "PerformanceAggregate_httpsFailures_not_null",
+      "type": "n",
+      "definition": "NOT NULL \"httpsFailures\"",
+      "validated": true
+    },
+    {
+      "table_name": "PerformanceAggregate",
+      "name": "PerformanceAggregate_httpsResponseCount_not_null",
+      "type": "n",
+      "definition": "NOT NULL \"httpsResponseCount\"",
+      "validated": true
+    },
+    {
+      "table_name": "PerformanceAggregate",
+      "name": "PerformanceAggregate_pkey",
+      "type": "p",
+      "definition": "PRIMARY KEY (\"serviceId\", resolution, \"bucketStart\")",
+      "validated": true
+    },
+    {
+      "table_name": "PerformanceAggregate",
+      "name": "PerformanceAggregate_resolution_check",
+      "type": "c",
+      "definition": "CHECK (resolution = ANY (ARRAY['hour'::text, 'day'::text]))",
+      "validated": true
+    },
+    {
+      "table_name": "PerformanceAggregate",
+      "name": "PerformanceAggregate_resolution_not_null",
+      "type": "n",
+      "definition": "NOT NULL resolution",
+      "validated": true
+    },
+    {
+      "table_name": "PerformanceAggregate",
+      "name": "PerformanceAggregate_serviceId_fkey",
+      "type": "f",
+      "definition": "FOREIGN KEY (\"serviceId\") REFERENCES \"Service\"(id) ON UPDATE CASCADE ON DELETE CASCADE",
+      "validated": true
+    },
+    {
+      "table_name": "PerformanceAggregate",
+      "name": "PerformanceAggregate_serviceId_not_null",
+      "type": "n",
+      "definition": "NOT NULL \"serviceId\"",
+      "validated": true
+    },
+    {
+      "table_name": "Service",
+      "name": "Service_configRevision_not_null",
+      "type": "n",
+      "definition": "NOT NULL \"configRevision\"",
+      "validated": true
+    },
+    {
+      "table_name": "Service",
+      "name": "Service_dashboardId_fkey",
+      "type": "f",
+      "definition": "FOREIGN KEY (\"dashboardId\") REFERENCES \"Dashboard\"(id)",
+      "validated": true
+    },
+    {
+      "table_name": "Service",
+      "name": "Service_historyStartedAt_not_null",
+      "type": "n",
+      "definition": "NOT NULL \"historyStartedAt\"",
+      "validated": true
+    },
+    {
+      "table_name": "Service",
+      "name": "Service_pkey",
+      "type": "p",
+      "definition": "PRIMARY KEY (id)",
+      "validated": true
+    },
+    {
+      "table_name": "Service",
+      "name": "services_created_at_not_null",
+      "type": "n",
+      "definition": "NOT NULL \"createdAt\"",
+      "validated": true
+    },
+    {
+      "table_name": "Service",
+      "name": "services_host_not_null",
+      "type": "n",
+      "definition": "NOT NULL host",
+      "validated": true
+    },
+    {
+      "table_name": "Service",
+      "name": "services_http_path_not_null",
+      "type": "n",
+      "definition": "NOT NULL \"httpPath\"",
+      "validated": true
+    },
+    {
+      "table_name": "Service",
+      "name": "services_id_not_null",
+      "type": "n",
+      "definition": "NOT NULL id",
+      "validated": true
+    },
+    {
+      "table_name": "Service",
+      "name": "services_name_not_null",
+      "type": "n",
+      "definition": "NOT NULL name",
+      "validated": true
+    },
+    {
+      "table_name": "Service",
+      "name": "services_port_not_null",
+      "type": "n",
+      "definition": "NOT NULL port",
+      "validated": true
+    },
+    {
+      "table_name": "Service",
+      "name": "services_updated_at_not_null",
+      "type": "n",
+      "definition": "NOT NULL \"updatedAt\"",
+      "validated": true
+    },
+    {
+      "table_name": "ServiceCheckJob",
+      "name": "ServiceCheckJob_attempts_check",
+      "type": "c",
+      "definition": "CHECK (attempts >= 0 AND \"maxAttempts\" > 0)",
+      "validated": true
+    },
+    {
+      "table_name": "ServiceCheckJob",
+      "name": "ServiceCheckJob_kind_check",
+      "type": "c",
+      "definition": "CHECK (kind = ANY (ARRAY['availability'::text, 'screenshot'::text]))",
+      "validated": true
+    },
+    {
+      "table_name": "ServiceCheckJob",
+      "name": "ServiceCheckJob_kind_not_null",
+      "type": "n",
+      "definition": "NOT NULL kind",
+      "validated": true
+    },
+    {
+      "table_name": "ServiceCheckJob",
+      "name": "ServiceCheckJob_pkey",
+      "type": "p",
+      "definition": "PRIMARY KEY (id)",
+      "validated": true
+    },
+    {
+      "table_name": "ServiceCheckJob",
+      "name": "ServiceCheckJob_serviceId_fkey",
+      "type": "f",
+      "definition": "FOREIGN KEY (\"serviceId\") REFERENCES \"Service\"(id) ON UPDATE CASCADE ON DELETE CASCADE",
+      "validated": true
+    },
+    {
+      "table_name": "ServiceCheckJob",
+      "name": "ServiceCheckJob_serviceId_kind_key",
+      "type": "u",
+      "definition": "UNIQUE (\"serviceId\", kind)",
+      "validated": true
+    },
+    {
+      "table_name": "ServiceCheckJob",
+      "name": "ServiceCheckJob_status_check",
+      "type": "c",
+      "definition": "CHECK (status = ANY (ARRAY['pending'::text, 'running'::text, 'completed'::text, 'failed'::text]))",
+      "validated": true
+    },
+    {
+      "table_name": "ServiceCheckJob",
+      "name": "service_check_jobs_attempts_not_null",
+      "type": "n",
+      "definition": "NOT NULL attempts",
+      "validated": true
+    },
+    {
+      "table_name": "ServiceCheckJob",
+      "name": "service_check_jobs_available_at_not_null",
+      "type": "n",
+      "definition": "NOT NULL \"availableAt\"",
+      "validated": true
+    },
+    {
+      "table_name": "ServiceCheckJob",
+      "name": "service_check_jobs_created_at_not_null",
+      "type": "n",
+      "definition": "NOT NULL \"createdAt\"",
+      "validated": true
+    },
+    {
+      "table_name": "ServiceCheckJob",
+      "name": "service_check_jobs_id_not_null",
+      "type": "n",
+      "definition": "NOT NULL id",
+      "validated": true
+    },
+    {
+      "table_name": "ServiceCheckJob",
+      "name": "service_check_jobs_max_attempts_not_null",
+      "type": "n",
+      "definition": "NOT NULL \"maxAttempts\"",
+      "validated": true
+    },
+    {
+      "table_name": "ServiceCheckJob",
+      "name": "service_check_jobs_service_id_not_null",
+      "type": "n",
+      "definition": "NOT NULL \"serviceId\"",
+      "validated": true
+    },
+    {
+      "table_name": "ServiceCheckJob",
+      "name": "service_check_jobs_status_not_null",
+      "type": "n",
+      "definition": "NOT NULL status",
+      "validated": true
+    },
+    {
+      "table_name": "ServiceCheckJob",
+      "name": "service_check_jobs_updated_at_not_null",
+      "type": "n",
+      "definition": "NOT NULL \"updatedAt\"",
+      "validated": true
+    },
+    {
+      "table_name": "ServiceConfiguration",
+      "name": "ServiceConfiguration_createdAt_not_null",
+      "type": "n",
+      "definition": "NOT NULL \"createdAt\"",
+      "validated": true
+    },
+    {
+      "table_name": "ServiceConfiguration",
+      "name": "ServiceConfiguration_host_not_null",
+      "type": "n",
+      "definition": "NOT NULL host",
+      "validated": true
+    },
+    {
+      "table_name": "ServiceConfiguration",
+      "name": "ServiceConfiguration_httpPath_not_null",
+      "type": "n",
+      "definition": "NOT NULL \"httpPath\"",
+      "validated": true
+    },
+    {
+      "table_name": "ServiceConfiguration",
+      "name": "ServiceConfiguration_http_not_null",
+      "type": "n",
+      "definition": "NOT NULL http",
+      "validated": true
+    },
+    {
+      "table_name": "ServiceConfiguration",
+      "name": "ServiceConfiguration_https_not_null",
+      "type": "n",
+      "definition": "NOT NULL https",
+      "validated": true
+    },
+    {
+      "table_name": "ServiceConfiguration",
+      "name": "ServiceConfiguration_id_not_null",
+      "type": "n",
+      "definition": "NOT NULL id",
+      "validated": true
+    },
+    {
+      "table_name": "ServiceConfiguration",
+      "name": "ServiceConfiguration_pkey",
+      "type": "p",
+      "definition": "PRIMARY KEY (id)",
+      "validated": true
+    },
+    {
+      "table_name": "ServiceConfiguration",
+      "name": "ServiceConfiguration_port_not_null",
+      "type": "n",
+      "definition": "NOT NULL port",
+      "validated": true
+    },
+    {
+      "table_name": "ServiceConfiguration",
+      "name": "ServiceConfiguration_revision_not_null",
+      "type": "n",
+      "definition": "NOT NULL revision",
+      "validated": true
+    },
+    {
+      "table_name": "ServiceConfiguration",
+      "name": "ServiceConfiguration_serviceId_fkey",
+      "type": "f",
+      "definition": "FOREIGN KEY (\"serviceId\") REFERENCES \"Service\"(id) ON UPDATE CASCADE ON DELETE CASCADE",
+      "validated": true
+    },
+    {
+      "table_name": "ServiceConfiguration",
+      "name": "ServiceConfiguration_serviceId_not_null",
+      "type": "n",
+      "definition": "NOT NULL \"serviceId\"",
+      "validated": true
+    },
+    {
+      "table_name": "ServiceConfiguration",
+      "name": "ServiceConfiguration_serviceId_revision_key",
+      "type": "u",
+      "definition": "UNIQUE (\"serviceId\", revision)",
+      "validated": true
+    },
+    {
+      "table_name": "Session",
+      "name": "Session_createdAt_not_null",
+      "type": "n",
+      "definition": "NOT NULL \"createdAt\"",
+      "validated": true
+    },
+    {
+      "table_name": "Session",
+      "name": "Session_csrfToken_not_null",
+      "type": "n",
+      "definition": "NOT NULL \"csrfToken\"",
+      "validated": true
+    },
+    {
+      "table_name": "Session",
+      "name": "Session_expiresAt_not_null",
+      "type": "n",
+      "definition": "NOT NULL \"expiresAt\"",
+      "validated": true
+    },
+    {
+      "table_name": "Session",
+      "name": "Session_id_not_null",
+      "type": "n",
+      "definition": "NOT NULL id",
+      "validated": true
+    },
+    {
+      "table_name": "Session",
+      "name": "Session_pkey",
+      "type": "p",
+      "definition": "PRIMARY KEY (id)",
+      "validated": true
+    },
+    {
+      "table_name": "Session",
+      "name": "Session_tokenHash_not_null",
+      "type": "n",
+      "definition": "NOT NULL \"tokenHash\"",
+      "validated": true
+    },
+    {
+      "table_name": "Session",
+      "name": "Session_userId_fkey",
+      "type": "f",
+      "definition": "FOREIGN KEY (\"userId\") REFERENCES \"User\"(id) ON UPDATE CASCADE ON DELETE CASCADE",
+      "validated": true
+    },
+    {
+      "table_name": "Session",
+      "name": "Session_userId_not_null",
+      "type": "n",
+      "definition": "NOT NULL \"userId\"",
+      "validated": true
+    },
+    {
+      "table_name": "User",
+      "name": "User_createdAt_not_null",
+      "type": "n",
+      "definition": "NOT NULL \"createdAt\"",
+      "validated": true
+    },
+    {
+      "table_name": "User",
+      "name": "User_dashboardOrder_not_null",
+      "type": "n",
+      "definition": "NOT NULL \"dashboardOrder\"",
+      "validated": true
+    },
+    {
+      "table_name": "User",
+      "name": "User_developer_not_null",
+      "type": "n",
+      "definition": "NOT NULL developer",
+      "validated": true
+    },
+    {
+      "table_name": "User",
+      "name": "User_displayMode_not_null",
+      "type": "n",
+      "definition": "NOT NULL \"displayMode\"",
+      "validated": true
+    },
+    {
+      "table_name": "User",
+      "name": "User_displayName_not_null",
+      "type": "n",
+      "definition": "NOT NULL \"displayName\"",
+      "validated": true
+    },
+    {
+      "table_name": "User",
+      "name": "User_experimental_not_null",
+      "type": "n",
+      "definition": "NOT NULL experimental",
+      "validated": true
+    },
+    {
+      "table_name": "User",
+      "name": "User_id_not_null",
+      "type": "n",
+      "definition": "NOT NULL id",
+      "validated": true
+    },
+    {
+      "table_name": "User",
+      "name": "User_isActive_not_null",
+      "type": "n",
+      "definition": "NOT NULL \"isActive\"",
+      "validated": true
+    },
+    {
+      "table_name": "User",
+      "name": "User_passwordHash_not_null",
+      "type": "n",
+      "definition": "NOT NULL \"passwordHash\"",
+      "validated": true
+    },
+    {
+      "table_name": "User",
+      "name": "User_pkey",
+      "type": "p",
+      "definition": "PRIMARY KEY (id)",
+      "validated": true
+    },
+    {
+      "table_name": "User",
+      "name": "User_refreshIntervalMs_not_null",
+      "type": "n",
+      "definition": "NOT NULL \"refreshIntervalMs\"",
+      "validated": true
+    },
+    {
+      "table_name": "User",
+      "name": "User_screenshots_not_null",
+      "type": "n",
+      "definition": "NOT NULL screenshots",
+      "validated": true
+    },
+    {
+      "table_name": "User",
+      "name": "User_serviceOrder_not_null",
+      "type": "n",
+      "definition": "NOT NULL \"serviceOrder\"",
+      "validated": true
+    },
+    {
+      "table_name": "User",
+      "name": "User_serviceSort_not_null",
+      "type": "n",
+      "definition": "NOT NULL \"serviceSort\"",
+      "validated": true
+    },
+    {
+      "table_name": "User",
+      "name": "User_themePreferred_not_null",
+      "type": "n",
+      "definition": "NOT NULL \"themePreferred\"",
+      "validated": true
+    },
+    {
+      "table_name": "User",
+      "name": "User_updatedAt_not_null",
+      "type": "n",
+      "definition": "NOT NULL \"updatedAt\"",
+      "validated": true
+    },
+    {
+      "table_name": "User",
+      "name": "User_username_normalized_check",
+      "type": "c",
+      "definition": "CHECK (username = lower(btrim(username)) AND length(username) > 0)",
+      "validated": true
+    },
+    {
+      "table_name": "User",
+      "name": "User_username_not_null",
+      "type": "n",
+      "definition": "NOT NULL username",
+      "validated": true
+    }
+  ],
+  "indexes": [
+    {
+      "table_name": "AvailabilityInterval",
+      "name": "AvailabilityInterval_endedAt_idx",
+      "definition": "CREATE INDEX \"AvailabilityInterval_endedAt_idx\" ON public.\"AvailabilityInterval\" USING btree (\"endedAt\")",
+      "valid": true,
+      "ready": true
+    },
+    {
+      "table_name": "AvailabilityInterval",
+      "name": "AvailabilityInterval_open_key",
+      "definition": "CREATE UNIQUE INDEX \"AvailabilityInterval_open_key\" ON public.\"AvailabilityInterval\" USING btree (\"serviceId\") WHERE (\"endedAt\" IS NULL)",
+      "valid": true,
+      "ready": true
+    },
+    {
+      "table_name": "AvailabilityInterval",
+      "name": "AvailabilityInterval_pkey",
+      "definition": "CREATE UNIQUE INDEX \"AvailabilityInterval_pkey\" ON public.\"AvailabilityInterval\" USING btree (id)",
+      "valid": true,
+      "ready": true
+    },
+    {
+      "table_name": "AvailabilityInterval",
+      "name": "AvailabilityInterval_serviceId_startedAt_idx",
+      "definition": "CREATE INDEX \"AvailabilityInterval_serviceId_startedAt_idx\" ON public.\"AvailabilityInterval\" USING btree (\"serviceId\", \"startedAt\")",
+      "valid": true,
+      "ready": true
+    },
+    {
+      "table_name": "Dashboard",
+      "name": "Dashboard_name_key",
+      "definition": "CREATE UNIQUE INDEX \"Dashboard_name_key\" ON public.\"Dashboard\" USING btree (name)",
+      "valid": true,
+      "ready": true
+    },
+    {
+      "table_name": "Dashboard",
+      "name": "Dashboard_pkey",
+      "definition": "CREATE UNIQUE INDEX \"Dashboard_pkey\" ON public.\"Dashboard\" USING btree (id)",
+      "valid": true,
+      "ready": true
+    },
+    {
+      "table_name": "PerformanceAggregate",
+      "name": "PerformanceAggregate_pkey",
+      "definition": "CREATE UNIQUE INDEX \"PerformanceAggregate_pkey\" ON public.\"PerformanceAggregate\" USING btree (\"serviceId\", resolution, \"bucketStart\")",
+      "valid": true,
+      "ready": true
+    },
+    {
+      "table_name": "PerformanceAggregate",
+      "name": "PerformanceAggregate_resolution_bucketStart_idx",
+      "definition": "CREATE INDEX \"PerformanceAggregate_resolution_bucketStart_idx\" ON public.\"PerformanceAggregate\" USING btree (resolution, \"bucketStart\")",
+      "valid": true,
+      "ready": true
+    },
+    {
+      "table_name": "Service",
+      "name": "Service_dashboardId_idx",
+      "definition": "CREATE INDEX \"Service_dashboardId_idx\" ON public.\"Service\" USING btree (\"dashboardId\")",
+      "valid": true,
+      "ready": true
+    },
+    {
+      "table_name": "Service",
+      "name": "Service_dashboardId_name_key",
+      "definition": "CREATE UNIQUE INDEX \"Service_dashboardId_name_key\" ON public.\"Service\" USING btree (\"dashboardId\", name)",
+      "valid": true,
+      "ready": true
+    },
+    {
+      "table_name": "Service",
+      "name": "Service_pkey",
+      "definition": "CREATE UNIQUE INDEX \"Service_pkey\" ON public.\"Service\" USING btree (id)",
+      "valid": true,
+      "ready": true
+    },
+    {
+      "table_name": "ServiceCheckJob",
+      "name": "ServiceCheckJob_pkey",
+      "definition": "CREATE UNIQUE INDEX \"ServiceCheckJob_pkey\" ON public.\"ServiceCheckJob\" USING btree (id)",
+      "valid": true,
+      "ready": true
+    },
+    {
+      "table_name": "ServiceCheckJob",
+      "name": "ServiceCheckJob_serviceId_kind_key",
+      "definition": "CREATE UNIQUE INDEX \"ServiceCheckJob_serviceId_kind_key\" ON public.\"ServiceCheckJob\" USING btree (\"serviceId\", kind)",
+      "valid": true,
+      "ready": true
+    },
+    {
+      "table_name": "ServiceCheckJob",
+      "name": "ServiceCheckJob_status_availableAt_createdAt_idx",
+      "definition": "CREATE INDEX \"ServiceCheckJob_status_availableAt_createdAt_idx\" ON public.\"ServiceCheckJob\" USING btree (status, \"availableAt\", \"createdAt\")",
+      "valid": true,
+      "ready": true
+    },
+    {
+      "table_name": "ServiceConfiguration",
+      "name": "ServiceConfiguration_pkey",
+      "definition": "CREATE UNIQUE INDEX \"ServiceConfiguration_pkey\" ON public.\"ServiceConfiguration\" USING btree (id)",
+      "valid": true,
+      "ready": true
+    },
+    {
+      "table_name": "ServiceConfiguration",
+      "name": "ServiceConfiguration_serviceId_revision_key",
+      "definition": "CREATE UNIQUE INDEX \"ServiceConfiguration_serviceId_revision_key\" ON public.\"ServiceConfiguration\" USING btree (\"serviceId\", revision)",
+      "valid": true,
+      "ready": true
+    },
+    {
+      "table_name": "Session",
+      "name": "Session_expiresAt_idx",
+      "definition": "CREATE INDEX \"Session_expiresAt_idx\" ON public.\"Session\" USING btree (\"expiresAt\")",
+      "valid": true,
+      "ready": true
+    },
+    {
+      "table_name": "Session",
+      "name": "Session_pkey",
+      "definition": "CREATE UNIQUE INDEX \"Session_pkey\" ON public.\"Session\" USING btree (id)",
+      "valid": true,
+      "ready": true
+    },
+    {
+      "table_name": "Session",
+      "name": "Session_tokenHash_key",
+      "definition": "CREATE UNIQUE INDEX \"Session_tokenHash_key\" ON public.\"Session\" USING btree (\"tokenHash\")",
+      "valid": true,
+      "ready": true
+    },
+    {
+      "table_name": "Session",
+      "name": "Session_userId_idx",
+      "definition": "CREATE INDEX \"Session_userId_idx\" ON public.\"Session\" USING btree (\"userId\")",
+      "valid": true,
+      "ready": true
+    },
+    {
+      "table_name": "User",
+      "name": "User_pkey",
+      "definition": "CREATE UNIQUE INDEX \"User_pkey\" ON public.\"User\" USING btree (id)",
+      "valid": true,
+      "ready": true
+    },
+    {
+      "table_name": "User",
+      "name": "User_username_key",
+      "definition": "CREATE UNIQUE INDEX \"User_username_key\" ON public.\"User\" USING btree (username)",
+      "valid": true,
+      "ready": true
+    }
+  ],
+  "sequences": [],
+  "extensions": [
+    {
+      "name": "uuid-ossp",
+      "schema": "public"
+    }
+  ],
+  "functions": [],
+  "triggers": [],
+  "policies": [],
+  "enums": [],
+  "types": [],
+  "aggregates": []
+}

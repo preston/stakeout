@@ -123,6 +123,38 @@ h5 {
     box-shadow: 0px 10px 20px #000;
 }
 
+.screenshot-button {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: zoom-in;
+
+    img {
+        inset: 0;
+        height: 100%;
+        aspect-ratio: 1;
+        object-fit: contain;
+    }
+
+    &:focus-visible {
+        outline: 3px solid var(--bs-primary);
+        outline-offset: -3px;
+    }
+}
+
+.overlay-service .details {
+    pointer-events: none;
+
+    a, button {
+        pointer-events: auto;
+    }
+}
+
 
 
 
@@ -168,4 +200,16 @@ h5 {
 
 .checked_at {
     font-size: smaller;
+}
+
+.availability-history{margin:.65rem .25rem}.history-open{display:flex;align-items:center;gap:.55rem;width:100%;border:0;background:none;padding:0 0 .4rem;color:inherit;font-size:.72rem;text-align:left}.history-open .bi{margin-left:auto}.availability-state{text-transform:capitalize;font-weight:600}.status-up{color:#258354}.status-down{color:#ce3f4f}.status-degraded{color:#aa7900}.status-unknown,.status-paused,.status-unconfigured{color:var(--bs-secondary-color)}.healthLevel .level.degraded{background:#c58b06}
+
+.overlay-service .availability-history{background:#000b;padding:.45rem;margin:0;color:white}.overlay-service .status-up{color:#7de4a6}.overlay-service .status-degraded{color:#ffd377}.overlay-service .status-down{color:#ff9ba6}.overlay-service .status-unknown,.overlay-service .status-paused,.overlay-service .status-unconfigured{color:#ddd}
+@media(max-width:420px){.wide-service{width:calc(100vw - 3rem)}.wide-service .crop{width:calc(35% - 4px);height:130px}.wide-service .details{width:calc(65% - 14px)}}
+
+@media (max-width: 420px) {
+    .overlay-service .crop {
+        width: min(300px, calc(100vw - 3rem));
+        height: min(300px, calc(100vw - 3rem));
+    }
 }

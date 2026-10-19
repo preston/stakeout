@@ -1,0 +1,87 @@
+<div id="profile" class="container py-4">
+  <h1 class="h3 mb-4">Profile</h1>
+  @if (error()) { <div id="profile-error" class="alert alert-danger" role="alert">{{ error() }}</div> }
+  @if (message()) { <div id="profile-message" class="alert alert-success" role="status">{{ message() }}</div> }
+  <form (submit)="save($event)">
+    <fieldset [disabled]="busy()" class="row g-4 border-0 p-0">
+      <section class="col-12 col-lg-6" aria-labelledby="profile-account-heading">
+        <div class="card h-100"><div class="card-body">
+          <h2 id="profile-account-heading" class="h5">Account</h2>
+          <p class="text-secondary">Username: <strong>{{ auth.session()?.user?.username }}</strong></p>
+          <label for="profile-display-name" class="form-label">Display name</label>
+          <input id="profile-display-name" class="form-control mb-4" [formField]="identityForm.displayName" />
+          <h2 class="h5">Appearance and features</h2>
+          <label for="profile-theme" class="form-label">Theme</label>
+          <select id="profile-theme" class="form-select mb-3" [formField]="preferencesForm.themePreferred">
+            <option value="automatic">Automatic (system)</option><option value="light">Light</option><option value="dark">Dark</option>
+          </select>
+          <div class="form-check form-switch mb-2">
+            <input id="profile-experimental" type="checkbox" class="form-check-input" [formField]="preferencesForm.experimental" />
+            <label for="profile-experimental" class="form-check-label">Experimental features</label>
+          </div>
+          <div class="form-check form-switch">
+            <input id="profile-developer" type="checkbox" class="form-check-input" [formField]="preferencesForm.developer" />
+            <label for="profile-developer" class="form-check-label">Developer mode</label>
+          </div>
+        </div></div>
+      </section>
+      <section class="col-12 col-lg-6" aria-labelledby="profile-display-heading">
+        <div class="card h-100"><div class="card-body">
+          <h2 id="profile-display-heading" class="h5">Dashboard preferences</h2>
+          <div class="form-check form-switch mb-3">
+            <input id="profile-screenshots" type="checkbox" class="form-check-input" [formField]="preferencesForm.screenshots" />
+            <label for="profile-screenshots" class="form-check-label">Show screenshots</label>
+          </div>
+          <label for="profile-layout" class="form-label">Layout</label>
+          <select id="profile-layout" class="form-select mb-3" [formField]="preferencesForm.displayMode">
+            <option value="overlay">Overlay</option><option value="wide">Wide</option>
+          </select>
+          <label for="profile-refresh" class="form-label">Refresh interval</label>
+          <select id="profile-refresh" class="form-select mb-3" (change)="setRefresh($event)">
+            <option value="0" [selected]="draft().refreshIntervalMs === 0">Disabled</option>
+            @if (draft().developer) { <option value="5000" [selected]="draft().refreshIntervalMs === 5000">5 seconds</option> }
+            <option value="60000" [selected]="draft().refreshIntervalMs === 60000">1 minute</option><option value="900000" [selected]="draft().refreshIntervalMs === 900000">15 minutes</option><option value="3600000" [selected]="draft().refreshIntervalMs === 3600000">1 hour</option>
+          </select>
+          <label for="profile-dashboard-order" class="form-label">Dashboard list order</label>
+          <select id="profile-dashboard-order" class="form-select mb-3" [formField]="preferencesForm.dashboardOrder">
+            <option value="asc">Name A–Z</option><option value="desc">Name Z–A</option>
+          </select>
+          <div class="row g-3">
+            <div class="col-sm-6"><label for="profile-service-sort" class="form-label">Service sort</label>
+              <select id="profile-service-sort" class="form-select" [formField]="preferencesForm.serviceSort">
+                <option value="name">Name</option><option value="updatedAt">Last updated</option>
+              </select>
+            </div>
+            <div class="col-sm-6"><label for="profile-service-order" class="form-label">Service order</label>
+              <select id="profile-service-order" class="form-select" [formField]="preferencesForm.serviceOrder">
+                <option value="asc">Ascending</option><option value="desc">Descending</option>
+              </select>
+            </div>
+          </div>
+        </div></div>
+      </section>
+      <div class="col-12 d-flex flex-wrap gap-2">
+        <button id="profile-save" class="btn btn-primary">{{ busy() ? 'Saving…' : 'Save profile' }}</button>
+        <button id="profile-reset" type="button" class="btn btn-outline-secondary" (click)="reset()">Reset preferences to defaults</button>
+      </div>
+    </fieldset>
+  </form>
+  <section class="card mt-4" aria-labelledby="profile-password-heading"><div class="card-body">
+    <h2 id="profile-password-heading" class="h5">Change password</h2>
+    <form (submit)="changePassword($event)">
+      <fieldset [disabled]="busy()" class="row g-3 border-0 p-0">
+        <div class="col-md-4"><label for="profile-current-password" class="form-label">Current password</label>
+          <input id="profile-current-password" type="password" autocomplete="current-password" class="form-control" [formField]="passwordForm.currentPassword" />
+        </div>
+        <div class="col-md-4"><label for="profile-new-password" class="form-label">New password</label>
+          <input id="profile-new-password" type="password" autocomplete="new-password" class="form-control" [formField]="passwordForm.password" />
+          <div class="form-text">At least 12 characters.</div>
+        </div>
+        <div class="col-md-4"><label for="profile-confirm-password" class="form-label">Confirm new password</label>
+          <input id="profile-confirm-password" type="password" autocomplete="new-password" class="form-control" [formField]="passwordForm.confirmation" />
+        </div>
+        <div class="col-12"><button id="profile-change-password" class="btn btn-outline-primary">Change password</button></div>
+      </fieldset>
+    </form>
+  </div></section>
+</div>

@@ -30,3 +30,7 @@ h1 {
         z-index: 110;
     }
 }
+
+@media (max-width: 680px) {
+    h1 { clear: both; font-size: 1.6rem; }
+}

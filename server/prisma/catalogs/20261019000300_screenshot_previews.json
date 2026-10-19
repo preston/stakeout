@@ -1,0 +1,625 @@
+{
+  "relations": [
+    {
+      "name": "dashboards",
+      "kind": "r",
+      "row_security": false,
+      "force_row_security": false,
+      "definition": null
+    },
+    {
+      "name": "service_check_jobs",
+      "kind": "r",
+      "row_security": false,
+      "force_row_security": false,
+      "definition": null
+    },
+    {
+      "name": "services",
+      "kind": "r",
+      "row_security": false,
+      "force_row_security": false,
+      "definition": null
+    }
+  ],
+  "columns": [
+    {
+      "table_name": "dashboards",
+      "name": "created_at",
+      "type": "timestamp(6) without time zone",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "dashboards",
+      "name": "id",
+      "type": "uuid",
+      "not_null": true,
+      "default_value": "gen_random_uuid()",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "dashboards",
+      "name": "name",
+      "type": "character varying",
+      "not_null": false,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "dashboards",
+      "name": "updated_at",
+      "type": "timestamp(6) without time zone",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "service_check_jobs",
+      "name": "attempts",
+      "type": "integer",
+      "not_null": true,
+      "default_value": "0",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "service_check_jobs",
+      "name": "available_at",
+      "type": "timestamp(6) with time zone",
+      "not_null": true,
+      "default_value": "CURRENT_TIMESTAMP",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "service_check_jobs",
+      "name": "completed_at",
+      "type": "timestamp(6) with time zone",
+      "not_null": false,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "service_check_jobs",
+      "name": "created_at",
+      "type": "timestamp(6) with time zone",
+      "not_null": true,
+      "default_value": "CURRENT_TIMESTAMP",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "service_check_jobs",
+      "name": "id",
+      "type": "uuid",
+      "not_null": true,
+      "default_value": "gen_random_uuid()",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "service_check_jobs",
+      "name": "last_error",
+      "type": "text",
+      "not_null": false,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "service_check_jobs",
+      "name": "lease_expires_at",
+      "type": "timestamp(6) with time zone",
+      "not_null": false,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "service_check_jobs",
+      "name": "locked_by",
+      "type": "text",
+      "not_null": false,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "service_check_jobs",
+      "name": "max_attempts",
+      "type": "integer",
+      "not_null": true,
+      "default_value": "3",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "service_check_jobs",
+      "name": "service_id",
+      "type": "uuid",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "service_check_jobs",
+      "name": "status",
+      "type": "text",
+      "not_null": true,
+      "default_value": "'pending'::text",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "service_check_jobs",
+      "name": "updated_at",
+      "type": "timestamp(6) with time zone",
+      "not_null": true,
+      "default_value": "CURRENT_TIMESTAMP",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "services",
+      "name": "checked_at",
+      "type": "timestamp(6) without time zone",
+      "not_null": false,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "services",
+      "name": "created_at",
+      "type": "timestamp(6) without time zone",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "services",
+      "name": "dashboard_id",
+      "type": "uuid",
+      "not_null": false,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "services",
+      "name": "host",
+      "type": "character varying",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "services",
+      "name": "http",
+      "type": "boolean",
+      "not_null": false,
+      "default_value": "true",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "services",
+      "name": "http_path",
+      "type": "character varying",
+      "not_null": true,
+      "default_value": "''::character varying",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "services",
+      "name": "http_path_last",
+      "type": "boolean",
+      "not_null": false,
+      "default_value": "false",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "services",
+      "name": "http_preview",
+      "type": "boolean",
+      "not_null": false,
+      "default_value": "true",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "services",
+      "name": "http_screenshot",
+      "type": "bytea",
+      "not_null": false,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "services",
+      "name": "http_screenshot_hash",
+      "type": "character varying(64)",
+      "not_null": false,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "services",
+      "name": "http_screenshot_preview",
+      "type": "bytea",
+      "not_null": false,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "services",
+      "name": "http_xquery",
+      "type": "character varying",
+      "not_null": false,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "services",
+      "name": "http_xquery_last",
+      "type": "boolean",
+      "not_null": false,
+      "default_value": "false",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "services",
+      "name": "https",
+      "type": "boolean",
+      "not_null": false,
+      "default_value": "false",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "services",
+      "name": "https_path_last",
+      "type": "boolean",
+      "not_null": false,
+      "default_value": "false",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "services",
+      "name": "id",
+      "type": "uuid",
+      "not_null": true,
+      "default_value": "gen_random_uuid()",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "services",
+      "name": "name",
+      "type": "character varying",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "services",
+      "name": "port",
+      "type": "integer",
+      "not_null": true,
+      "default_value": "0",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "services",
+      "name": "updated_at",
+      "type": "timestamp(6) without time zone",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    }
+  ],
+  "constraints": [
+    {
+      "table_name": "dashboards",
+      "name": "dashboards_created_at_not_null",
+      "type": "n",
+      "definition": "NOT NULL created_at",
+      "validated": true
+    },
+    {
+      "table_name": "dashboards",
+      "name": "dashboards_id_not_null",
+      "type": "n",
+      "definition": "NOT NULL id",
+      "validated": true
+    },
+    {
+      "table_name": "dashboards",
+      "name": "dashboards_pkey",
+      "type": "p",
+      "definition": "PRIMARY KEY (id)",
+      "validated": true
+    },
+    {
+      "table_name": "dashboards",
+      "name": "dashboards_updated_at_not_null",
+      "type": "n",
+      "definition": "NOT NULL updated_at",
+      "validated": true
+    },
+    {
+      "table_name": "service_check_jobs",
+      "name": "service_check_jobs_attempts_check",
+      "type": "c",
+      "definition": "CHECK (attempts >= 0 AND max_attempts > 0)",
+      "validated": true
+    },
+    {
+      "table_name": "service_check_jobs",
+      "name": "service_check_jobs_attempts_not_null",
+      "type": "n",
+      "definition": "NOT NULL attempts",
+      "validated": true
+    },
+    {
+      "table_name": "service_check_jobs",
+      "name": "service_check_jobs_available_at_not_null",
+      "type": "n",
+      "definition": "NOT NULL available_at",
+      "validated": true
+    },
+    {
+      "table_name": "service_check_jobs",
+      "name": "service_check_jobs_created_at_not_null",
+      "type": "n",
+      "definition": "NOT NULL created_at",
+      "validated": true
+    },
+    {
+      "table_name": "service_check_jobs",
+      "name": "service_check_jobs_id_not_null",
+      "type": "n",
+      "definition": "NOT NULL id",
+      "validated": true
+    },
+    {
+      "table_name": "service_check_jobs",
+      "name": "service_check_jobs_max_attempts_not_null",
+      "type": "n",
+      "definition": "NOT NULL max_attempts",
+      "validated": true
+    },
+    {
+      "table_name": "service_check_jobs",
+      "name": "service_check_jobs_pkey",
+      "type": "p",
+      "definition": "PRIMARY KEY (id)",
+      "validated": true
+    },
+    {
+      "table_name": "service_check_jobs",
+      "name": "service_check_jobs_service_id_fkey",
+      "type": "f",
+      "definition": "FOREIGN KEY (service_id) REFERENCES services(id) ON UPDATE CASCADE ON DELETE CASCADE",
+      "validated": true
+    },
+    {
+      "table_name": "service_check_jobs",
+      "name": "service_check_jobs_service_id_not_null",
+      "type": "n",
+      "definition": "NOT NULL service_id",
+      "validated": true
+    },
+    {
+      "table_name": "service_check_jobs",
+      "name": "service_check_jobs_status_check",
+      "type": "c",
+      "definition": "CHECK (status = ANY (ARRAY['pending'::text, 'running'::text, 'completed'::text, 'failed'::text]))",
+      "validated": true
+    },
+    {
+      "table_name": "service_check_jobs",
+      "name": "service_check_jobs_status_not_null",
+      "type": "n",
+      "definition": "NOT NULL status",
+      "validated": true
+    },
+    {
+      "table_name": "service_check_jobs",
+      "name": "service_check_jobs_updated_at_not_null",
+      "type": "n",
+      "definition": "NOT NULL updated_at",
+      "validated": true
+    },
+    {
+      "table_name": "services",
+      "name": "fk_rails_725921ac06",
+      "type": "f",
+      "definition": "FOREIGN KEY (dashboard_id) REFERENCES dashboards(id)",
+      "validated": true
+    },
+    {
+      "table_name": "services",
+      "name": "services_created_at_not_null",
+      "type": "n",
+      "definition": "NOT NULL created_at",
+      "validated": true
+    },
+    {
+      "table_name": "services",
+      "name": "services_host_not_null",
+      "type": "n",
+      "definition": "NOT NULL host",
+      "validated": true
+    },
+    {
+      "table_name": "services",
+      "name": "services_http_path_not_null",
+      "type": "n",
+      "definition": "NOT NULL http_path",
+      "validated": true
+    },
+    {
+      "table_name": "services",
+      "name": "services_id_not_null",
+      "type": "n",
+      "definition": "NOT NULL id",
+      "validated": true
+    },
+    {
+      "table_name": "services",
+      "name": "services_name_not_null",
+      "type": "n",
+      "definition": "NOT NULL name",
+      "validated": true
+    },
+    {
+      "table_name": "services",
+      "name": "services_pkey",
+      "type": "p",
+      "definition": "PRIMARY KEY (id)",
+      "validated": true
+    },
+    {
+      "table_name": "services",
+      "name": "services_port_not_null",
+      "type": "n",
+      "definition": "NOT NULL port",
+      "validated": true
+    },
+    {
+      "table_name": "services",
+      "name": "services_updated_at_not_null",
+      "type": "n",
+      "definition": "NOT NULL updated_at",
+      "validated": true
+    }
+  ],
+  "indexes": [
+    {
+      "table_name": "dashboards",
+      "name": "dashboards_pkey",
+      "definition": "CREATE UNIQUE INDEX dashboards_pkey ON public.dashboards USING btree (id)",
+      "valid": true,
+      "ready": true
+    },
+    {
+      "table_name": "dashboards",
+      "name": "index_dashboards_on_name",
+      "definition": "CREATE UNIQUE INDEX index_dashboards_on_name ON public.dashboards USING btree (name)",
+      "valid": true,
+      "ready": true
+    },
+    {
+      "table_name": "service_check_jobs",
+      "name": "service_check_jobs_active_service_id",
+      "definition": "CREATE UNIQUE INDEX service_check_jobs_active_service_id ON public.service_check_jobs USING btree (service_id) WHERE (status = ANY (ARRAY['pending'::text, 'running'::text]))",
+      "valid": true,
+      "ready": true
+    },
+    {
+      "table_name": "service_check_jobs",
+      "name": "service_check_jobs_claim_idx",
+      "definition": "CREATE INDEX service_check_jobs_claim_idx ON public.service_check_jobs USING btree (status, available_at, created_at)",
+      "valid": true,
+      "ready": true
+    },
+    {
+      "table_name": "service_check_jobs",
+      "name": "service_check_jobs_pkey",
+      "definition": "CREATE UNIQUE INDEX service_check_jobs_pkey ON public.service_check_jobs USING btree (id)",
+      "valid": true,
+      "ready": true
+    },
+    {
+      "table_name": "services",
+      "name": "index_services_on_dashboard_id",
+      "definition": "CREATE INDEX index_services_on_dashboard_id ON public.services USING btree (dashboard_id)",
+      "valid": true,
+      "ready": true
+    },
+    {
+      "table_name": "services",
+      "name": "index_services_on_dashboard_id_and_name",
+      "definition": "CREATE UNIQUE INDEX index_services_on_dashboard_id_and_name ON public.services USING btree (dashboard_id, name)",
+      "valid": true,
+      "ready": true
+    },
+    {
+      "table_name": "services",
+      "name": "services_pkey",
+      "definition": "CREATE UNIQUE INDEX services_pkey ON public.services USING btree (id)",
+      "valid": true,
+      "ready": true
+    }
+  ],
+  "sequences": [],
+  "extensions": [
+    {
+      "name": "uuid-ossp",
+      "schema": "public"
+    }
+  ],
+  "functions": [],
+  "triggers": [],
+  "policies": [],
+  "enums": [],
+  "types": [],
+  "aggregates": []
+}

@@ -5,6 +5,7 @@ import {
   effect,
   untracked,
   DestroyRef,
+  computed,
 } from '@angular/core';
 import { rxResource, takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { form, FormField } from '@angular/forms/signals';
@@ -34,13 +35,14 @@ export class HomeComponent {
 
   readonly title =
     (window as unknown as { STAKEOUT_UI_TITLE?: string })['STAKEOUT_UI_TITLE'] ?? '';
-  readonly sidebarActive = signal(true);
+  private readonly wideViewport = window.matchMedia?.('(min-width: 769px)');
+  readonly sidebarActive = signal(this.wideViewport?.matches ?? window.innerWidth > 768);
   readonly editingId = signal<string | null>(null);
   readonly editDraft = signal<Dashboard>(new Dashboard());
   readonly editForm = form(this.editDraft);
   readonly dashboard = signal<Dashboard | null>(null);
   readonly sort = signal<'name'>('name');
-  readonly order = signal<'asc' | 'desc'>('asc');
+  readonly order = computed(() => this.settingsService.settings().dashboardOrder);
   readonly dashboardsLoadError = signal(false);
 
   readonly editable = () => this.settingsService.editable();
@@ -68,6 +70,12 @@ export class HomeComponent {
   readonly dashboardsLoading = () => this.dashboardsResource.isLoading();
 
   constructor() {
+    const onViewportChange = (event: MediaQueryListEvent) => this.sidebarActive.set(event.matches);
+    this.wideViewport?.addEventListener('change', onViewportChange);
+    this.destroyRef.onDestroy(() => this.wideViewport?.removeEventListener('change', onViewportChange));
+    effect(() => {
+      if (!this.settingsService.editable()) untracked(() => this.editingId.set(null));
+    });
     effect(() => {
       const dashboards = this.dashboards();
       if (this.router.url === '/' && dashboards.length > 0) {
@@ -95,7 +103,7 @@ export class HomeComponent {
 
   sortBy(sort: 'name'): void {
     this.sort.set(sort);
-    this.order.update((o) => (o === 'asc' ? 'desc' : 'asc'));
+    this.settingsService.change({ dashboardOrder: this.order() === 'asc' ? 'desc' : 'asc' });
     this.dashboardsResource.reload();
   }
 
@@ -107,6 +115,10 @@ export class HomeComponent {
       this.dashboard.set(null);
       this.router.navigate(['/']);
     }
+  }
+
+  closeSidebarOnMobile(): void {
+    if (!(this.wideViewport?.matches ?? window.innerWidth > 768)) this.sidebarActive.set(false);
   }
 
   toggleSidebar(): void {

@@ -1,6 +1,5 @@
 {
   "name": "@stakeout/ui",
-  "version": "4.2.0",
   "scripts": {
     "ng": "ng",
     "start": "node scripts/configure.mjs && ng serve --host 0.0.0.0",

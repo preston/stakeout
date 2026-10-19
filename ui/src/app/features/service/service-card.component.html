@@ -5,15 +5,20 @@
   >
     <div
       class="crop"
-      [class.has_screenshot]="s.http_screenshot && settingsService.screenshots()"
+      [class.has_screenshot]="previewUrl()"
     >
-      @if (s.http_screenshot && settingsService.screenshots()) {
-        <img
-          [src]="'data:image/jpeg;base64, ' + s.http_screenshot"
-          alt=""
-        />
-      }
-      @if (!(s.http_screenshot && settingsService.screenshots())) {
+      @if (previewUrl(); as preview) {
+        <button
+          type="button"
+          class="screenshot-button"
+          [attr.aria-label]="'Enlarge screenshot of ' + s.name"
+          aria-haspopup="dialog"
+          (click)="screenshotOpened.emit(s.id)"
+        >
+          <img [src]="preview" [alt]="'Screenshot of ' + s.name" width="600" height="600"
+            (error)="failedPreview.set(preview)" />
+        </button>
+      } @else {
         <div class="healthLevel">
           <div class="level" [class]="statusLevel(s)"></div>
         </div>
@@ -45,24 +50,32 @@
         <span>{{ s.name }}</span>
       </h4>
 
+      <div class="availability-history">
+        <button type="button" class="history-open" (click)="historyOpened.emit(s.id)">
+          <span [class]="'availability-state status-' + availabilityState(s)">{{ availabilityState(s) }}</span>
+          @if (history(); as h) { <span>{{ h.statistics.uptime_percent === null ? 'No observations' : (h.statistics.uptime_percent | number:'1.2-2') + '% uptime' }}</span> }
+          <span class="bi bi-clock-history" aria-hidden="true"></span><span class="visually-hidden">View availability history for {{ s.name }}</span>
+        </button>
+        @if (history(); as h) { <app-history-timeline [buckets]="h.timeline" [compact]="true" [label]="s.name + ' recent availability'" (periodSelected)="historyOpened.emit(s.id)" /> }
+      </div>
       <div class="badges">
         @if (s.http && s.http_path_last) {
-          <a [href]="'http://' + s.host + s.http_path" target="_blank">
+          <a [href]="targetUrl(s, false)" target="_blank">
             <span class="badge m-1 rounded-pill text-bg-success">HTTP</span>
           </a>
         }
         @if (s.http && !s.http_path_last) {
-          <a [href]="'http://' + s.host + s.http_path" target="_blank">
+          <a [href]="targetUrl(s, false)" target="_blank">
             <span class="badge m-1 rounded-pill text-bg-danger">HTTP</span>
           </a>
         }
         @if (s.https && s.https_path_last) {
-          <a [href]="'https://' + s.host + s.http_path" target="_blank">
+          <a [href]="targetUrl(s, true)" target="_blank">
             <span class="badge m-1 rounded-pill text-bg-success">HTTPS</span>
           </a>
         }
         @if (s.https && !s.https_path_last) {
-          <a [href]="'https://' + s.host + s.http_path" target="_blank">
+          <a [href]="targetUrl(s, true)" target="_blank">
             <span class="badge m-1 rounded-pill text-bg-danger">HTTPS</span>
           </a>
         }

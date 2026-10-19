@@ -1,145 +1,93 @@
 // Author: Preston Lee
 
-import { Service, signal } from '@angular/core';
-import { Settings, ThemeType } from '../models/settings.model';
+import { Service, computed, effect, inject, signal, untracked, DestroyRef } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { firstValueFrom } from 'rxjs';
+import { NgToastService } from 'ng-angular-popup';
+import { DEFAULT_PREFERENCES, type UserPreferences } from '@stakeout/core';
+import { ThemeType } from '../models/settings.model';
+import { API_URL, AuthService } from './auth.service';
 
 @Service()
 export class SettingsService {
-  static readonly SETTINGS_KEY = 'stakeout_settings';
-  static readonly FORCE_RESET_KEY = 'stakeout_settings_force_reset';
-  static readonly EDITABLE_KEY = 'stakeout_editable';
-
-  private readonly settingsSignal = signal<Settings>(new Settings());
-  readonly settings = this.settingsSignal.asReadonly();
-
-  readonly forceReset = signal(false);
-  readonly editable = signal(false);
-  readonly screenshots = signal(true);
-  readonly displayMode = signal<'wide' | 'overlay'>('overlay');
-  readonly theme_effective = signal<ThemeType>(ThemeType.LIGHT);
+  private readonly auth = inject(AuthService);
+  private readonly http = inject(HttpClient);
+  private readonly toast = inject(NgToastService);
+  private readonly hydratedVersion = signal(-1);
+  private readonly state = signal<UserPreferences>({ ...DEFAULT_PREFERENCES });
+  private confirmed: UserPreferences = { ...DEFAULT_PREFERENCES };
+  private queue: Promise<void> = Promise.resolve();
+  private revision = 0;
+  private readonly editing = signal(false);
+  private readonly darkSystem = signal(window.matchMedia?.('(prefers-color-scheme: dark)').matches ?? false);
+  readonly settings = computed(() => this.hydratedVersion() === this.auth.accountVersion()
+    ? this.state() : this.auth.session()?.preferences ?? DEFAULT_PREFERENCES);
+  readonly editable = computed(() => this.auth.isAuthenticated() && this.hydratedVersion() === this.auth.accountVersion() && this.editing());
+  readonly screenshots = computed(() => this.settings().screenshots);
+  readonly displayMode = computed(() => this.settings().displayMode);
+  readonly theme_effective = computed(() => this.settings().themePreferred === 'automatic'
+    ? this.darkSystem() ? ThemeType.DARK : ThemeType.LIGHT : this.settings().themePreferred);
 
   constructor() {
-    this.restoreEditableFromSession();
-    this.reload();
-    if (typeof window !== 'undefined' && window.matchMedia) {
-      window
-        .matchMedia('(prefers-color-scheme: dark)')
-        .addEventListener('change', ({ matches }) => {
-          if (this.settings().theme_preferred === ThemeType.AUTOMATIC) {
-            this.theme_effective.set(matches ? ThemeType.DARK : ThemeType.LIGHT);
-          }
-        });
-    }
+    try {
+      localStorage.removeItem('stakeout_settings');
+      localStorage.removeItem('stakeout_settings_force_reset');
+      sessionStorage.removeItem('stakeout_editable');
+    } catch { /* Storage may be disabled; it is no longer needed. */ }
+    const media = window.matchMedia?.('(prefers-color-scheme: dark)');
+    const onThemeChange = (event: MediaQueryListEvent) => this.darkSystem.set(event.matches);
+    media?.addEventListener('change', onThemeChange);
+    inject(DestroyRef).onDestroy(() => media?.removeEventListener('change', onThemeChange));
+    this.syncSession();
+    effect(() => {
+      this.auth.accountVersion();
+      untracked(() => this.syncSession());
+    });
   }
 
-  setEffectiveTheme(): void {
-    const preferred = this.settings().theme_preferred;
-    if (preferred === ThemeType.AUTOMATIC) {
-      if (
-        typeof window !== 'undefined' &&
-        window.matchMedia?.('(prefers-color-scheme: dark)').matches
-      ) {
-        this.theme_effective.set(ThemeType.DARK);
-      } else {
-        this.theme_effective.set(ThemeType.LIGHT);
-      }
-    } else {
-      this.theme_effective.set(preferred);
-    }
+  private syncSession(): void {
+    const version = this.auth.accountVersion();
+    if (this.hydratedVersion() === version) return;
+    this.revision++;
+    this.confirmed = { ...(this.auth.session()?.preferences ?? DEFAULT_PREFERENCES) };
+    this.state.set({ ...this.confirmed });
+    this.hydratedVersion.set(version);
+    this.editing.set(false);
   }
 
-  reload(): void {
-    this.forceReset.set(
-      localStorage.getItem(SettingsService.FORCE_RESET_KEY) === 'true'
-    );
-    if (this.forceReset()) {
-      this.forceResetToDefaults();
-      return;
+  setEditable(value: boolean): void { this.syncSession(); this.editing.set(this.auth.isAuthenticated() && value); }
+  setScreenshots(value: boolean): void { this.change({ screenshots: value }); }
+  setDisplayMode(value: 'wide' | 'overlay'): void { this.change({ displayMode: value }); }
+
+  change(patch: Partial<UserPreferences>): void {
+    void this.savePreferences(patch).catch(() => this.toast.danger('Your preference could not be saved. Please try again.', 'Save failed'));
+  }
+
+  savePreferences(patch: Partial<UserPreferences>): Promise<void> {
+    this.syncSession();
+    const version = this.auth.accountVersion();
+    const revision = ++this.revision;
+    const next = { ...this.state(), ...patch };
+    if (!next.developer && next.refreshIntervalMs === 5000) {
+      next.refreshIntervalMs = 60000;
+      patch = { ...patch, refreshIntervalMs: 60000 };
     }
-    const tmp = localStorage.getItem(SettingsService.SETTINGS_KEY);
-    if (tmp) {
+    this.state.set(next);
+    if (!this.auth.isAuthenticated()) return Promise.resolve();
+    const operation = this.queue.catch(() => {}).then(async () => {
+      if (version !== this.auth.accountVersion()) return;
       try {
-        const parsed = JSON.parse(tmp);
-        if (parsed.theme_preferred == null) {
-          parsed.theme_preferred = Settings.DEFAULT_THEME;
-        }
-        this.settingsSignal.set(parsed);
-      } catch (e) {
-        this.devWarn(
-          'Settings could not be parsed and are likely not valid JSON. They will be ignored.',
-          e
-        );
+        const saved = await firstValueFrom(this.http.patch<UserPreferences>(`${API_URL}/users/me/settings`, patch));
+        if (version !== this.auth.accountVersion()) return;
+        this.confirmed = saved;
+        if (revision === this.revision) this.state.set(saved);
+      } catch (error) {
+        if (version !== this.auth.accountVersion()) return;
+        if (revision === this.revision) this.state.set({ ...this.confirmed });
+        throw error;
       }
-    } else {
-      this.settingsSignal.set(new Settings());
-    }
-    this.setEffectiveTheme();
-  }
-
-  forceResetToDefaults(): void {
-    localStorage.clear();
-    if (typeof sessionStorage !== 'undefined') {
-      sessionStorage.removeItem(SettingsService.EDITABLE_KEY);
-    }
-    this.editable.set(false);
-    this.settingsSignal.set(new Settings());
-    this.forceReset.set(false);
-    this.saveSettings();
-    this.reload();
-    this.devLog('All application settings have been restored to their defaults.');
-  }
-
-  saveSettings(): void {
-    localStorage.setItem(
-      SettingsService.SETTINGS_KEY,
-      JSON.stringify(this.settingsSignal())
-    );
-    this.devLog(
-      'Your settings have been saved to local browser storage on this device.'
-    );
-  }
-
-  private devLog(...args: unknown[]): void {
-    if (this.settings().developer) {
-      console.log(...args);
-    }
-  }
-
-  private devWarn(...args: unknown[]): void {
-    if (this.settings().developer) {
-      console.warn(...args);
-    }
-  }
-
-  setEditable(value: boolean): void {
-    this.editable.set(value);
-    if (typeof sessionStorage !== 'undefined') {
-      if (value) {
-        sessionStorage.setItem(SettingsService.EDITABLE_KEY, 'true');
-      } else {
-        sessionStorage.removeItem(SettingsService.EDITABLE_KEY);
-      }
-    }
-  }
-
-  private restoreEditableFromSession(): void {
-    if (
-      typeof sessionStorage !== 'undefined' &&
-      sessionStorage.getItem(SettingsService.EDITABLE_KEY) === 'true'
-    ) {
-      this.editable.set(true);
-    }
-  }
-
-  setScreenshots(value: boolean): void {
-    this.screenshots.set(value);
-  }
-
-  setDisplayMode(mode: 'wide' | 'overlay'): void {
-    this.displayMode.set(mode);
-  }
-
-  updateSettings(update: Partial<Settings>): void {
-    this.settingsSignal.update((s) => ({ ...s, ...update }));
+    });
+    this.queue = operation;
+    return operation;
   }
 }

@@ -18,6 +18,7 @@ $drop_shadow: 0 20px 20px rgba(0,0,0,.2);
     // background: url(/assets/images/backgrounds/dashboards.jpg) no-repeat center center fixed;
     // background-size: cover;
     .wrapper {
+        position: relative;
         display: flex;
         width: 100%;
         align-items: stretch;
@@ -38,7 +39,7 @@ $drop_shadow: 0 20px 20px rgba(0,0,0,.2);
         box-shadow: $drop_shadow;
         // background-color: #000;
         // color: #fff;
-        transition: all 0.6s cubic-bezier(0.945, 0.02, 0.27, 0.665);
+        transition: margin-left 0.6s cubic-bezier(0.945, 0.02, 0.27, 0.665), transform 0.6s cubic-bezier(0.945, 0.02, 0.27, 0.665);
         transform-origin: bottom left;
         .sidebar-header {
             padding: 20px;
@@ -66,9 +67,11 @@ $drop_shadow: 0 20px 20px rgba(0,0,0,.2);
     }
     #content {
         width: 100%;
+        min-width: 0;
+        flex: 1;
         // padding: 20px;
         min-height: 100vh;
-        transition: all 0.3s;
+        transition: margin 0.3s;
     }
     #sidebarCollapse {
         margin-top: 0px;
@@ -83,7 +86,7 @@ $drop_shadow: 0 20px 20px rgba(0,0,0,.2);
             height: 2px;
             margin: 0 auto;
             display: block;
-            background: #333;
+            background: var(--bs-body-color);
             transition: all 0.8s cubic-bezier(0.81, -0.33, 0.345, 1.375);
             transition-delay: 0.2s;
         }
@@ -104,12 +107,31 @@ $drop_shadow: 0 20px 20px rgba(0,0,0,.2);
     }
     @media (max-width: 768px) {
         #sidebar {
+            position: absolute;
+            transition: none;
+            top: 0;
+            left: 0;
+            z-index: 200;
+            min-height: calc(100vh - 60px);
+            background: var(--bs-body-bg);
             margin-left: -250px;
             transform: rotateY(90deg);
         }
         #sidebar.active {
+            visibility: visible;
             margin-left: 0;
             transform: none;
+        }
+        #sidebar.inactive {
+            visibility: hidden;
+            transform: none;
+        }
+        #sidebarCollapse span {
+            transition: none;
+            transition-delay: 0s;
+        }
+        #sidebarCollapse.active {
+            margin-left: 250px;
         }
         #sidebarCollapse span:first-of-type,
         #sidebarCollapse span:nth-of-type(2),
