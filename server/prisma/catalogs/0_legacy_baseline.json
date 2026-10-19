@@ -1,0 +1,2277 @@
+{
+  "relations": [
+    {
+      "name": "ar_internal_metadata",
+      "kind": "r",
+      "row_security": false,
+      "force_row_security": false,
+      "definition": null
+    },
+    {
+      "name": "dashboards",
+      "kind": "r",
+      "row_security": false,
+      "force_row_security": false,
+      "definition": null
+    },
+    {
+      "name": "schema_migrations",
+      "kind": "r",
+      "row_security": false,
+      "force_row_security": false,
+      "definition": null
+    },
+    {
+      "name": "services",
+      "kind": "r",
+      "row_security": false,
+      "force_row_security": false,
+      "definition": null
+    },
+    {
+      "name": "solid_queue_blocked_executions",
+      "kind": "r",
+      "row_security": false,
+      "force_row_security": false,
+      "definition": null
+    },
+    {
+      "name": "solid_queue_blocked_executions_id_seq",
+      "kind": "S",
+      "row_security": false,
+      "force_row_security": false,
+      "definition": null
+    },
+    {
+      "name": "solid_queue_claimed_executions",
+      "kind": "r",
+      "row_security": false,
+      "force_row_security": false,
+      "definition": null
+    },
+    {
+      "name": "solid_queue_claimed_executions_id_seq",
+      "kind": "S",
+      "row_security": false,
+      "force_row_security": false,
+      "definition": null
+    },
+    {
+      "name": "solid_queue_failed_executions",
+      "kind": "r",
+      "row_security": false,
+      "force_row_security": false,
+      "definition": null
+    },
+    {
+      "name": "solid_queue_failed_executions_id_seq",
+      "kind": "S",
+      "row_security": false,
+      "force_row_security": false,
+      "definition": null
+    },
+    {
+      "name": "solid_queue_jobs",
+      "kind": "r",
+      "row_security": false,
+      "force_row_security": false,
+      "definition": null
+    },
+    {
+      "name": "solid_queue_jobs_id_seq",
+      "kind": "S",
+      "row_security": false,
+      "force_row_security": false,
+      "definition": null
+    },
+    {
+      "name": "solid_queue_pauses",
+      "kind": "r",
+      "row_security": false,
+      "force_row_security": false,
+      "definition": null
+    },
+    {
+      "name": "solid_queue_pauses_id_seq",
+      "kind": "S",
+      "row_security": false,
+      "force_row_security": false,
+      "definition": null
+    },
+    {
+      "name": "solid_queue_processes",
+      "kind": "r",
+      "row_security": false,
+      "force_row_security": false,
+      "definition": null
+    },
+    {
+      "name": "solid_queue_processes_id_seq",
+      "kind": "S",
+      "row_security": false,
+      "force_row_security": false,
+      "definition": null
+    },
+    {
+      "name": "solid_queue_ready_executions",
+      "kind": "r",
+      "row_security": false,
+      "force_row_security": false,
+      "definition": null
+    },
+    {
+      "name": "solid_queue_ready_executions_id_seq",
+      "kind": "S",
+      "row_security": false,
+      "force_row_security": false,
+      "definition": null
+    },
+    {
+      "name": "solid_queue_recurring_executions",
+      "kind": "r",
+      "row_security": false,
+      "force_row_security": false,
+      "definition": null
+    },
+    {
+      "name": "solid_queue_recurring_executions_id_seq",
+      "kind": "S",
+      "row_security": false,
+      "force_row_security": false,
+      "definition": null
+    },
+    {
+      "name": "solid_queue_recurring_tasks",
+      "kind": "r",
+      "row_security": false,
+      "force_row_security": false,
+      "definition": null
+    },
+    {
+      "name": "solid_queue_recurring_tasks_id_seq",
+      "kind": "S",
+      "row_security": false,
+      "force_row_security": false,
+      "definition": null
+    },
+    {
+      "name": "solid_queue_scheduled_executions",
+      "kind": "r",
+      "row_security": false,
+      "force_row_security": false,
+      "definition": null
+    },
+    {
+      "name": "solid_queue_scheduled_executions_id_seq",
+      "kind": "S",
+      "row_security": false,
+      "force_row_security": false,
+      "definition": null
+    },
+    {
+      "name": "solid_queue_semaphores",
+      "kind": "r",
+      "row_security": false,
+      "force_row_security": false,
+      "definition": null
+    },
+    {
+      "name": "solid_queue_semaphores_id_seq",
+      "kind": "S",
+      "row_security": false,
+      "force_row_security": false,
+      "definition": null
+    }
+  ],
+  "columns": [
+    {
+      "table_name": "ar_internal_metadata",
+      "name": "created_at",
+      "type": "timestamp(6) without time zone",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "ar_internal_metadata",
+      "name": "key",
+      "type": "character varying",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "ar_internal_metadata",
+      "name": "updated_at",
+      "type": "timestamp(6) without time zone",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "ar_internal_metadata",
+      "name": "value",
+      "type": "character varying",
+      "not_null": false,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "dashboards",
+      "name": "created_at",
+      "type": "timestamp(6) without time zone",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "dashboards",
+      "name": "id",
+      "type": "uuid",
+      "not_null": true,
+      "default_value": "gen_random_uuid()",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "dashboards",
+      "name": "name",
+      "type": "character varying",
+      "not_null": false,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "dashboards",
+      "name": "updated_at",
+      "type": "timestamp(6) without time zone",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "schema_migrations",
+      "name": "version",
+      "type": "character varying",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "services",
+      "name": "checked_at",
+      "type": "timestamp(6) without time zone",
+      "not_null": false,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "services",
+      "name": "created_at",
+      "type": "timestamp(6) without time zone",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "services",
+      "name": "dashboard_id",
+      "type": "uuid",
+      "not_null": false,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "services",
+      "name": "host",
+      "type": "character varying",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "services",
+      "name": "http",
+      "type": "boolean",
+      "not_null": false,
+      "default_value": "true",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "services",
+      "name": "http_path",
+      "type": "character varying",
+      "not_null": true,
+      "default_value": "''::character varying",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "services",
+      "name": "http_path_last",
+      "type": "boolean",
+      "not_null": false,
+      "default_value": "false",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "services",
+      "name": "http_preview",
+      "type": "boolean",
+      "not_null": false,
+      "default_value": "true",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "services",
+      "name": "http_screenshot",
+      "type": "bytea",
+      "not_null": false,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "services",
+      "name": "http_xquery",
+      "type": "character varying",
+      "not_null": false,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "services",
+      "name": "http_xquery_last",
+      "type": "boolean",
+      "not_null": false,
+      "default_value": "false",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "services",
+      "name": "https",
+      "type": "boolean",
+      "not_null": false,
+      "default_value": "false",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "services",
+      "name": "https_path_last",
+      "type": "boolean",
+      "not_null": false,
+      "default_value": "false",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "services",
+      "name": "id",
+      "type": "uuid",
+      "not_null": true,
+      "default_value": "gen_random_uuid()",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "services",
+      "name": "name",
+      "type": "character varying",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "services",
+      "name": "port",
+      "type": "integer",
+      "not_null": true,
+      "default_value": "0",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "services",
+      "name": "updated_at",
+      "type": "timestamp(6) without time zone",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "solid_queue_blocked_executions",
+      "name": "concurrency_key",
+      "type": "character varying",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "solid_queue_blocked_executions",
+      "name": "created_at",
+      "type": "timestamp(6) without time zone",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "solid_queue_blocked_executions",
+      "name": "expires_at",
+      "type": "timestamp(6) without time zone",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "solid_queue_blocked_executions",
+      "name": "id",
+      "type": "bigint",
+      "not_null": true,
+      "default_value": "nextval('solid_queue_blocked_executions_id_seq'::regclass)",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "solid_queue_blocked_executions",
+      "name": "job_id",
+      "type": "bigint",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "solid_queue_blocked_executions",
+      "name": "priority",
+      "type": "integer",
+      "not_null": true,
+      "default_value": "0",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "solid_queue_blocked_executions",
+      "name": "queue_name",
+      "type": "character varying",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "solid_queue_claimed_executions",
+      "name": "created_at",
+      "type": "timestamp(6) without time zone",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "solid_queue_claimed_executions",
+      "name": "id",
+      "type": "bigint",
+      "not_null": true,
+      "default_value": "nextval('solid_queue_claimed_executions_id_seq'::regclass)",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "solid_queue_claimed_executions",
+      "name": "job_id",
+      "type": "bigint",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "solid_queue_claimed_executions",
+      "name": "process_id",
+      "type": "bigint",
+      "not_null": false,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "solid_queue_failed_executions",
+      "name": "created_at",
+      "type": "timestamp(6) without time zone",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "solid_queue_failed_executions",
+      "name": "error",
+      "type": "text",
+      "not_null": false,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "solid_queue_failed_executions",
+      "name": "id",
+      "type": "bigint",
+      "not_null": true,
+      "default_value": "nextval('solid_queue_failed_executions_id_seq'::regclass)",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "solid_queue_failed_executions",
+      "name": "job_id",
+      "type": "bigint",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "solid_queue_jobs",
+      "name": "active_job_id",
+      "type": "character varying",
+      "not_null": false,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "solid_queue_jobs",
+      "name": "arguments",
+      "type": "text",
+      "not_null": false,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "solid_queue_jobs",
+      "name": "class_name",
+      "type": "character varying",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "solid_queue_jobs",
+      "name": "concurrency_key",
+      "type": "character varying",
+      "not_null": false,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "solid_queue_jobs",
+      "name": "created_at",
+      "type": "timestamp(6) without time zone",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "solid_queue_jobs",
+      "name": "finished_at",
+      "type": "timestamp(6) without time zone",
+      "not_null": false,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "solid_queue_jobs",
+      "name": "id",
+      "type": "bigint",
+      "not_null": true,
+      "default_value": "nextval('solid_queue_jobs_id_seq'::regclass)",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "solid_queue_jobs",
+      "name": "priority",
+      "type": "integer",
+      "not_null": true,
+      "default_value": "0",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "solid_queue_jobs",
+      "name": "queue_name",
+      "type": "character varying",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "solid_queue_jobs",
+      "name": "scheduled_at",
+      "type": "timestamp(6) without time zone",
+      "not_null": false,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "solid_queue_jobs",
+      "name": "updated_at",
+      "type": "timestamp(6) without time zone",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "solid_queue_pauses",
+      "name": "created_at",
+      "type": "timestamp(6) without time zone",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "solid_queue_pauses",
+      "name": "id",
+      "type": "bigint",
+      "not_null": true,
+      "default_value": "nextval('solid_queue_pauses_id_seq'::regclass)",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "solid_queue_pauses",
+      "name": "queue_name",
+      "type": "character varying",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "solid_queue_processes",
+      "name": "created_at",
+      "type": "timestamp(6) without time zone",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "solid_queue_processes",
+      "name": "hostname",
+      "type": "character varying",
+      "not_null": false,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "solid_queue_processes",
+      "name": "id",
+      "type": "bigint",
+      "not_null": true,
+      "default_value": "nextval('solid_queue_processes_id_seq'::regclass)",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "solid_queue_processes",
+      "name": "kind",
+      "type": "character varying",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "solid_queue_processes",
+      "name": "last_heartbeat_at",
+      "type": "timestamp(6) without time zone",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "solid_queue_processes",
+      "name": "metadata",
+      "type": "text",
+      "not_null": false,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "solid_queue_processes",
+      "name": "name",
+      "type": "character varying",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "solid_queue_processes",
+      "name": "pid",
+      "type": "integer",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "solid_queue_processes",
+      "name": "supervisor_id",
+      "type": "bigint",
+      "not_null": false,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "solid_queue_ready_executions",
+      "name": "created_at",
+      "type": "timestamp(6) without time zone",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "solid_queue_ready_executions",
+      "name": "id",
+      "type": "bigint",
+      "not_null": true,
+      "default_value": "nextval('solid_queue_ready_executions_id_seq'::regclass)",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "solid_queue_ready_executions",
+      "name": "job_id",
+      "type": "bigint",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "solid_queue_ready_executions",
+      "name": "priority",
+      "type": "integer",
+      "not_null": true,
+      "default_value": "0",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "solid_queue_ready_executions",
+      "name": "queue_name",
+      "type": "character varying",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "solid_queue_recurring_executions",
+      "name": "created_at",
+      "type": "timestamp(6) without time zone",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "solid_queue_recurring_executions",
+      "name": "id",
+      "type": "bigint",
+      "not_null": true,
+      "default_value": "nextval('solid_queue_recurring_executions_id_seq'::regclass)",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "solid_queue_recurring_executions",
+      "name": "job_id",
+      "type": "bigint",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "solid_queue_recurring_executions",
+      "name": "run_at",
+      "type": "timestamp(6) without time zone",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "solid_queue_recurring_executions",
+      "name": "task_key",
+      "type": "character varying",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "solid_queue_recurring_tasks",
+      "name": "arguments",
+      "type": "text",
+      "not_null": false,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "solid_queue_recurring_tasks",
+      "name": "class_name",
+      "type": "character varying",
+      "not_null": false,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "solid_queue_recurring_tasks",
+      "name": "command",
+      "type": "character varying(2048)",
+      "not_null": false,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "solid_queue_recurring_tasks",
+      "name": "created_at",
+      "type": "timestamp(6) without time zone",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "solid_queue_recurring_tasks",
+      "name": "description",
+      "type": "text",
+      "not_null": false,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "solid_queue_recurring_tasks",
+      "name": "id",
+      "type": "bigint",
+      "not_null": true,
+      "default_value": "nextval('solid_queue_recurring_tasks_id_seq'::regclass)",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "solid_queue_recurring_tasks",
+      "name": "key",
+      "type": "character varying",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "solid_queue_recurring_tasks",
+      "name": "priority",
+      "type": "integer",
+      "not_null": false,
+      "default_value": "0",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "solid_queue_recurring_tasks",
+      "name": "queue_name",
+      "type": "character varying",
+      "not_null": false,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "solid_queue_recurring_tasks",
+      "name": "schedule",
+      "type": "character varying",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "solid_queue_recurring_tasks",
+      "name": "static",
+      "type": "boolean",
+      "not_null": true,
+      "default_value": "true",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "solid_queue_recurring_tasks",
+      "name": "updated_at",
+      "type": "timestamp(6) without time zone",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "solid_queue_scheduled_executions",
+      "name": "created_at",
+      "type": "timestamp(6) without time zone",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "solid_queue_scheduled_executions",
+      "name": "id",
+      "type": "bigint",
+      "not_null": true,
+      "default_value": "nextval('solid_queue_scheduled_executions_id_seq'::regclass)",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "solid_queue_scheduled_executions",
+      "name": "job_id",
+      "type": "bigint",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "solid_queue_scheduled_executions",
+      "name": "priority",
+      "type": "integer",
+      "not_null": true,
+      "default_value": "0",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "solid_queue_scheduled_executions",
+      "name": "queue_name",
+      "type": "character varying",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "solid_queue_scheduled_executions",
+      "name": "scheduled_at",
+      "type": "timestamp(6) without time zone",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "solid_queue_semaphores",
+      "name": "created_at",
+      "type": "timestamp(6) without time zone",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "solid_queue_semaphores",
+      "name": "expires_at",
+      "type": "timestamp(6) without time zone",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "solid_queue_semaphores",
+      "name": "id",
+      "type": "bigint",
+      "not_null": true,
+      "default_value": "nextval('solid_queue_semaphores_id_seq'::regclass)",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "solid_queue_semaphores",
+      "name": "key",
+      "type": "character varying",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "solid_queue_semaphores",
+      "name": "updated_at",
+      "type": "timestamp(6) without time zone",
+      "not_null": true,
+      "default_value": null,
+      "identity": "",
+      "generated": "",
+      "collation": null
+    },
+    {
+      "table_name": "solid_queue_semaphores",
+      "name": "value",
+      "type": "integer",
+      "not_null": true,
+      "default_value": "1",
+      "identity": "",
+      "generated": "",
+      "collation": null
+    }
+  ],
+  "constraints": [
+    {
+      "table_name": "ar_internal_metadata",
+      "name": "ar_internal_metadata_created_at_not_null",
+      "type": "n",
+      "definition": "NOT NULL created_at",
+      "validated": true
+    },
+    {
+      "table_name": "ar_internal_metadata",
+      "name": "ar_internal_metadata_key_not_null",
+      "type": "n",
+      "definition": "NOT NULL key",
+      "validated": true
+    },
+    {
+      "table_name": "ar_internal_metadata",
+      "name": "ar_internal_metadata_pkey",
+      "type": "p",
+      "definition": "PRIMARY KEY (key)",
+      "validated": true
+    },
+    {
+      "table_name": "ar_internal_metadata",
+      "name": "ar_internal_metadata_updated_at_not_null",
+      "type": "n",
+      "definition": "NOT NULL updated_at",
+      "validated": true
+    },
+    {
+      "table_name": "dashboards",
+      "name": "dashboards_created_at_not_null",
+      "type": "n",
+      "definition": "NOT NULL created_at",
+      "validated": true
+    },
+    {
+      "table_name": "dashboards",
+      "name": "dashboards_id_not_null",
+      "type": "n",
+      "definition": "NOT NULL id",
+      "validated": true
+    },
+    {
+      "table_name": "dashboards",
+      "name": "dashboards_pkey",
+      "type": "p",
+      "definition": "PRIMARY KEY (id)",
+      "validated": true
+    },
+    {
+      "table_name": "dashboards",
+      "name": "dashboards_updated_at_not_null",
+      "type": "n",
+      "definition": "NOT NULL updated_at",
+      "validated": true
+    },
+    {
+      "table_name": "schema_migrations",
+      "name": "schema_migrations_pkey",
+      "type": "p",
+      "definition": "PRIMARY KEY (version)",
+      "validated": true
+    },
+    {
+      "table_name": "schema_migrations",
+      "name": "schema_migrations_version_not_null",
+      "type": "n",
+      "definition": "NOT NULL version",
+      "validated": true
+    },
+    {
+      "table_name": "services",
+      "name": "fk_rails_725921ac06",
+      "type": "f",
+      "definition": "FOREIGN KEY (dashboard_id) REFERENCES dashboards(id)",
+      "validated": true
+    },
+    {
+      "table_name": "services",
+      "name": "services_created_at_not_null",
+      "type": "n",
+      "definition": "NOT NULL created_at",
+      "validated": true
+    },
+    {
+      "table_name": "services",
+      "name": "services_host_not_null",
+      "type": "n",
+      "definition": "NOT NULL host",
+      "validated": true
+    },
+    {
+      "table_name": "services",
+      "name": "services_http_path_not_null",
+      "type": "n",
+      "definition": "NOT NULL http_path",
+      "validated": true
+    },
+    {
+      "table_name": "services",
+      "name": "services_id_not_null",
+      "type": "n",
+      "definition": "NOT NULL id",
+      "validated": true
+    },
+    {
+      "table_name": "services",
+      "name": "services_name_not_null",
+      "type": "n",
+      "definition": "NOT NULL name",
+      "validated": true
+    },
+    {
+      "table_name": "services",
+      "name": "services_pkey",
+      "type": "p",
+      "definition": "PRIMARY KEY (id)",
+      "validated": true
+    },
+    {
+      "table_name": "services",
+      "name": "services_port_not_null",
+      "type": "n",
+      "definition": "NOT NULL port",
+      "validated": true
+    },
+    {
+      "table_name": "services",
+      "name": "services_updated_at_not_null",
+      "type": "n",
+      "definition": "NOT NULL updated_at",
+      "validated": true
+    },
+    {
+      "table_name": "solid_queue_blocked_executions",
+      "name": "fk_rails_4cd34e2228",
+      "type": "f",
+      "definition": "FOREIGN KEY (job_id) REFERENCES solid_queue_jobs(id) ON DELETE CASCADE",
+      "validated": true
+    },
+    {
+      "table_name": "solid_queue_blocked_executions",
+      "name": "solid_queue_blocked_executions_concurrency_key_not_null",
+      "type": "n",
+      "definition": "NOT NULL concurrency_key",
+      "validated": true
+    },
+    {
+      "table_name": "solid_queue_blocked_executions",
+      "name": "solid_queue_blocked_executions_created_at_not_null",
+      "type": "n",
+      "definition": "NOT NULL created_at",
+      "validated": true
+    },
+    {
+      "table_name": "solid_queue_blocked_executions",
+      "name": "solid_queue_blocked_executions_expires_at_not_null",
+      "type": "n",
+      "definition": "NOT NULL expires_at",
+      "validated": true
+    },
+    {
+      "table_name": "solid_queue_blocked_executions",
+      "name": "solid_queue_blocked_executions_id_not_null",
+      "type": "n",
+      "definition": "NOT NULL id",
+      "validated": true
+    },
+    {
+      "table_name": "solid_queue_blocked_executions",
+      "name": "solid_queue_blocked_executions_job_id_not_null",
+      "type": "n",
+      "definition": "NOT NULL job_id",
+      "validated": true
+    },
+    {
+      "table_name": "solid_queue_blocked_executions",
+      "name": "solid_queue_blocked_executions_pkey",
+      "type": "p",
+      "definition": "PRIMARY KEY (id)",
+      "validated": true
+    },
+    {
+      "table_name": "solid_queue_blocked_executions",
+      "name": "solid_queue_blocked_executions_priority_not_null",
+      "type": "n",
+      "definition": "NOT NULL priority",
+      "validated": true
+    },
+    {
+      "table_name": "solid_queue_blocked_executions",
+      "name": "solid_queue_blocked_executions_queue_name_not_null",
+      "type": "n",
+      "definition": "NOT NULL queue_name",
+      "validated": true
+    },
+    {
+      "table_name": "solid_queue_claimed_executions",
+      "name": "fk_rails_9cfe4d4944",
+      "type": "f",
+      "definition": "FOREIGN KEY (job_id) REFERENCES solid_queue_jobs(id) ON DELETE CASCADE",
+      "validated": true
+    },
+    {
+      "table_name": "solid_queue_claimed_executions",
+      "name": "solid_queue_claimed_executions_created_at_not_null",
+      "type": "n",
+      "definition": "NOT NULL created_at",
+      "validated": true
+    },
+    {
+      "table_name": "solid_queue_claimed_executions",
+      "name": "solid_queue_claimed_executions_id_not_null",
+      "type": "n",
+      "definition": "NOT NULL id",
+      "validated": true
+    },
+    {
+      "table_name": "solid_queue_claimed_executions",
+      "name": "solid_queue_claimed_executions_job_id_not_null",
+      "type": "n",
+      "definition": "NOT NULL job_id",
+      "validated": true
+    },
+    {
+      "table_name": "solid_queue_claimed_executions",
+      "name": "solid_queue_claimed_executions_pkey",
+      "type": "p",
+      "definition": "PRIMARY KEY (id)",
+      "validated": true
+    },
+    {
+      "table_name": "solid_queue_failed_executions",
+      "name": "fk_rails_39bbc7a631",
+      "type": "f",
+      "definition": "FOREIGN KEY (job_id) REFERENCES solid_queue_jobs(id) ON DELETE CASCADE",
+      "validated": true
+    },
+    {
+      "table_name": "solid_queue_failed_executions",
+      "name": "solid_queue_failed_executions_created_at_not_null",
+      "type": "n",
+      "definition": "NOT NULL created_at",
+      "validated": true
+    },
+    {
+      "table_name": "solid_queue_failed_executions",
+      "name": "solid_queue_failed_executions_id_not_null",
+      "type": "n",
+      "definition": "NOT NULL id",
+      "validated": true
+    },
+    {
+      "table_name": "solid_queue_failed_executions",
+      "name": "solid_queue_failed_executions_job_id_not_null",
+      "type": "n",
+      "definition": "NOT NULL job_id",
+      "validated": true
+    },
+    {
+      "table_name": "solid_queue_failed_executions",
+      "name": "solid_queue_failed_executions_pkey",
+      "type": "p",
+      "definition": "PRIMARY KEY (id)",
+      "validated": true
+    },
+    {
+      "table_name": "solid_queue_jobs",
+      "name": "solid_queue_jobs_class_name_not_null",
+      "type": "n",
+      "definition": "NOT NULL class_name",
+      "validated": true
+    },
+    {
+      "table_name": "solid_queue_jobs",
+      "name": "solid_queue_jobs_created_at_not_null",
+      "type": "n",
+      "definition": "NOT NULL created_at",
+      "validated": true
+    },
+    {
+      "table_name": "solid_queue_jobs",
+      "name": "solid_queue_jobs_id_not_null",
+      "type": "n",
+      "definition": "NOT NULL id",
+      "validated": true
+    },
+    {
+      "table_name": "solid_queue_jobs",
+      "name": "solid_queue_jobs_pkey",
+      "type": "p",
+      "definition": "PRIMARY KEY (id)",
+      "validated": true
+    },
+    {
+      "table_name": "solid_queue_jobs",
+      "name": "solid_queue_jobs_priority_not_null",
+      "type": "n",
+      "definition": "NOT NULL priority",
+      "validated": true
+    },
+    {
+      "table_name": "solid_queue_jobs",
+      "name": "solid_queue_jobs_queue_name_not_null",
+      "type": "n",
+      "definition": "NOT NULL queue_name",
+      "validated": true
+    },
+    {
+      "table_name": "solid_queue_jobs",
+      "name": "solid_queue_jobs_updated_at_not_null",
+      "type": "n",
+      "definition": "NOT NULL updated_at",
+      "validated": true
+    },
+    {
+      "table_name": "solid_queue_pauses",
+      "name": "solid_queue_pauses_created_at_not_null",
+      "type": "n",
+      "definition": "NOT NULL created_at",
+      "validated": true
+    },
+    {
+      "table_name": "solid_queue_pauses",
+      "name": "solid_queue_pauses_id_not_null",
+      "type": "n",
+      "definition": "NOT NULL id",
+      "validated": true
+    },
+    {
+      "table_name": "solid_queue_pauses",
+      "name": "solid_queue_pauses_pkey",
+      "type": "p",
+      "definition": "PRIMARY KEY (id)",
+      "validated": true
+    },
+    {
+      "table_name": "solid_queue_pauses",
+      "name": "solid_queue_pauses_queue_name_not_null",
+      "type": "n",
+      "definition": "NOT NULL queue_name",
+      "validated": true
+    },
+    {
+      "table_name": "solid_queue_processes",
+      "name": "solid_queue_processes_created_at_not_null",
+      "type": "n",
+      "definition": "NOT NULL created_at",
+      "validated": true
+    },
+    {
+      "table_name": "solid_queue_processes",
+      "name": "solid_queue_processes_id_not_null",
+      "type": "n",
+      "definition": "NOT NULL id",
+      "validated": true
+    },
+    {
+      "table_name": "solid_queue_processes",
+      "name": "solid_queue_processes_kind_not_null",
+      "type": "n",
+      "definition": "NOT NULL kind",
+      "validated": true
+    },
+    {
+      "table_name": "solid_queue_processes",
+      "name": "solid_queue_processes_last_heartbeat_at_not_null",
+      "type": "n",
+      "definition": "NOT NULL last_heartbeat_at",
+      "validated": true
+    },
+    {
+      "table_name": "solid_queue_processes",
+      "name": "solid_queue_processes_name_not_null",
+      "type": "n",
+      "definition": "NOT NULL name",
+      "validated": true
+    },
+    {
+      "table_name": "solid_queue_processes",
+      "name": "solid_queue_processes_pid_not_null",
+      "type": "n",
+      "definition": "NOT NULL pid",
+      "validated": true
+    },
+    {
+      "table_name": "solid_queue_processes",
+      "name": "solid_queue_processes_pkey",
+      "type": "p",
+      "definition": "PRIMARY KEY (id)",
+      "validated": true
+    },
+    {
+      "table_name": "solid_queue_ready_executions",
+      "name": "fk_rails_81fcbd66af",
+      "type": "f",
+      "definition": "FOREIGN KEY (job_id) REFERENCES solid_queue_jobs(id) ON DELETE CASCADE",
+      "validated": true
+    },
+    {
+      "table_name": "solid_queue_ready_executions",
+      "name": "solid_queue_ready_executions_created_at_not_null",
+      "type": "n",
+      "definition": "NOT NULL created_at",
+      "validated": true
+    },
+    {
+      "table_name": "solid_queue_ready_executions",
+      "name": "solid_queue_ready_executions_id_not_null",
+      "type": "n",
+      "definition": "NOT NULL id",
+      "validated": true
+    },
+    {
+      "table_name": "solid_queue_ready_executions",
+      "name": "solid_queue_ready_executions_job_id_not_null",
+      "type": "n",
+      "definition": "NOT NULL job_id",
+      "validated": true
+    },
+    {
+      "table_name": "solid_queue_ready_executions",
+      "name": "solid_queue_ready_executions_pkey",
+      "type": "p",
+      "definition": "PRIMARY KEY (id)",
+      "validated": true
+    },
+    {
+      "table_name": "solid_queue_ready_executions",
+      "name": "solid_queue_ready_executions_priority_not_null",
+      "type": "n",
+      "definition": "NOT NULL priority",
+      "validated": true
+    },
+    {
+      "table_name": "solid_queue_ready_executions",
+      "name": "solid_queue_ready_executions_queue_name_not_null",
+      "type": "n",
+      "definition": "NOT NULL queue_name",
+      "validated": true
+    },
+    {
+      "table_name": "solid_queue_recurring_executions",
+      "name": "fk_rails_318a5533ed",
+      "type": "f",
+      "definition": "FOREIGN KEY (job_id) REFERENCES solid_queue_jobs(id) ON DELETE CASCADE",
+      "validated": true
+    },
+    {
+      "table_name": "solid_queue_recurring_executions",
+      "name": "solid_queue_recurring_executions_created_at_not_null",
+      "type": "n",
+      "definition": "NOT NULL created_at",
+      "validated": true
+    },
+    {
+      "table_name": "solid_queue_recurring_executions",
+      "name": "solid_queue_recurring_executions_id_not_null",
+      "type": "n",
+      "definition": "NOT NULL id",
+      "validated": true
+    },
+    {
+      "table_name": "solid_queue_recurring_executions",
+      "name": "solid_queue_recurring_executions_job_id_not_null",
+      "type": "n",
+      "definition": "NOT NULL job_id",
+      "validated": true
+    },
+    {
+      "table_name": "solid_queue_recurring_executions",
+      "name": "solid_queue_recurring_executions_pkey",
+      "type": "p",
+      "definition": "PRIMARY KEY (id)",
+      "validated": true
+    },
+    {
+      "table_name": "solid_queue_recurring_executions",
+      "name": "solid_queue_recurring_executions_run_at_not_null",
+      "type": "n",
+      "definition": "NOT NULL run_at",
+      "validated": true
+    },
+    {
+      "table_name": "solid_queue_recurring_executions",
+      "name": "solid_queue_recurring_executions_task_key_not_null",
+      "type": "n",
+      "definition": "NOT NULL task_key",
+      "validated": true
+    },
+    {
+      "table_name": "solid_queue_recurring_tasks",
+      "name": "solid_queue_recurring_tasks_created_at_not_null",
+      "type": "n",
+      "definition": "NOT NULL created_at",
+      "validated": true
+    },
+    {
+      "table_name": "solid_queue_recurring_tasks",
+      "name": "solid_queue_recurring_tasks_id_not_null",
+      "type": "n",
+      "definition": "NOT NULL id",
+      "validated": true
+    },
+    {
+      "table_name": "solid_queue_recurring_tasks",
+      "name": "solid_queue_recurring_tasks_key_not_null",
+      "type": "n",
+      "definition": "NOT NULL key",
+      "validated": true
+    },
+    {
+      "table_name": "solid_queue_recurring_tasks",
+      "name": "solid_queue_recurring_tasks_pkey",
+      "type": "p",
+      "definition": "PRIMARY KEY (id)",
+      "validated": true
+    },
+    {
+      "table_name": "solid_queue_recurring_tasks",
+      "name": "solid_queue_recurring_tasks_schedule_not_null",
+      "type": "n",
+      "definition": "NOT NULL schedule",
+      "validated": true
+    },
+    {
+      "table_name": "solid_queue_recurring_tasks",
+      "name": "solid_queue_recurring_tasks_static_not_null",
+      "type": "n",
+      "definition": "NOT NULL static",
+      "validated": true
+    },
+    {
+      "table_name": "solid_queue_recurring_tasks",
+      "name": "solid_queue_recurring_tasks_updated_at_not_null",
+      "type": "n",
+      "definition": "NOT NULL updated_at",
+      "validated": true
+    },
+    {
+      "table_name": "solid_queue_scheduled_executions",
+      "name": "fk_rails_c4316f352d",
+      "type": "f",
+      "definition": "FOREIGN KEY (job_id) REFERENCES solid_queue_jobs(id) ON DELETE CASCADE",
+      "validated": true
+    },
+    {
+      "table_name": "solid_queue_scheduled_executions",
+      "name": "solid_queue_scheduled_executions_created_at_not_null",
+      "type": "n",
+      "definition": "NOT NULL created_at",
+      "validated": true
+    },
+    {
+      "table_name": "solid_queue_scheduled_executions",
+      "name": "solid_queue_scheduled_executions_id_not_null",
+      "type": "n",
+      "definition": "NOT NULL id",
+      "validated": true
+    },
+    {
+      "table_name": "solid_queue_scheduled_executions",
+      "name": "solid_queue_scheduled_executions_job_id_not_null",
+      "type": "n",
+      "definition": "NOT NULL job_id",
+      "validated": true
+    },
+    {
+      "table_name": "solid_queue_scheduled_executions",
+      "name": "solid_queue_scheduled_executions_pkey",
+      "type": "p",
+      "definition": "PRIMARY KEY (id)",
+      "validated": true
+    },
+    {
+      "table_name": "solid_queue_scheduled_executions",
+      "name": "solid_queue_scheduled_executions_priority_not_null",
+      "type": "n",
+      "definition": "NOT NULL priority",
+      "validated": true
+    },
+    {
+      "table_name": "solid_queue_scheduled_executions",
+      "name": "solid_queue_scheduled_executions_queue_name_not_null",
+      "type": "n",
+      "definition": "NOT NULL queue_name",
+      "validated": true
+    },
+    {
+      "table_name": "solid_queue_scheduled_executions",
+      "name": "solid_queue_scheduled_executions_scheduled_at_not_null",
+      "type": "n",
+      "definition": "NOT NULL scheduled_at",
+      "validated": true
+    },
+    {
+      "table_name": "solid_queue_semaphores",
+      "name": "solid_queue_semaphores_created_at_not_null",
+      "type": "n",
+      "definition": "NOT NULL created_at",
+      "validated": true
+    },
+    {
+      "table_name": "solid_queue_semaphores",
+      "name": "solid_queue_semaphores_expires_at_not_null",
+      "type": "n",
+      "definition": "NOT NULL expires_at",
+      "validated": true
+    },
+    {
+      "table_name": "solid_queue_semaphores",
+      "name": "solid_queue_semaphores_id_not_null",
+      "type": "n",
+      "definition": "NOT NULL id",
+      "validated": true
+    },
+    {
+      "table_name": "solid_queue_semaphores",
+      "name": "solid_queue_semaphores_key_not_null",
+      "type": "n",
+      "definition": "NOT NULL key",
+      "validated": true
+    },
+    {
+      "table_name": "solid_queue_semaphores",
+      "name": "solid_queue_semaphores_pkey",
+      "type": "p",
+      "definition": "PRIMARY KEY (id)",
+      "validated": true
+    },
+    {
+      "table_name": "solid_queue_semaphores",
+      "name": "solid_queue_semaphores_updated_at_not_null",
+      "type": "n",
+      "definition": "NOT NULL updated_at",
+      "validated": true
+    },
+    {
+      "table_name": "solid_queue_semaphores",
+      "name": "solid_queue_semaphores_value_not_null",
+      "type": "n",
+      "definition": "NOT NULL value",
+      "validated": true
+    }
+  ],
+  "indexes": [
+    {
+      "table_name": "ar_internal_metadata",
+      "name": "ar_internal_metadata_pkey",
+      "definition": "CREATE UNIQUE INDEX ar_internal_metadata_pkey ON public.ar_internal_metadata USING btree (key)",
+      "valid": true,
+      "ready": true
+    },
+    {
+      "table_name": "dashboards",
+      "name": "dashboards_pkey",
+      "definition": "CREATE UNIQUE INDEX dashboards_pkey ON public.dashboards USING btree (id)",
+      "valid": true,
+      "ready": true
+    },
+    {
+      "table_name": "dashboards",
+      "name": "index_dashboards_on_name",
+      "definition": "CREATE UNIQUE INDEX index_dashboards_on_name ON public.dashboards USING btree (name)",
+      "valid": true,
+      "ready": true
+    },
+    {
+      "table_name": "schema_migrations",
+      "name": "schema_migrations_pkey",
+      "definition": "CREATE UNIQUE INDEX schema_migrations_pkey ON public.schema_migrations USING btree (version)",
+      "valid": true,
+      "ready": true
+    },
+    {
+      "table_name": "services",
+      "name": "index_services_on_dashboard_id",
+      "definition": "CREATE INDEX index_services_on_dashboard_id ON public.services USING btree (dashboard_id)",
+      "valid": true,
+      "ready": true
+    },
+    {
+      "table_name": "services",
+      "name": "index_services_on_dashboard_id_and_name",
+      "definition": "CREATE UNIQUE INDEX index_services_on_dashboard_id_and_name ON public.services USING btree (dashboard_id, name)",
+      "valid": true,
+      "ready": true
+    },
+    {
+      "table_name": "services",
+      "name": "services_pkey",
+      "definition": "CREATE UNIQUE INDEX services_pkey ON public.services USING btree (id)",
+      "valid": true,
+      "ready": true
+    },
+    {
+      "table_name": "solid_queue_blocked_executions",
+      "name": "index_solid_queue_blocked_executions_for_maintenance",
+      "definition": "CREATE INDEX index_solid_queue_blocked_executions_for_maintenance ON public.solid_queue_blocked_executions USING btree (expires_at, concurrency_key)",
+      "valid": true,
+      "ready": true
+    },
+    {
+      "table_name": "solid_queue_blocked_executions",
+      "name": "index_solid_queue_blocked_executions_for_release",
+      "definition": "CREATE INDEX index_solid_queue_blocked_executions_for_release ON public.solid_queue_blocked_executions USING btree (concurrency_key, priority, job_id)",
+      "valid": true,
+      "ready": true
+    },
+    {
+      "table_name": "solid_queue_blocked_executions",
+      "name": "index_solid_queue_blocked_executions_on_job_id",
+      "definition": "CREATE UNIQUE INDEX index_solid_queue_blocked_executions_on_job_id ON public.solid_queue_blocked_executions USING btree (job_id)",
+      "valid": true,
+      "ready": true
+    },
+    {
+      "table_name": "solid_queue_blocked_executions",
+      "name": "solid_queue_blocked_executions_pkey",
+      "definition": "CREATE UNIQUE INDEX solid_queue_blocked_executions_pkey ON public.solid_queue_blocked_executions USING btree (id)",
+      "valid": true,
+      "ready": true
+    },
+    {
+      "table_name": "solid_queue_claimed_executions",
+      "name": "index_solid_queue_claimed_executions_on_job_id",
+      "definition": "CREATE UNIQUE INDEX index_solid_queue_claimed_executions_on_job_id ON public.solid_queue_claimed_executions USING btree (job_id)",
+      "valid": true,
+      "ready": true
+    },
+    {
+      "table_name": "solid_queue_claimed_executions",
+      "name": "index_solid_queue_claimed_executions_on_process_id_and_job_id",
+      "definition": "CREATE INDEX index_solid_queue_claimed_executions_on_process_id_and_job_id ON public.solid_queue_claimed_executions USING btree (process_id, job_id)",
+      "valid": true,
+      "ready": true
+    },
+    {
+      "table_name": "solid_queue_claimed_executions",
+      "name": "solid_queue_claimed_executions_pkey",
+      "definition": "CREATE UNIQUE INDEX solid_queue_claimed_executions_pkey ON public.solid_queue_claimed_executions USING btree (id)",
+      "valid": true,
+      "ready": true
+    },
+    {
+      "table_name": "solid_queue_failed_executions",
+      "name": "index_solid_queue_failed_executions_on_job_id",
+      "definition": "CREATE UNIQUE INDEX index_solid_queue_failed_executions_on_job_id ON public.solid_queue_failed_executions USING btree (job_id)",
+      "valid": true,
+      "ready": true
+    },
+    {
+      "table_name": "solid_queue_failed_executions",
+      "name": "solid_queue_failed_executions_pkey",
+      "definition": "CREATE UNIQUE INDEX solid_queue_failed_executions_pkey ON public.solid_queue_failed_executions USING btree (id)",
+      "valid": true,
+      "ready": true
+    },
+    {
+      "table_name": "solid_queue_jobs",
+      "name": "index_solid_queue_jobs_for_alerting",
+      "definition": "CREATE INDEX index_solid_queue_jobs_for_alerting ON public.solid_queue_jobs USING btree (scheduled_at, finished_at)",
+      "valid": true,
+      "ready": true
+    },
+    {
+      "table_name": "solid_queue_jobs",
+      "name": "index_solid_queue_jobs_for_filtering",
+      "definition": "CREATE INDEX index_solid_queue_jobs_for_filtering ON public.solid_queue_jobs USING btree (queue_name, finished_at)",
+      "valid": true,
+      "ready": true
+    },
+    {
+      "table_name": "solid_queue_jobs",
+      "name": "index_solid_queue_jobs_on_active_job_id",
+      "definition": "CREATE INDEX index_solid_queue_jobs_on_active_job_id ON public.solid_queue_jobs USING btree (active_job_id)",
+      "valid": true,
+      "ready": true
+    },
+    {
+      "table_name": "solid_queue_jobs",
+      "name": "index_solid_queue_jobs_on_class_name",
+      "definition": "CREATE INDEX index_solid_queue_jobs_on_class_name ON public.solid_queue_jobs USING btree (class_name)",
+      "valid": true,
+      "ready": true
+    },
+    {
+      "table_name": "solid_queue_jobs",
+      "name": "index_solid_queue_jobs_on_finished_at",
+      "definition": "CREATE INDEX index_solid_queue_jobs_on_finished_at ON public.solid_queue_jobs USING btree (finished_at)",
+      "valid": true,
+      "ready": true
+    },
+    {
+      "table_name": "solid_queue_jobs",
+      "name": "solid_queue_jobs_pkey",
+      "definition": "CREATE UNIQUE INDEX solid_queue_jobs_pkey ON public.solid_queue_jobs USING btree (id)",
+      "valid": true,
+      "ready": true
+    },
+    {
+      "table_name": "solid_queue_pauses",
+      "name": "index_solid_queue_pauses_on_queue_name",
+      "definition": "CREATE UNIQUE INDEX index_solid_queue_pauses_on_queue_name ON public.solid_queue_pauses USING btree (queue_name)",
+      "valid": true,
+      "ready": true
+    },
+    {
+      "table_name": "solid_queue_pauses",
+      "name": "solid_queue_pauses_pkey",
+      "definition": "CREATE UNIQUE INDEX solid_queue_pauses_pkey ON public.solid_queue_pauses USING btree (id)",
+      "valid": true,
+      "ready": true
+    },
+    {
+      "table_name": "solid_queue_processes",
+      "name": "index_solid_queue_processes_on_last_heartbeat_at",
+      "definition": "CREATE INDEX index_solid_queue_processes_on_last_heartbeat_at ON public.solid_queue_processes USING btree (last_heartbeat_at)",
+      "valid": true,
+      "ready": true
+    },
+    {
+      "table_name": "solid_queue_processes",
+      "name": "index_solid_queue_processes_on_name_and_supervisor_id",
+      "definition": "CREATE UNIQUE INDEX index_solid_queue_processes_on_name_and_supervisor_id ON public.solid_queue_processes USING btree (name, supervisor_id)",
+      "valid": true,
+      "ready": true
+    },
+    {
+      "table_name": "solid_queue_processes",
+      "name": "index_solid_queue_processes_on_supervisor_id",
+      "definition": "CREATE INDEX index_solid_queue_processes_on_supervisor_id ON public.solid_queue_processes USING btree (supervisor_id)",
+      "valid": true,
+      "ready": true
+    },
+    {
+      "table_name": "solid_queue_processes",
+      "name": "solid_queue_processes_pkey",
+      "definition": "CREATE UNIQUE INDEX solid_queue_processes_pkey ON public.solid_queue_processes USING btree (id)",
+      "valid": true,
+      "ready": true
+    },
+    {
+      "table_name": "solid_queue_ready_executions",
+      "name": "index_solid_queue_poll_all",
+      "definition": "CREATE INDEX index_solid_queue_poll_all ON public.solid_queue_ready_executions USING btree (priority, job_id)",
+      "valid": true,
+      "ready": true
+    },
+    {
+      "table_name": "solid_queue_ready_executions",
+      "name": "index_solid_queue_poll_by_queue",
+      "definition": "CREATE INDEX index_solid_queue_poll_by_queue ON public.solid_queue_ready_executions USING btree (queue_name, priority, job_id)",
+      "valid": true,
+      "ready": true
+    },
+    {
+      "table_name": "solid_queue_ready_executions",
+      "name": "index_solid_queue_ready_executions_on_job_id",
+      "definition": "CREATE UNIQUE INDEX index_solid_queue_ready_executions_on_job_id ON public.solid_queue_ready_executions USING btree (job_id)",
+      "valid": true,
+      "ready": true
+    },
+    {
+      "table_name": "solid_queue_ready_executions",
+      "name": "solid_queue_ready_executions_pkey",
+      "definition": "CREATE UNIQUE INDEX solid_queue_ready_executions_pkey ON public.solid_queue_ready_executions USING btree (id)",
+      "valid": true,
+      "ready": true
+    },
+    {
+      "table_name": "solid_queue_recurring_executions",
+      "name": "index_solid_queue_recurring_executions_on_job_id",
+      "definition": "CREATE UNIQUE INDEX index_solid_queue_recurring_executions_on_job_id ON public.solid_queue_recurring_executions USING btree (job_id)",
+      "valid": true,
+      "ready": true
+    },
+    {
+      "table_name": "solid_queue_recurring_executions",
+      "name": "index_solid_queue_recurring_executions_on_task_key_and_run_at",
+      "definition": "CREATE UNIQUE INDEX index_solid_queue_recurring_executions_on_task_key_and_run_at ON public.solid_queue_recurring_executions USING btree (task_key, run_at)",
+      "valid": true,
+      "ready": true
+    },
+    {
+      "table_name": "solid_queue_recurring_executions",
+      "name": "solid_queue_recurring_executions_pkey",
+      "definition": "CREATE UNIQUE INDEX solid_queue_recurring_executions_pkey ON public.solid_queue_recurring_executions USING btree (id)",
+      "valid": true,
+      "ready": true
+    },
+    {
+      "table_name": "solid_queue_recurring_tasks",
+      "name": "index_solid_queue_recurring_tasks_on_key",
+      "definition": "CREATE UNIQUE INDEX index_solid_queue_recurring_tasks_on_key ON public.solid_queue_recurring_tasks USING btree (key)",
+      "valid": true,
+      "ready": true
+    },
+    {
+      "table_name": "solid_queue_recurring_tasks",
+      "name": "index_solid_queue_recurring_tasks_on_static",
+      "definition": "CREATE INDEX index_solid_queue_recurring_tasks_on_static ON public.solid_queue_recurring_tasks USING btree (static)",
+      "valid": true,
+      "ready": true
+    },
+    {
+      "table_name": "solid_queue_recurring_tasks",
+      "name": "solid_queue_recurring_tasks_pkey",
+      "definition": "CREATE UNIQUE INDEX solid_queue_recurring_tasks_pkey ON public.solid_queue_recurring_tasks USING btree (id)",
+      "valid": true,
+      "ready": true
+    },
+    {
+      "table_name": "solid_queue_scheduled_executions",
+      "name": "index_solid_queue_dispatch_all",
+      "definition": "CREATE INDEX index_solid_queue_dispatch_all ON public.solid_queue_scheduled_executions USING btree (scheduled_at, priority, job_id)",
+      "valid": true,
+      "ready": true
+    },
+    {
+      "table_name": "solid_queue_scheduled_executions",
+      "name": "index_solid_queue_scheduled_executions_on_job_id",
+      "definition": "CREATE UNIQUE INDEX index_solid_queue_scheduled_executions_on_job_id ON public.solid_queue_scheduled_executions USING btree (job_id)",
+      "valid": true,
+      "ready": true
+    },
+    {
+      "table_name": "solid_queue_scheduled_executions",
+      "name": "solid_queue_scheduled_executions_pkey",
+      "definition": "CREATE UNIQUE INDEX solid_queue_scheduled_executions_pkey ON public.solid_queue_scheduled_executions USING btree (id)",
+      "valid": true,
+      "ready": true
+    },
+    {
+      "table_name": "solid_queue_semaphores",
+      "name": "index_solid_queue_semaphores_on_expires_at",
+      "definition": "CREATE INDEX index_solid_queue_semaphores_on_expires_at ON public.solid_queue_semaphores USING btree (expires_at)",
+      "valid": true,
+      "ready": true
+    },
+    {
+      "table_name": "solid_queue_semaphores",
+      "name": "index_solid_queue_semaphores_on_key",
+      "definition": "CREATE UNIQUE INDEX index_solid_queue_semaphores_on_key ON public.solid_queue_semaphores USING btree (key)",
+      "valid": true,
+      "ready": true
+    },
+    {
+      "table_name": "solid_queue_semaphores",
+      "name": "index_solid_queue_semaphores_on_key_and_value",
+      "definition": "CREATE INDEX index_solid_queue_semaphores_on_key_and_value ON public.solid_queue_semaphores USING btree (key, value)",
+      "valid": true,
+      "ready": true
+    },
+    {
+      "table_name": "solid_queue_semaphores",
+      "name": "solid_queue_semaphores_pkey",
+      "definition": "CREATE UNIQUE INDEX solid_queue_semaphores_pkey ON public.solid_queue_semaphores USING btree (id)",
+      "valid": true,
+      "ready": true
+    }
+  ],
+  "sequences": [
+    {
+      "name": "solid_queue_blocked_executions_id_seq",
+      "type": "bigint",
+      "start": "1",
+      "increment": "1",
+      "maximum": "9223372036854775807",
+      "minimum": "1",
+      "cache": "1",
+      "cycle": false,
+      "owned_table": "solid_queue_blocked_executions",
+      "owned_column": "id"
+    },
+    {
+      "name": "solid_queue_claimed_executions_id_seq",
+      "type": "bigint",
+      "start": "1",
+      "increment": "1",
+      "maximum": "9223372036854775807",
+      "minimum": "1",
+      "cache": "1",
+      "cycle": false,
+      "owned_table": "solid_queue_claimed_executions",
+      "owned_column": "id"
+    },
+    {
+      "name": "solid_queue_failed_executions_id_seq",
+      "type": "bigint",
+      "start": "1",
+      "increment": "1",
+      "maximum": "9223372036854775807",
+      "minimum": "1",
+      "cache": "1",
+      "cycle": false,
+      "owned_table": "solid_queue_failed_executions",
+      "owned_column": "id"
+    },
+    {
+      "name": "solid_queue_jobs_id_seq",
+      "type": "bigint",
+      "start": "1",
+      "increment": "1",
+      "maximum": "9223372036854775807",
+      "minimum": "1",
+      "cache": "1",
+      "cycle": false,
+      "owned_table": "solid_queue_jobs",
+      "owned_column": "id"
+    },
+    {
+      "name": "solid_queue_pauses_id_seq",
+      "type": "bigint",
+      "start": "1",
+      "increment": "1",
+      "maximum": "9223372036854775807",
+      "minimum": "1",
+      "cache": "1",
+      "cycle": false,
+      "owned_table": "solid_queue_pauses",
+      "owned_column": "id"
+    },
+    {
+      "name": "solid_queue_processes_id_seq",
+      "type": "bigint",
+      "start": "1",
+      "increment": "1",
+      "maximum": "9223372036854775807",
+      "minimum": "1",
+      "cache": "1",
+      "cycle": false,
+      "owned_table": "solid_queue_processes",
+      "owned_column": "id"
+    },
+    {
+      "name": "solid_queue_ready_executions_id_seq",
+      "type": "bigint",
+      "start": "1",
+      "increment": "1",
+      "maximum": "9223372036854775807",
+      "minimum": "1",
+      "cache": "1",
+      "cycle": false,
+      "owned_table": "solid_queue_ready_executions",
+      "owned_column": "id"
+    },
+    {
+      "name": "solid_queue_recurring_executions_id_seq",
+      "type": "bigint",
+      "start": "1",
+      "increment": "1",
+      "maximum": "9223372036854775807",
+      "minimum": "1",
+      "cache": "1",
+      "cycle": false,
+      "owned_table": "solid_queue_recurring_executions",
+      "owned_column": "id"
+    },
+    {
+      "name": "solid_queue_recurring_tasks_id_seq",
+      "type": "bigint",
+      "start": "1",
+      "increment": "1",
+      "maximum": "9223372036854775807",
+      "minimum": "1",
+      "cache": "1",
+      "cycle": false,
+      "owned_table": "solid_queue_recurring_tasks",
+      "owned_column": "id"
+    },
+    {
+      "name": "solid_queue_scheduled_executions_id_seq",
+      "type": "bigint",
+      "start": "1",
+      "increment": "1",
+      "maximum": "9223372036854775807",
+      "minimum": "1",
+      "cache": "1",
+      "cycle": false,
+      "owned_table": "solid_queue_scheduled_executions",
+      "owned_column": "id"
+    },
+    {
+      "name": "solid_queue_semaphores_id_seq",
+      "type": "bigint",
+      "start": "1",
+      "increment": "1",
+      "maximum": "9223372036854775807",
+      "minimum": "1",
+      "cache": "1",
+      "cycle": false,
+      "owned_table": "solid_queue_semaphores",
+      "owned_column": "id"
+    }
+  ],
+  "extensions": [
+    {
+      "name": "uuid-ossp",
+      "schema": "public"
+    }
+  ],
+  "functions": [],
+  "triggers": [],
+  "policies": [],
+  "enums": [],
+  "types": [],
+  "aggregates": []
+}

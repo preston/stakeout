@@ -1,0 +1,63 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Dashboard {
+  id         String    @id(map: "dashboards_pkey") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name       String?   @unique(map: "index_dashboards_on_name") @db.VarChar
+  created_at DateTime  @db.Timestamp(6)
+  updated_at DateTime  @db.Timestamp(6)
+  services   Service[]
+
+  @@map("dashboards")
+}
+
+model Service {
+  id               String            @id(map: "services_pkey") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  dashboard_id     String?           @db.Uuid
+  name             String            @db.VarChar
+  host             String            @db.VarChar
+  port             Int               @default(0)
+  http             Boolean?          @default(true)
+  https            Boolean?          @default(false)
+  http_path        String            @default("") @db.VarChar
+  http_path_last   Boolean?          @default(false)
+  https_path_last  Boolean?          @default(false)
+  http_xquery      String?           @db.VarChar
+  http_xquery_last Boolean?          @default(false)
+  http_preview     Boolean?          @default(true)
+  http_screenshot  Bytes?
+  checked_at       DateTime?         @db.Timestamp(6)
+  created_at       DateTime          @db.Timestamp(6)
+  updated_at       DateTime          @db.Timestamp(6)
+  dashboard        Dashboard?        @relation(fields: [dashboard_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_725921ac06")
+  check_jobs       ServiceCheckJob[]
+
+  @@unique([dashboard_id, name], map: "index_services_on_dashboard_id_and_name")
+  @@index([dashboard_id], map: "index_services_on_dashboard_id")
+  @@map("services")
+}
+
+model ServiceCheckJob {
+  id               String    @id(map: "service_check_jobs_pkey") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  service_id       String    @db.Uuid
+  status           String    @default("pending")
+  available_at     DateTime  @default(now()) @db.Timestamptz(6)
+  locked_by        String?
+  lease_expires_at DateTime? @db.Timestamptz(6)
+  attempts         Int       @default(0)
+  max_attempts     Int       @default(3)
+  last_error       String?
+  created_at       DateTime  @default(now()) @db.Timestamptz(6)
+  updated_at       DateTime  @default(now()) @db.Timestamptz(6)
+  completed_at     DateTime? @db.Timestamptz(6)
+  service          Service   @relation(fields: [service_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  // Active-service uniqueness and queue CHECK constraints live in migration SQL.
+  @@index([status, available_at, created_at], map: "service_check_jobs_claim_idx")
+  @@map("service_check_jobs")
+}

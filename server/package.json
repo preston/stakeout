@@ -21,7 +21,8 @@
     "check:1-minute": "node --env-file-if-exists=.env src/cli.ts check 1",
     "check:5-minutes": "node --env-file-if-exists=.env src/cli.ts check 5",
     "verify:chrome": "node --env-file-if-exists=.env src/cli.ts verify chrome",
-    "verify:queue": "node --env-file-if-exists=.env src/cli.ts verify queue"
+    "verify:queue": "node --env-file-if-exists=.env src/cli.ts verify queue",
+    "db:catalogs": "node scripts/refresh-catalogs.ts"
   },
   "dependencies": {
     "@prisma/adapter-pg": "7.10.1",
