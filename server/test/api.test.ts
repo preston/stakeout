@@ -136,6 +136,15 @@ test('HTTP API preserves captured Rails responses and corrects supported defects
         assert.match(preflight.headers.get('access-control-allow-headers') ?? '', /authorization/);
       });
 
+      await t.test('Rails format=json URLs preserve JSON negotiation and authentication', async () => {
+        for (const path of ['/?format=json', '/dashboards?format=json', '/status?format=json']) {
+          assert.equal((await request(path, { headers: { Accept: '*/*' } })).status, 200);
+        }
+        assert.equal((await request('/dashboards?format=xml', { headers: { Accept: '*/*' } })).status, 406);
+        assert.equal((await request('/test?format=json', { method: 'POST', headers: { Accept: '*/*' } })).status, 401);
+        assert.equal((await request('/test?format=json', { method: 'POST', authenticated: true, headers: { Accept: '*/*' } })).status, 200);
+      });
+
       let dashboardId = '';
       let serviceId = '';
       const ids: Record<string, string> = {};

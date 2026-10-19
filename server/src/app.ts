@@ -113,7 +113,7 @@ export function createApp({ prisma, config, enqueueDashboardChecks = async () =>
       next();
       return;
     }
-    if (!/application\/json/i.test(request.get('accept') ?? '')) {
+    if (request.query['format'] !== 'json' && !/application\/json/i.test(request.get('accept') ?? '')) {
       response.status(406).json({ message: "This service only responds to JSON requests. Please set your 'Accept' header to 'application/json'." });
       return;
     }

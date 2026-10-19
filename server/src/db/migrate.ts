@@ -79,7 +79,10 @@ async function appliedPrefix(client: Client, available: Migration[]): Promise<Mi
   const byName = new Map(available.map(migration => [migration.name, migration]));
   for (const row of rows) {
     const known = byName.get(row.migration_name);
-    if (!known || known.checksum !== row.checksum) {
+    // An operator may correct failed SQL before rolling back that attempt and
+    // applying it again. Prisma retains the obsolete checksum on the rolled-back
+    // row; only active attempts must match the SQL shipped in this image.
+    if (!known || (!row.rolled_back_at && known.checksum !== row.checksum)) {
       throw new Error(`Database migration history diverges from this image at ${row.migration_name}. Startup refused.`);
     }
   }

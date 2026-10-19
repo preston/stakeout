@@ -160,6 +160,53 @@ test('PostgreSQL service checks preserve availability, queue and edit semantics'
         assert.equal(await enqueueServiceCheck(id), false);
       });
 
+      await t.test('enqueue skips services being deleted or locked and retries them on a later poll', async () => {
+        await reset();
+        const dashboard = await createDashboard();
+        const deleted = await createService(dashboard, 'Being deleted');
+        const enqueueWithoutWaiting = async () => {
+          let timer: ReturnType<typeof setTimeout> | undefined;
+          try {
+            return await Promise.race([
+              enqueueDashboardChecks(dashboard),
+              new Promise<never>((_resolve, reject) => {
+                timer = setTimeout(() => reject(new Error('Enqueue waited on a locked service')), 1000);
+              }),
+            ]);
+          } finally {
+            clearTimeout(timer);
+          }
+        };
+        const deletion = await jobDatabase().connect();
+        try {
+          await deletion.query('BEGIN');
+          await deletion.query('DELETE FROM services WHERE id=$1', [deleted]);
+          // This must return before COMMIT: FK checks on an unlocked snapshot
+          // used to wait here and then fail23503 when deletion committed.
+          assert.equal(await enqueueWithoutWaiting(), 0);
+          await deletion.query('COMMIT');
+          assert.equal(await enqueueDashboardChecks(dashboard), 0);
+        } finally {
+          await deletion.query('ROLLBACK');
+          deletion.release();
+        }
+        const edited = await createService(dashboard, 'Being edited');
+        const edit = await jobDatabase().connect();
+        try {
+          await edit.query('BEGIN');
+          // Name belongs to the unique dashboard/name key, so this ordinary
+          // edit takes a row lock conflicting with the queue's KEY SHARE.
+          await edit.query(`UPDATE services SET name='Edited' WHERE id=$1`, [edited]);
+          assert.equal(await enqueueWithoutWaiting(), 0);
+          await edit.query('ROLLBACK');
+          assert.equal(await enqueueDashboardChecks(dashboard), 1);
+          assert.equal(await enqueueDashboardChecks(dashboard), 0);
+        } finally {
+          await edit.query('ROLLBACK');
+          edit.release();
+        }
+      });
+
       await t.test('unavailable services and non-PNG Browserless errors clear old screenshots', async () => {
         await reset();
         const id = await createService(await createDashboard());

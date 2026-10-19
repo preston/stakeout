@@ -105,6 +105,27 @@ test('startup resumes after baseline resolution or a completed intermediate migr
   });
 });
 
+test('operator recovery accepts obsolete rolled-back checksums while validating active history', async () => {
+  await withPostgres(async url => {
+    await bootstrapDatabase(url);
+    await clientFor(url, async client => {
+      // A failed original script was rolled back and corrected before the
+      // successful current script. Prisma preserves both attempts in its ledger.
+      await client.query(`INSERT INTO _prisma_migrations(id,checksum,migration_name,started_at,rolled_back_at,logs)
+        VALUES('10000000-0000-4000-8000-000000000001',repeat('0',64),'20261019000200_service_check_jobs',
+          CURRENT_TIMESTAMP-INTERVAL '2 minutes',CURRENT_TIMESTAMP-INTERVAL '1 minute','Original SQL failed before operator repair')`);
+    });
+    await bootstrapDatabase(url);
+    await assertDatabaseReady(url);
+    await clientFor(url, async client => {
+      assert.equal((await client.query("SELECT checksum FROM _prisma_migrations WHERE id='10000000-0000-4000-8000-000000000001'")).rows[0].checksum, '0'.repeat(64));
+      await client.query("UPDATE _prisma_migrations SET checksum=repeat('1',64) WHERE migration_name='20261019000200_service_check_jobs' AND rolled_back_at IS NULL");
+    });
+    await assert.rejects(bootstrapDatabase(url), /history diverges/);
+    await assert.rejects(assertDatabaseReady(url), /history diverges/);
+  });
+});
+
 test('unknown and drifted legacy schemas are rejected before any Prisma history is written', async () => {
   const variants = [
     'CREATE TABLE unexpected(id integer)',
@@ -130,6 +151,8 @@ test('managed checksum changes, failed migrations, newer histories and schema dr
     "UPDATE _prisma_migrations SET checksum=repeat('0',64) WHERE migration_name='0_legacy_baseline'",
     "UPDATE _prisma_migrations SET finished_at=NULL, logs='simulated interruption' WHERE migration_name='20261019000200_service_check_jobs'",
     "UPDATE _prisma_migrations SET migration_name='29990101000000_future' WHERE migration_name='20261019000200_service_check_jobs'",
+    `INSERT INTO _prisma_migrations(id,checksum,migration_name,started_at,rolled_back_at)
+      VALUES('10000000-0000-4000-8000-000000000001',repeat('0',64),'29990101000000_unknown_rolled_back',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)`,
     'ALTER TABLE services ALTER COLUMN http SET NOT NULL',
     'CREATE UNIQUE INDEX unexpected ON dashboards(created_at)',
   ];

@@ -58,6 +58,8 @@ async function enqueueMatchingServices(
   validateAge(maxAgeMs);
   // This partial unique conflict target matches the migration's one-live-job index.
   // Check freshness in SQL rather than relying on a caller's potentially old read.
+  // Lock services before inserting jobs; skip busy rows so polling cannot race
+  // a deletion's FK checks or deadlock with a batch deleting the same services.
   const result = await jobDatabase().query(
     `INSERT INTO service_check_jobs (id, service_id, status, available_at, created_at, updated_at)
      SELECT gen_random_uuid(), s.id, 'pending', now(), now(), now()
@@ -65,6 +67,7 @@ async function enqueueMatchingServices(
      WHERE ($1::text = 'all' OR ($1 = 'service' AND s.id = $2::uuid)
        OR ($1 = 'dashboard' AND s.dashboard_id = $2::uuid))
        AND (s.checked_at IS NULL OR s.checked_at < (now() AT TIME ZONE 'UTC') - $3 * interval '1 millisecond')
+     FOR KEY SHARE OF s SKIP LOCKED
      ON CONFLICT (service_id) WHERE status IN ('pending', 'running') DO NOTHING`,
     [filter, id, maxAgeMs],
   );

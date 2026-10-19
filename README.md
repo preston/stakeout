@@ -93,7 +93,7 @@ Forwarded-header handling defaults to true for proxy compatibility. Set it to fa
 
 ## API and monitoring
 
-Requests use `Accept: application/json` or a `.json` suffix. Public endpoints include `/`, `/dashboards`, `/dashboards/:id`, nested `/dashboards/:dashboard_id/services` and `/status`. Dashboard and nested service writes require Basic authentication; `POST /test` verifies administration credentials. Create/update bodies contain a `dashboard` or `service` object.
+Requests use `Accept: application/json`, a `.json` suffix, or `?format=json`. Public endpoints include `/`, `/dashboards`, `/dashboards/:id`, nested `/dashboards/:dashboard_id/services` and `/status`. Dashboard and nested service writes require Basic authentication; `POST /test` verifies administration credentials. Create/update bodies contain a `dashboard` or `service` object.
 
 Lists accept `sort` and `order`; text search uses PostgreSQL prefix full-text search. Set `screenshots=true` on a service list to include Base64 PNG previews. Dates and attribute names retain the public JSON contract.
 
