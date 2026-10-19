@@ -1,66 +1,112 @@
 ---
-name: latest-amd64
 kind: pipeline
 type: docker
+name: validate-amd64
 platform:
+  os: linux
   arch: amd64
-  os: linux
 steps:
-  - name: publish
-    image: docker:latest
+  - name: verify
+    image: node:26-trixie-slim
     environment:
-      DOCKER_HOST: unix:///var/run/docker.sock
-      DOCKER_USERNAME:
-        from_secret: docker_username
-      DOCKER_PASSWORD:
-        from_secret: docker_password
-    volumes:
-      - name: dockersock
-        path: /var/run/docker.sock
+      STAKEOUT_SERVER_DATABASE_URL: postgresql://stakeout:password@postgresql:5432/postgres
+      STAKEOUT_TEST_DATABASE_URL: postgresql://stakeout:password@postgresql:5432/postgres
     commands:
-      - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-      - docker build -t p3000/stakeout-ui:${DRONE_COMMIT_BRANCH}-linux-amd64 .
-      - docker push p3000/stakeout-ui:${DRONE_COMMIT_BRANCH}-linux-amd64
-volumes:
-  - name: dockersock
-    host:
-      path: /var/run/docker.sock
+      - apt-get update && apt-get install -y --no-install-recommends openssl ca-certificates
+      - npm ci --ignore-scripts
+      - npm run build
+      - npm test
+services:
+  - name: postgresql
+    image: postgres:18
+    environment:
+      POSTGRES_USER: stakeout
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: postgres
 ---
-name: latest-arm64
 kind: pipeline
 type: docker
+name: validate-arm64
 platform:
-  arch: arm64
   os: linux
+  arch: arm64
 steps:
-  - name: publish
-    image: docker:latest
+  - name: verify
+    image: node:26-trixie-slim
     environment:
-      DOCKER_HOST: unix:///var/run/docker.sock
-      DOCKER_USERNAME:
-        from_secret: docker_username
-      DOCKER_PASSWORD:
-        from_secret: docker_password
-    volumes:
-      - name: dockersock
-        path: /var/run/docker.sock
+      STAKEOUT_SERVER_DATABASE_URL: postgresql://stakeout:password@postgresql:5432/postgres
+      STAKEOUT_TEST_DATABASE_URL: postgresql://stakeout:password@postgresql:5432/postgres
     commands:
-      - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-      - docker build -t p3000/stakeout-ui:${DRONE_COMMIT_BRANCH}-linux-arm64 .
-      - docker push p3000/stakeout-ui:${DRONE_COMMIT_BRANCH}-linux-arm64
-volumes:
-  - name: dockersock
-    host:
-      path: /var/run/docker.sock
+      - apt-get update && apt-get install -y --no-install-recommends openssl ca-certificates
+      - npm ci --ignore-scripts
+      - npm run build
+      - npm test
+services:
+  - name: postgresql
+    image: postgres:18
+    environment:
+      POSTGRES_USER: stakeout
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: postgres
 ---
-name: manifest
 kind: pipeline
 type: docker
+name: ui-amd64
 depends_on:
-  - latest-amd64
-  - latest-arm64
+  - validate-amd64
+platform:
+  os: linux
+  arch: amd64
 steps:
-  - name: publish-manifest
+  - name: publish
+    image: plugins/docker
+    settings:
+      context: .
+      dockerfile: ui/Dockerfile
+      repo: p3000/stakeout-ui
+      tags:
+        - ${DRONE_COMMIT_SHA}-linux-amd64
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
+trigger:
+  event:
+    - push
+---
+kind: pipeline
+type: docker
+name: ui-arm64
+depends_on:
+  - validate-arm64
+platform:
+  os: linux
+  arch: arm64
+steps:
+  - name: publish
+    image: plugins/docker
+    settings:
+      context: .
+      dockerfile: ui/Dockerfile
+      repo: p3000/stakeout-ui
+      tags:
+        - ${DRONE_COMMIT_SHA}-linux-arm64
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
+trigger:
+  event:
+    - push
+---
+kind: pipeline
+type: docker
+name: ui-manifest
+depends_on:
+  - ui-amd64
+  - ui-arm64
+steps:
+  - name: publish
     image: plugins/manifest
     settings:
       username:
@@ -68,15 +114,91 @@ steps:
       password:
         from_secret: docker_password
       target: p3000/stakeout-ui:latest
-      template: p3000/stakeout-ui:master-OS-ARCH
+      template: p3000/stakeout-ui:${DRONE_COMMIT_SHA}-OS-ARCH
       platforms:
         - linux/amd64
         - linux/arm64
-      exclude:
-        - master
 trigger:
   branch:
-    include:
-      - master
+    - master
+  event:
+    - push
+  status:
+    - success
+---
+kind: pipeline
+type: docker
+name: server-amd64
+depends_on:
+  - validate-amd64
+platform:
+  os: linux
+  arch: amd64
+steps:
+  - name: publish
+    image: plugins/docker
+    settings:
+      context: .
+      dockerfile: server/Dockerfile
+      repo: p3000/stakeout-server
+      tags:
+        - ${DRONE_COMMIT_SHA}-linux-amd64
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
+trigger:
+  event:
+    - push
+---
+kind: pipeline
+type: docker
+name: server-arm64
+depends_on:
+  - validate-arm64
+platform:
+  os: linux
+  arch: arm64
+steps:
+  - name: publish
+    image: plugins/docker
+    settings:
+      context: .
+      dockerfile: server/Dockerfile
+      repo: p3000/stakeout-server
+      tags:
+        - ${DRONE_COMMIT_SHA}-linux-arm64
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
+trigger:
+  event:
+    - push
+---
+kind: pipeline
+type: docker
+name: server-manifest
+depends_on:
+  - server-amd64
+  - server-arm64
+steps:
+  - name: publish
+    image: plugins/manifest
+    settings:
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
+      target: p3000/stakeout-server:latest
+      template: p3000/stakeout-server:${DRONE_COMMIT_SHA}-OS-ARCH
+      platforms:
+        - linux/amd64
+        - linux/arm64
+trigger:
+  branch:
+    - master
+  event:
+    - push
   status:
     - success

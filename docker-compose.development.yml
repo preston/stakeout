@@ -1,0 +1,32 @@
+name: stakeout
+
+services:
+  stakeout-postgresql:
+    image: postgres:18
+    environment:
+      POSTGRES_DB: stakeout
+      POSTGRES_USER: stakeout
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    volumes:
+      - stakeout-database:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 2s
+      timeout: 5s
+      retries: 30
+    restart: unless-stopped
+
+  stakeout-chrome:
+    image: ghcr.io/browserless/chromium:v2.57.0
+    environment:
+      TOKEN: stakeout-development-browser
+      CONCURRENT: "3"
+    ports:
+      - "3030:3000"
+    shm_size: "2gb"
+    restart: unless-stopped
+
+volumes:
+  stakeout-database:

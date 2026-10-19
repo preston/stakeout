@@ -1,12 +1,12 @@
 // Author: Preston Lee
 
 import { readConfig } from '../src/config.ts';
-import { bootstrapDatabase } from '../src/bootstrap.ts';
+import { assertDatabaseReady } from '../src/bootstrap.ts';
 import { createPrisma } from '../src/db/prisma.ts';
 
 async function main(): Promise<void> {
   const config = readConfig();
-  await bootstrapDatabase(config.databaseUrl);
+  await assertDatabaseReady(config.databaseUrl);
   const prisma = createPrisma(config.databaseUrl);
   try {
     await prisma.$transaction(async transaction => {

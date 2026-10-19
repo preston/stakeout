@@ -1,0 +1,68 @@
+name: stakeout
+
+include:
+  - path: docker-compose.development.yml
+
+x-server-environment: &server-environment
+  NODE_ENV: production
+  PORT: 3000
+  STAKEOUT_SERVER_DATABASE_URL: postgresql://stakeout:password@stakeout-postgresql:5432/stakeout
+  STAKEOUT_SERVER_USERNAME: stakeout
+  STAKEOUT_SERVER_PASSWORD: password
+  STAKEOUT_SERVER_CHROME_URL: http://stakeout-chrome:3000
+  STAKEOUT_SERVER_CHROME_TOKEN: stakeout-development-browser
+  STAKEOUT_SERVER_WORKER_CONCURRENCY: 3
+
+services:
+  stakeout-server:
+    image: p3000/stakeout-server:latest
+    build:
+      context: .
+      dockerfile: server/Dockerfile
+    environment: *server-environment
+    ports:
+      - "3000:3000"
+    depends_on:
+      stakeout-postgresql:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/status',{headers:{Accept:'application/json'}}).then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 5s
+      timeout: 5s
+      start_period: 90s
+      retries: 12
+    restart: unless-stopped
+
+  stakeout-worker:
+    image: p3000/stakeout-server:latest
+    build:
+      context: .
+      dockerfile: server/Dockerfile
+    command: ["node", "dist/worker.js"]
+    environment: *server-environment
+    depends_on:
+      stakeout-server:
+        condition: service_healthy
+      stakeout-chrome:
+        condition: service_started
+    restart: unless-stopped
+
+  stakeout-ui:
+    image: p3000/stakeout-ui:latest
+    build:
+      context: .
+      dockerfile: ui/Dockerfile
+    environment:
+      STAKEOUT_UI_SERVER_URL: http://localhost:3000
+      STAKEOUT_UI_TITLE: My Stakeout
+    ports:
+      - "4200:80"
+    depends_on:
+      stakeout-server:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://127.0.0.1/"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+    restart: unless-stopped

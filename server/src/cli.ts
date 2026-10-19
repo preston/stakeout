@@ -1,7 +1,7 @@
 // Author: Preston Lee
 
 import { readConfig } from './config.ts';
-import { bootstrapDatabase } from './bootstrap.ts';
+import { assertDatabaseReady } from './bootstrap.ts';
 import { configureJobDatabase, closeJobDatabase, enqueueStaleServiceChecks, jobDatabase } from './jobs/queue.ts';
 import { fetchScreenshot, SCREENSHOT_TIMEOUT_MS } from './jobs/checkService.ts';
 
@@ -17,7 +17,7 @@ async function main(): Promise<void> {
     console.info('Chrome verification: Browserless returned PNG (OK)');
     return;
   }
-  await bootstrapDatabase(config.databaseUrl);
+  await assertDatabaseReady(config.databaseUrl);
   configureJobDatabase(config.databaseUrl);
   try {
     if (command === 'check') {

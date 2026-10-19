@@ -6,12 +6,15 @@ import { createServer, type Server } from 'node:http';
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
 import { fileURLToPath } from 'node:url';
+import { Client } from 'pg';
 import { test } from 'node:test';
 import { createApp } from '../src/app.ts';
 import { createPrisma } from '../src/db/prisma.ts';
 import { bootstrapDatabase } from '../src/bootstrap.ts';
 import { withPostgres } from './postgres.ts';
 import { rubyBase64 } from '../src/api/serialization.ts';
+import { readCatalog } from '../src/db/catalog.ts';
+import { BASELINE, LAST_RAILS_VERSION } from '../src/db/migrate.ts';
 
 interface CapturedResponse {
   status: number;
@@ -45,6 +48,49 @@ async function close(server: Server): Promise<void> {
   server.closeIdleConnections();
   await new Promise<void>((resolve, reject) => server.close(error => error ? reject(error) : resolve()));
 }
+
+test('manual checks, queue verification and seeds refuse unadopted databases without migrating', { timeout: 180_000 }, async () => {
+  await withPostgres(async databaseUrl => {
+    const client = new Client({ connectionString: databaseUrl });
+    await client.connect();
+    const cwd = fileURLToPath(new URL('..', import.meta.url));
+    const env = { ...process.env, STAKEOUT_SERVER_DATABASE_URL: databaseUrl };
+    const commands = [
+      ['src/cli.ts', 'check', '1'],
+      ['src/cli.ts', 'check', '5'],
+      ['src/cli.ts', 'verify', 'queue'],
+      ['prisma/seed.ts'],
+    ];
+    const refuseWithoutMigration = async () => {
+      const before = await readCatalog(client);
+      for (const command of commands) {
+        await assert.rejects(exec(process.execPath, command, { cwd, env }), /The API has not adopted the database yet/);
+        assert.equal((await client.query("SELECT to_regclass('public._prisma_migrations') AS ledger")).rows[0].ledger, null);
+        assert.deepEqual(await readCatalog(client), before);
+      }
+    };
+    try {
+      await refuseWithoutMigration();
+      await client.query(await readFile(new URL(`../prisma/migrations/${BASELINE}/migration.sql`, import.meta.url), 'utf8'));
+      await client.query('INSERT INTO schema_migrations(version) VALUES($1)', [LAST_RAILS_VERSION]);
+      await client.query(`INSERT INTO ar_internal_metadata(key,value,created_at,updated_at)
+        VALUES('environment','production',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)`);
+      await client.query(`INSERT INTO dashboards(name,created_at,updated_at)
+        VALUES('Untouched deployment',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)`);
+      const beforeRows = (await client.query(`SELECT
+        (SELECT jsonb_agg(to_jsonb(d)) FROM dashboards d) AS dashboards,
+        (SELECT jsonb_agg(to_jsonb(m)) FROM schema_migrations m) AS migrations,
+        (SELECT jsonb_agg(to_jsonb(m)) FROM ar_internal_metadata m) AS metadata`)).rows;
+      await refuseWithoutMigration();
+      assert.deepEqual((await client.query(`SELECT
+        (SELECT jsonb_agg(to_jsonb(d)) FROM dashboards d) AS dashboards,
+        (SELECT jsonb_agg(to_jsonb(m)) FROM schema_migrations m) AS migrations,
+        (SELECT jsonb_agg(to_jsonb(m)) FROM ar_internal_metadata m) AS metadata`)).rows, beforeRows);
+    } finally {
+      await client.end();
+    }
+  });
+});
 
 test('HTTP API preserves captured Rails responses and corrects supported defects', { timeout: 180_000 }, async t => {
   await withPostgres(async databaseUrl => {
