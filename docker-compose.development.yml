@@ -19,7 +19,7 @@ services:
     restart: unless-stopped
 
   stakeout-chrome:
-    image: ghcr.io/browserless/chromium:v2.57.0
+    image: ghcr.io/browserless/chromium:v2.57.1
     environment:
       TOKEN: stakeout-development-browser
       CONCURRENT: "3"
