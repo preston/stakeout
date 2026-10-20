@@ -12,9 +12,11 @@
       <div class="d-flex align-items-center gap-3">
         @if (auth.isAuthenticated()) {
           @if (dashboardRoute()) {
-            <div class="form-check form-switch mb-0">
-              <input id="nav-edit" type="checkbox" class="form-check-input" [checked]="settingsService.editable()" (change)="settingsService.setEditable(!settingsService.editable())" />
-              <label class="form-check-label" for="nav-edit">Edit dashboards</label>
+            <div class="btn-group" role="group" aria-label="Dashboard mode">
+              <input id="nav-view" type="radio" class="btn-check" name="nav-mode" autocomplete="off" [checked]="!settingsService.editable()" (change)="settingsService.setEditable(false)" />
+              <label class="btn btn-outline-secondary" for="nav-view">View</label>
+              <input id="nav-edit" type="radio" class="btn-check" name="nav-mode" autocomplete="off" [checked]="settingsService.editable()" (change)="settingsService.setEditable(true)" />
+              <label class="btn btn-outline-secondary" for="nav-edit">Edit</label>
             </div>
           }
           <div class="dropdown">

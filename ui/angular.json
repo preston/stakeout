@@ -31,7 +31,7 @@
               "src/assets"
             ],
             "styles": [
-              "bootswatch/dist/litera/bootstrap.min.css",
+              "bootswatch/dist/materia/bootstrap.min.css",
               "bootstrap-icons/font/bootstrap-icons.css",
               "src/styles.scss"
             ],
