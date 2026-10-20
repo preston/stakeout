@@ -3,6 +3,9 @@ import http, { type IncomingMessage, type ServerResponse } from 'node:http';
 import https from 'node:https';
 import { generateKeyPairSync } from 'node:crypto';
 import { execFileSync } from 'node:child_process';
+import { mkdtempSync, rmSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 import { getCACertificates, setDefaultCACertificates } from 'node:tls';
 import { once } from 'node:events';
 import { test } from 'node:test';
@@ -297,10 +300,18 @@ test('PostgreSQL service checks preserve availability, queue and edit semantics'
         await reset();
         const { privateKey } = generateKeyPairSync('rsa', { modulusLength: 2048 });
         const key = privateKey.export({ type: 'pkcs8', format: 'pem' });
-        const cert = execFileSync('openssl', [
-          'req', '-new', '-x509', '-key', '/dev/stdin', '-subj', '/CN=127.0.0.1',
-          '-addext', 'subjectAltName=IP:127.0.0.1', '-days', '1',
-        ], { input: key, stdio: ['pipe', 'pipe', 'pipe'] }).toString();
+        const keyDir = mkdtempSync(join(tmpdir(), 'stakeout-cert-'));
+        let cert: string;
+        try {
+          const keyPath = join(keyDir, 'key.pem');
+          writeFileSync(keyPath, key);
+          cert = execFileSync('openssl', [
+            'req', '-new', '-x509', '-key', keyPath, '-subj', '/CN=127.0.0.1',
+            '-addext', 'subjectAltName=IP:127.0.0.1', '-days', '1',
+          ]).toString();
+        } finally {
+          rmSync(keyDir, { recursive: true, force: true });
+        }
         const originalCertificates = getCACertificates('default');
         const secure = https.createServer({ key, cert }, (_req, res) => { res.writeHead(204); res.end(); });
         secure.listen(0, '127.0.0.1');
